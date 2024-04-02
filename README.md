@@ -1,9 +1,10 @@
 # Week5: KW-Graduation
+<br>
 
 
 ## 🎯Target
 각자 맡은 과를 기준으로 졸업 가능 여부 구현하기
-
+<br>
 
 ## ✏️Rule
 1. **본인 폴더** 만들고 안에 manifest를 포함한 **모든 코드**를 올려주세요.

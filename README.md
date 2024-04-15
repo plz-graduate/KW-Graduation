@@ -1,29 +1,13 @@
-# KW-Graduation
-<br>
+# 유진 작업
 
 
-## 🎯Target
-각자 맡은 과를 기준으로 졸업 가능 여부 구현하기
-<br>
+## 3주차
+<img width="669" alt="image" src="https://github.com/plz-graduate/Personal-Graduate/assets/136612437/aaf95d41-92f4-47b6-9a51-41657ada3593">
 
-## ✏️Rule
-1. **맡은 과** 이름으로 **브랜치**를 만들어서 작업해주세요. <br>
-    **`main` branch 는 배포ver** 입니다. 완성되지 않은 코드는 절대 merge 금지
-3. **본인 폴더** 만들고 안에 manifest를 포함한 **모든 코드**를 올려주세요.
-4. **README.md**에 작업 내용을 **자세히** 적어주세요.
-5. **GIT commit 컨벤션**을 지켜주세요.
-   <br> 참고하면 좋을 doc : [GIT 커밋 컨벤션 설정하기](https://velog.io/@shin6403/Git-git-%EC%BB%A4%EB%B0%8B-%EC%BB%A8%EB%B2%A4%EC%85%98-%EC%84%A4%EC%A0%95%ED%95%98%EA%B8%B0)
-<br>
+1. data/informationConvergence.json에 필수 과목과 학정번호 저장
 
-## 📅 기간 
- 2024.04.02 ~ **2024.04.08 월요일**
+2. json 데이터를 fetch로 호출하여 수강/성적 조회 페이지에서 수강했는지 확인 -> 과목명이 아닌 '학정 번호'로 비교 (수강했으나 성적이 F or NP일 경우 '수강 필요'로 표기)
 
-## 🏃‍♀️진행 상황
-|                  이름                |  완성도  |
-| :----------------------------------: |  :------:|
-| [영주](https://github.com/oz115)     |         |
-| [유진](https://github.com/g0yujin)   |         |
-| [예닮](https://github.com/yedamhy)   |         |
-| [지혜](https://github.com/Jihye511)  |         |
 
-<br> <br>
+3. 취득학점을 기준으로 졸업까지 남은 학점 알려주기
+-> 두번째 tablegw클래스의 취득학점을 추출하여 졸업까지 몇 학점을 더 들어야되는지 띄움 1) 졸업학점 , 2) 총 필요학점(전공포함)

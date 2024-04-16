@@ -73,7 +73,7 @@ fetch('https://klas.kw.ac.kr/std/cps/inqire/AtnlcScreSungjukTot.do', {
 
 
 
-//필수교양 테이블 재생성하여 배치
+//기초교양 테이블 재생성하여 배치
 function gyoyangTable(data) {
   
   //컨테이너 생성
@@ -141,7 +141,7 @@ function gyoyangTable(data) {
 }
 
 
-// 필수교양 테이블 생성 함수 호출
+// 균형교양 테이블 생성 함수 호출
 fetch('https://klas.kw.ac.kr/std/cps/inqire/GyoyangIsuInfo.do', {
   method: 'POST',
   headers: {
@@ -186,10 +186,11 @@ function partgyoyangTable(data) {
   thead.appendChild(headerRow);
 
   // 헤더 셀 생성
-  const headers = ['과학', '인간','사회','글로벌','예술체육','수리자연'];
+  const headers = ['과학과 기술 영역', '인간과 철학 영역', '사회와 경제 영역', '글로벌 문화와 제2외국어 영역', '예술과 체육 영역', '수리와 자연 영역'];
   headers.forEach(headerText => {
       const headerCell = document.createElement('th');
-      headerCell.textContent = headerText;
+      // 공백을 <br> 태그로 교체하여 줄바꿈을 수행
+      headerCell.innerHTML = headerText.replace(/\s/g, '<br>');
       headerCell.style.textAlign = 'center';
       headerCell.style.height = '50px'; // 셀의 높이를 조절합니다.
       headerCell.style.backgroundColor = '#f5f5f5';
@@ -390,208 +391,3 @@ fetch('https://klas.kw.ac.kr/std/cps/inqire/AtnlcScreSungjukInfo.do', {
   .catch(error => {
     console.error('Error fetching data:', error);
   });
-
-
-
-// // 테이블 생성 및 페이지에 삽입하는 함수
-// function createAndInsertTable(data, completedCourses) {
-//   // 테이블 요소 생성
-//   const table = document.createElement('table');
-//   table.style.width = '80%'; // 가로폭 조정
-//   table.style.margin = '20px auto'; // 가운데 정렬을 위해 margin 조정
-//   table.style.border = '1px solid #ddd';
-
-//   const textDiv = document.createElement('h1');
-//   textDiv.textContent = '기초필수'; // 텍스트 설정
-  
-
-//   // 테이블 헤더 생성
-//   const thead = document.createElement('thead');
-//   table.appendChild(thead);
-
-//   // 헤더 행 생성
-//   const headerRow = document.createElement('tr');
-//   thead.appendChild(headerRow);
-
-//   // 헤더 셀 생성
-//   const headers = ['학정번호', '과목명', '분류', '수강여부'];
-//   headers.forEach(headerText => {
-//     const headerCell = document.createElement('th');
-//     headerCell.textContent = headerText;
-//     headerCell.style.textAlign = 'center';
-//     headerCell.style.backgroundColor= '#f5f5f5';
-//     headerRow.appendChild(headerCell);
-//   });
-
-//   // 테이블 본문 생성
-//   const tbody = document.createElement('tbody');
-//   table.appendChild(tbody);
-
-//   // JSON 데이터를 통해 테이블 행 생성
-//   Object.keys(data.requiredCourses).forEach(category => {
-//     data.requiredCourses[category].forEach(course => {
-//       const courseID = course.id;
-//       const courseStatus = completedCourses[courseID] ? 
-//                            (completedCourses[courseID] === 'F' || completedCourses[courseID] === 'NP' ? "수강 필요" : "수강 완료") : 
-//                            "수강 필요";
-
-//       const row = document.createElement('tr');
-//       const idCell = document.createElement('td');
-//       const nameCell = document.createElement('td');
-//       const categoryCell = document.createElement('td');
-//       const statusCell = document.createElement('td');
-
-//       idCell.textContent = course.id;
-//       nameCell.textContent = course.name;
-//       categoryCell.textContent = category;
-//       statusCell.textContent = courseStatus;
-
-
-//       if (courseStatus === "수강 필요") {
-//         statusCell.style.color = 'red';
-//         statusCell.style.fontWeight = 'bold';
-//       }
-
-//       if (courseStatus === "수강 완료") {
-//         statusCell.style.color = 'blue';
-//         statusCell.style.fontWeight = 'bold';
-//       }
-  
-
-//       [idCell, nameCell, categoryCell, statusCell].forEach(cell => {
-//         cell.style.textAlign = 'center';
-//         cell.style.border =  '1px solid #ddd';
-//         row.appendChild(cell);
-//       });
-
-//       tbody.appendChild(row);
-  
-//     });
-//   });
-//   console.log("아래꺼");
-
-//   // .tablegw 클래스를 가진 첫 번째 요소를 찾아 그 다음 위치에 테이블 삽입
-//   const insertionPoint = document.querySelector('.tablegw');
-//   if (insertionPoint) {
-//     insertionPoint.parentNode.insertBefore(table, insertionPoint.nextSibling);
-//   } else {
-//     document.body.appendChild(table);
-//   }
-// }
-
-
-
-// 남은 학점 표시 출력
-function displayRemainingCredits(data, completedCourses) {
-  const remainingCreditsInfo = calculateRemainingCredits(); // 남은 학점 계산 함수 호출 결과
-
-  // 남은 학점 정보를 표시할 요소 생성
-  const remainingCreditsDiv = document.createElement('div');
-  remainingCreditsDiv.style.marginTop = '20px'; // 상단 여백 설정
-  remainingCreditsDiv.innerHTML = `
-    <strong>남은 학점 정보</strong>
-    <p>전공 필요 학점: 학점</p>
-    <p>총 필요 학점(전공 포함): 학점</p>
-  `;
-
-
-}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-//   // 교양 이수 현황 업데이트 함수
-// function updateGyoyangIsuTable() {
-//   // HTML 페이지 가져오기
-//   fetch('https://klas.kw.ac.kr/std/cps/inqire/GyoyangIsuInfo.do', {
-//               method: 'POST',
-//               headers: {
-//                   'Content-Type': 'application/json',
-//               },
-//               body: JSON.stringify({})
-//           })
-//           .then(response => response.json())
-//           .then(jsonData => {
-
-//             // 필수 교양 체크
-//             const sugang = {};
-
-//             //광운인되기 수정 필요!!
-//             if (jsonData.aa8128 != 4){
-//               sugang["광운인되기"] = jsonData.aa8128;
-//             }
-//             if (jsonData.aa3362 != 3){
-//                 sugang["대학영어"] = jsonData.aa3362;
-//             }
-//             if (jsonData.aa76 < 6 ){
-//                 sugang["정보영역"] = jsonData.aa76;
-//             }
-//             if (jsonData.aa64 != 3){
-//                 sugang["융합적사고와글쓰기영역"] = jsonData.aa64;
-//             }
-
-//             // 균형 교양 체크
-//             let cnt = 0;
-
-
-//             if (jsonData.aa63 >= 3) {
-//                 cnt += 1;
-//             }
-//             if (jsonData.aa65 >= 3) {
-//                 cnt += 1;
-//             }
-//             if (jsonData.aa66 >= 3) {
-//                 cnt += 1;
-//             }
-//             if (jsonData.aa67 >= 3) {
-//                 cnt += 1;
-//             }
-//             if (jsonData.aa68 >= 3) {
-//                 cnt += 1;
-//             }
-
-//             if (cnt < 3) {
-//                 sugang["균형교양"] = cnt;
-//             }
-
-//             console.log(cnt);
-
-//             // 반환할 객체에 다른 데이터 추가 가능
-//             return sugang;
-//         })
-//         .then(sugang => {
-//             html = `<br><br> `
-//             // 여기서 반환된 sugang 객체를 사용할 수 있습니다.
-//             console.log(sugang);
-//             // 이후에 필요한 작업을 진행할 수 있습니다.
-//             if(sugang){
-//                       for (let key in sugang) {
-//                           html += `${key}: ${sugang[key]}`;
-//                           html += `<br>`;
-//                       }
-//                   }
-
-                  
-
-//         })
-//         .catch(error => console.error('Fetching error:', error));
-//       }   
-
-// // 페이지 로드가 완료되면 교양 이수 현황 업데이트 함수 실행
-// window.addEventListener('load', updateGyoyangIsuTable);

@@ -1,3 +1,6 @@
+//학
+
+
 
 //전공,교양 학점 현재 score 확인
 function checkScoreTable(data) {
@@ -339,7 +342,7 @@ let requiredCoursesData = {};
 let gipilData = {};
 let geanpilData ={};
 // JSON 파일에서 기필만 불러오기
-fetch('data/informationConvergence.json')
+fetch('../data/informationConvergence.json')
     .then(response => response.json())
     .then(jsonData => {
       gipilData = {
@@ -355,7 +358,7 @@ fetch('data/informationConvergence.json')
     });
 
 // JSON 파일에서 전필만 불러오기
-fetch('data/informationConvergence.json')
+fetch('../data/informationConvergence.json')
     .then(response => response.json())
     .then(jsonData => {
       geanpilData = {

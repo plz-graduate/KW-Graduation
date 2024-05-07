@@ -1,10 +1,12 @@
 document.addEventListener("DOMContentLoaded", function () {
     window.scrollTo(0, 0); 
+
     chrome.storage.local.get(['AtnlcScreHakjukInfo'], function (result) {
         makingHakjukTable(result.AtnlcScreHakjukInfo);
     });
     chrome.storage.local.get(['AtnlcScreSungjukInfo'], function (result) {
         makingSungjukTable(result.AtnlcScreSungjukInfo);
+        
         collectGradesAndCredits();
     });
     chrome.storage.local.get(['AtnlcScreSungjukTot'], function (result) {
@@ -38,8 +40,6 @@ function collectGradesAndCredits() {
                 continue;
             }
 
-
-            // 추출된 데이터를 배열에 저장
             gradesCreditsArray.push({
                 subject: subject,
                 classification : classification,
@@ -204,17 +204,24 @@ function makingSungjukTable(dataArray) {
         const tbody = document.createElement('tbody');
         data.sungjukList.forEach(course => {
             const row = document.createElement('tr');
+<<<<<<< HEAD
             const retryArray = ['C+', 'C0', 'D+', 'D0'];
         
             let retakeMarkup = course.retakeOpt === 'Y' ? '<span style="color: red;">재수강</span>' : '';
 
+=======
+            const retryArray = ['C+', 'C0', 'D+', 'D0', 'F'];
+            let retakeMarkup = course.retakeOpt === 'Y' ? '<span style="color: red;">재수강</span>' : '';
+            const trimGrade = course.getGrade.trim(); // 성적에서 공백 제거
+            
+>>>>>>> da7b3e0feb3cddd98331a7a4951deba02d5748bc
             row.innerHTML = `
                 <td style="text-align: center;">${course.hakjungNo}</td>
                 <td style="text-align: center;">${course.gwamokKname}</td>
                 <td style="text-align: center;">${course.hakgwa}</td>
                 <td style="text-align: center;">${course.codeName1}</td>
                 <td style="text-align: center;">${course.hakjumNum}</td>
-                <td style="text-align: center;" class="${retryArray.includes(course.getGrade) ? 'editable' : ''}">${course.getGrade}</td>
+                <td style="text-align: center;" class="${retryArray.includes(trimGrade) ? 'editable' : ''}">${trimGrade}</td>
                 <td style="text-align: center;">${course.certname || ''}</td>
                 <td style="text-align: center;">${retakeMarkup}</td>
                 <td style="text-align: center;">${course.termFinish === 'Y' ? '' : ''}</td>
@@ -222,10 +229,14 @@ function makingSungjukTable(dataArray) {
             
             row.style.height = '30px'; //셀 높이
             row.style.border = '1px solid #ddd';
+<<<<<<< HEAD
             if (course.getGrade.includes('삭제')) {
                 row.classList.add('strikeout'); // CSS 클래스 추가
             }
             if (retryArray.includes(course.getGrade)) {
+=======
+            if (retryArray.includes(trimGrade)) {
+>>>>>>> da7b3e0feb3cddd98331a7a4951deba02d5748bc
                 row.style.backgroundColor = '#F5BCA9';
             }
             tbody.appendChild(row);
@@ -348,10 +359,28 @@ function displaySungjuk(data) {
     containerSimul.style.width = '40%';
     containerSimul.style.float = 'right';
     containerSimul.style.marginTop = '20px';
+    containerSimul.style.display = 'flex';
+    containerSimul.style.flexDirection = 'column'; // 컨테이너를 세로로 쌓기
 
+    // 제목과 버튼을 포함할 컨테이너
+    const headerContainer = document.createElement('div');
+    headerContainer.style.display = 'flex';
+    headerContainer.style.alignItems = 'center'; 
+
+    // 제목 추가
     const textDivSimul = document.createElement('h2');
     textDivSimul.textContent = '예상 성적'; 
     containerSimul.appendChild(textDivSimul);
+
+
+    // 계산하기 버튼 추가
+    const calculateButton = document.createElement('button');
+    calculateButton.textContent = '계산하기';
+    calculateButton.style.padding = '5px 10px'; // 버튼 패딩 조정
+    calculateButton.style.marginLeft = '20px'; // 버튼과 제목 사이의 간격
+    headerContainer.appendChild(calculateButton);
+
+    containerSimul.appendChild(headerContainer);
 
     const tableSimul = document.createElement('table');
     tableSimul.className = 'sungjuckinfo';
@@ -402,4 +431,10 @@ function displaySungjuk(data) {
     var secondChild = document.body.childNodes[1]; 
     document.body.insertBefore(SungjuckTables, secondChild.nextSibling);
 
+
+
+    // 버튼 클릭 이벤트 핸들러 설정
+    calculateButton.addEventListener('click', function () {
+
+    });
 }

@@ -11,7 +11,9 @@ document.addEventListener("DOMContentLoaded", function () {
     });
     chrome.storage.local.get(['AtnlcScreSungjukTot'], function (result) {
         displaySungjuk(result.AtnlcScreSungjukTot);
+
     });
+
 });
 
 // 예상 성적 계산하기 - 테이블 데이터를 array에 저장해서 계산
@@ -351,7 +353,7 @@ function displaySungjuk(data) {
     containerSimul.style.float = 'right';
     containerSimul.style.marginTop = '20px';
     containerSimul.style.display = 'flex';
-    containerSimul.style.flexDirection = 'column'; // 컨테이너를 세로로 쌓기
+    containerSimul.style.flexDirection = 'column';
 
     // 제목과 버튼을 포함할 컨테이너
     const headerContainer = document.createElement('div');
@@ -426,6 +428,8 @@ function displaySungjuk(data) {
 
     // 버튼 클릭 이벤트 핸들러 설정
     calculateButton.addEventListener('click', function () {
+    
+        collectGradesAndCredits();
 
     });
 }

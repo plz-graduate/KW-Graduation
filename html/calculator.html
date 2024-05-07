@@ -10,6 +10,18 @@
           flex-direction: column; /* 항목을 세로로 나열 */
           background: #f4f4f4; /* 배경색 설정 */
       }
+      td { position: relative; }
+
+      .strikeout td::before {
+          content: " "; /* 실제 내용은 없지만, 선을 그리기 위해 필요 */
+          position: absolute;
+          top: 50%; 
+          left: 0;
+          right: 0;
+          border-top: 1px solid red; /* 빨간색 선 */
+          width: 100%;
+      }
+
   </style>
 </head>
 <body>

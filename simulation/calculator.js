@@ -205,7 +205,9 @@ function makingSungjukTable(dataArray) {
         data.sungjukList.forEach(course => {
             const row = document.createElement('tr');
             const retryArray = ['C+', 'C0', 'D+', 'D0'];
+        
             let retakeMarkup = course.retakeOpt === 'Y' ? '<span style="color: red;">재수강</span>' : '';
+
             row.innerHTML = `
                 <td style="text-align: center;">${course.hakjungNo}</td>
                 <td style="text-align: center;">${course.gwamokKname}</td>
@@ -217,8 +219,12 @@ function makingSungjukTable(dataArray) {
                 <td style="text-align: center;">${retakeMarkup}</td>
                 <td style="text-align: center;">${course.termFinish === 'Y' ? '' : ''}</td>
             `;
+            
             row.style.height = '30px'; //셀 높이
             row.style.border = '1px solid #ddd';
+            if (course.getGrade.includes('삭제')) {
+                row.classList.add('strikeout'); // CSS 클래스 추가
+            }
             if (retryArray.includes(course.getGrade)) {
                 row.style.backgroundColor = '#F5BCA9';
             }

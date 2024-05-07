@@ -1,0 +1,31 @@
+{ 
+    "manifest_version": 3,
+    "name": "Average Score",
+    "description": "광운대학교",
+    "version": "1.0",
+
+    "background": {
+      "service_worker": "background.js"
+    },
+    "content_scripts": [
+      {
+        "matches": ["https://klas.kw.ac.kr/std/cmn/frame/Frame.do"],
+        "js": ["contentscript.js"]
+      }
+    ],
+    
+    "permissions": ["storage","activeTab","scripting","tabs"],  
+
+
+    "action": {
+      "default_popup": "popup.html",
+      "default_icon": "graduation.png"
+    },
+
+    "web_accessible_resources": [
+      {
+          "resources": ["data/*.json","newpage.html"],
+          "matches": ["<all_urls>"]
+      }
+  ]
+  }   

@@ -204,17 +204,11 @@ function makingSungjukTable(dataArray) {
         const tbody = document.createElement('tbody');
         data.sungjukList.forEach(course => {
             const row = document.createElement('tr');
-<<<<<<< HEAD
-            const retryArray = ['C+', 'C0', 'D+', 'D0'];
-        
-            let retakeMarkup = course.retakeOpt === 'Y' ? '<span style="color: red;">재수강</span>' : '';
 
-=======
             const retryArray = ['C+', 'C0', 'D+', 'D0', 'F'];
             let retakeMarkup = course.retakeOpt === 'Y' ? '<span style="color: red;">재수강</span>' : '';
             const trimGrade = course.getGrade.trim(); // 성적에서 공백 제거
             
->>>>>>> da7b3e0feb3cddd98331a7a4951deba02d5748bc
             row.innerHTML = `
                 <td style="text-align: center;">${course.hakjungNo}</td>
                 <td style="text-align: center;">${course.gwamokKname}</td>
@@ -229,14 +223,11 @@ function makingSungjukTable(dataArray) {
             
             row.style.height = '30px'; //셀 높이
             row.style.border = '1px solid #ddd';
-<<<<<<< HEAD
+
             if (course.getGrade.includes('삭제')) {
                 row.classList.add('strikeout'); // CSS 클래스 추가
             }
-            if (retryArray.includes(course.getGrade)) {
-=======
             if (retryArray.includes(trimGrade)) {
->>>>>>> da7b3e0feb3cddd98331a7a4951deba02d5748bc
                 row.style.backgroundColor = '#F5BCA9';
             }
             tbody.appendChild(row);

@@ -1,10 +1,12 @@
 document.addEventListener("DOMContentLoaded", function () {
     window.scrollTo(0, 0); 
+
     chrome.storage.local.get(['AtnlcScreHakjukInfo'], function (result) {
         makingHakjukTable(result.AtnlcScreHakjukInfo);
     });
     chrome.storage.local.get(['AtnlcScreSungjukInfo'], function (result) {
         makingSungjukTable(result.AtnlcScreSungjukInfo);
+        
         collectGradesAndCredits();
     });
     chrome.storage.local.get(['AtnlcScreSungjukTot'], function (result) {
@@ -38,8 +40,6 @@ function collectGradesAndCredits() {
                 continue;
             }
 
-
-            // 추출된 데이터를 배열에 저장
             gradesCreditsArray.push({
                 subject: subject,
                 classification : classification,
@@ -395,5 +395,4 @@ function displaySungjuk(data) {
     
     var secondChild = document.body.childNodes[1]; 
     document.body.insertBefore(SungjuckTables, secondChild.nextSibling);
-
 }

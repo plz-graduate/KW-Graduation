@@ -344,10 +344,28 @@ function displaySungjuk(data) {
     containerSimul.style.width = '40%';
     containerSimul.style.float = 'right';
     containerSimul.style.marginTop = '20px';
+    containerSimul.style.display = 'flex';
+    containerSimul.style.flexDirection = 'column'; // 컨테이너를 세로로 쌓기
 
+    // 제목과 버튼을 포함할 컨테이너
+    const headerContainer = document.createElement('div');
+    headerContainer.style.display = 'flex';
+    headerContainer.style.alignItems = 'center'; 
+
+    // 제목 추가
     const textDivSimul = document.createElement('h2');
     textDivSimul.textContent = '예상 성적'; 
     containerSimul.appendChild(textDivSimul);
+
+
+    // 계산하기 버튼 추가
+    const calculateButton = document.createElement('button');
+    calculateButton.textContent = '계산하기';
+    calculateButton.style.padding = '5px 10px'; // 버튼 패딩 조정
+    calculateButton.style.marginLeft = '20px'; // 버튼과 제목 사이의 간격
+    headerContainer.appendChild(calculateButton);
+
+    containerSimul.appendChild(headerContainer);
 
     const tableSimul = document.createElement('table');
     tableSimul.className = 'sungjuckinfo';
@@ -397,4 +415,11 @@ function displaySungjuk(data) {
     
     var secondChild = document.body.childNodes[1]; 
     document.body.insertBefore(SungjuckTables, secondChild.nextSibling);
+
+
+
+    // 버튼 클릭 이벤트 핸들러 설정
+    calculateButton.addEventListener('click', function () {
+
+    });
 }

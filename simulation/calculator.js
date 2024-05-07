@@ -204,22 +204,24 @@ function makingSungjukTable(dataArray) {
         const tbody = document.createElement('tbody');
         data.sungjukList.forEach(course => {
             const row = document.createElement('tr');
-            const retryArray = ['C+', 'C0', 'D+', 'D0'];
+            const retryArray = ['C+', 'C0', 'D+', 'D0', 'F'];
             let retakeMarkup = course.retakeOpt === 'Y' ? '<span style="color: red;">재수강</span>' : '';
+            const trimGrade = course.getGrade.trim(); // 성적에서 공백 제거
+            
             row.innerHTML = `
                 <td style="text-align: center;">${course.hakjungNo}</td>
                 <td style="text-align: center;">${course.gwamokKname}</td>
                 <td style="text-align: center;">${course.hakgwa}</td>
                 <td style="text-align: center;">${course.codeName1}</td>
                 <td style="text-align: center;">${course.hakjumNum}</td>
-                <td style="text-align: center;" class="${retryArray.includes(course.getGrade) ? 'editable' : ''}">${course.getGrade}</td>
+                <td style="text-align: center;" class="${retryArray.includes(trimGrade) ? 'editable' : ''}">${trimGrade}</td>
                 <td style="text-align: center;">${course.certname || ''}</td>
                 <td style="text-align: center;">${retakeMarkup}</td>
                 <td style="text-align: center;">${course.termFinish === 'Y' ? '' : ''}</td>
             `;
             row.style.height = '30px'; //셀 높이
             row.style.border = '1px solid #ddd';
-            if (retryArray.includes(course.getGrade)) {
+            if (retryArray.includes(trimGrade)) {
                 row.style.backgroundColor = '#F5BCA9';
             }
             tbody.appendChild(row);

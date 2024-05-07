@@ -5,17 +5,24 @@ document.addEventListener("DOMContentLoaded", function () {
         makingHakjukTable(result.AtnlcScreHakjukInfo);
     });
     chrome.storage.local.get(['AtnlcScreSungjukInfo'], function (result) {
+        // 수강 내역 테이블 생성 
         makingSungjukTable(result.AtnlcScreSungjukInfo);
         
-        collectGradesAndCredits();
     });
     chrome.storage.local.get(['AtnlcScreSungjukTot'], function (result) {
         displaySungjuk(result.AtnlcScreSungjukTot);
-
+        // 지연 시키고, collectGradesAndCredits() 실행하기
+        delay(function() {
+            collectGradesAndCredits();
+        }, 100); 
     });
 
 });
 
+// 지연 함수
+function delay(callback, milliseconds) {
+    setTimeout(callback, milliseconds);
+}
 // 예상 성적 계산하기 - 테이블 데이터를 array에 저장해서 계산
 function collectGradesAndCredits() {
     const gradesCreditsArray = [];
@@ -52,9 +59,22 @@ function collectGradesAndCredits() {
         }
         
     }
+
     console.log("성적 추출 결과 : ", gradesCreditsArray);
 
     result = calculateGrades(gradesCreditsArray);
+    const simulationTable = document.querySelector('.sungjuckCal');
+
+
+    // 결과 테이블 업데이트
+    const tbody = simulationTable.querySelector('tbody');
+    tbody.innerHTML = '';  // 기존 테이블 데이터 클리어
+    const newRow = document.createElement('tr');
+    newRow.innerHTML = `<td>${result.majorGPAHakjuk}</td><td>${result.totalGPAHakjuk}</td><td>${result.majorGPASungjuk}</td><td>${result.totalGPASungjuk}</td>`;
+    newRow.style.height = '70px';
+    newRow.style.textAlign = 'center';
+    newRow.style.border = '1px solid #ddd';
+    tbody.appendChild(newRow);
     console.log("페이지에 있는 테이블을 바탕으로 성적 계산 결과 : ", result);
 
     // 성적 계산 함수
@@ -100,6 +120,7 @@ function collectGradesAndCredits() {
         const totalGPASungjuk = totalCreditsSungjuk ? (totalPointsSungjuk / totalCreditsSungjuk).toFixed(2) : 0;
         const majorGPASungjuk = majorCreditsSungjuk ? (majorPointsSungjuk / majorCreditsSungjuk).toFixed(2) : 0;
 
+        
         return {
             totalGPAHakjuk,
             majorGPAHakjuk,
@@ -107,6 +128,8 @@ function collectGradesAndCredits() {
             majorGPASungjuk
         };
     }
+
+
         
 }
 
@@ -376,7 +399,7 @@ function displaySungjuk(data) {
     containerSimul.appendChild(headerContainer);
 
     const tableSimul = document.createElement('table');
-    tableSimul.className = 'sungjuckinfo';
+    tableSimul.className = 'sungjuckCal';
     tableSimul.style.width = '90%';
     tableSimul.style.marginBottom = '30px';
     tableSimul.style.borderCollapse = 'collapse';
@@ -423,7 +446,6 @@ function displaySungjuk(data) {
     
     var secondChild = document.body.childNodes[1]; 
     document.body.insertBefore(SungjuckTables, secondChild.nextSibling);
-
 
 
     // 버튼 클릭 이벤트 핸들러 설정

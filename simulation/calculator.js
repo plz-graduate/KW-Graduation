@@ -7,6 +7,8 @@ document.addEventListener("DOMContentLoaded", function () {
     chrome.storage.local.get(['AtnlcScreSungjukInfo'], function (result) {
         // 수강 내역 테이블 생성 
         makingSungjukTable(result.AtnlcScreSungjukInfo);
+        let temp = result.AtnlcScreSungjukInfo;
+        makingFTable(temp);
         
     });
     chrome.storage.local.get(['AtnlcScreSungjukTot'], function (result) {
@@ -23,6 +25,7 @@ document.addEventListener("DOMContentLoaded", function () {
 function delay(callback, milliseconds) {
     setTimeout(callback, milliseconds);
 }
+
 // 예상 성적 계산하기 - 테이블 데이터를 array에 저장해서 계산
 function collectGradesAndCredits() {
     const gradesCreditsArray = [];
@@ -230,7 +233,7 @@ function makingSungjukTable(dataArray) {
         data.sungjukList.forEach(course => {
             const row = document.createElement('tr');
 
-            const retryArray = ['C+', 'C0', 'D+', 'D0', 'F'];
+            const retryArray = ['C+', 'C0', 'D+', 'D0'];
             let retakeMarkup = course.retakeOpt === 'Y' ? '<span style="color: red;">재수강</span>' : '';
             const trimGrade = course.getGrade.trim(); // 성적에서 공백 제거
             
@@ -291,6 +294,120 @@ function makingSungjukTable(dataArray) {
         }
     }
 }
+
+// F 받은 과목 모아서 테이블 생성
+function makingFTable(dataArray) {
+    let fSungjuckList = [];
+    dataArray.forEach(data => {
+        data.sungjukList.forEach((course, index) => { // 두 번째 매개변수로 인덱스를 받습니다.
+            const trimGrade = course.getGrade.trim();
+            if (trimGrade == "F") {
+                fSungjuckList.push(course);
+                //data.sungjukList.splice(index, 1);
+            }
+        });
+    });
+    
+    const table = document.createElement('table');
+        table.className = 'tablegw';
+        table.style.width = '90%';
+        table.style.marginBottom = '30px';
+        table.style.borderCollapse = 'collapse';
+        table.style.border = '0.5px solid #ddd';
+        table.style.wordBreak = 'break-all';
+        table.style.textOverflow = 'clip';
+        table.style.margin = '15px auto';
+
+        const colgroup = document.createElement('colgroup');
+        const colWidths = ['11%', '23%', '15%', '5%', '5%', '10%', '10%', '10%', '10%'];
+        colWidths.forEach(width => {
+            const col = document.createElement('col');
+            col.style.width = width;
+            colgroup.appendChild(col);
+        });
+        table.appendChild(colgroup);
+
+        const thead = document.createElement('thead');
+        const headerRow = document.createElement('tr');
+        headerRow.innerHTML = `<th colspan="9">F성적(F는 성적표 기준 제외 후 계산, 학적부 기준 F 포함 후 계산)`;
+        headerRow.style.height = '25px';
+        headerRow.style.backgroundColor = '#ddd';
+        headerRow.style.border = '1px solid #ddd';
+        thead.appendChild(headerRow);
+
+        const subHeaderRow = document.createElement('tr');
+        subHeaderRow.innerHTML = `<th>학정번호</th><th>과목명</th><th>개설학과</th><th>이수구분</th><th>학점</th><th>성적</th><th>인증구분</th><th>재수강여부</th><th>재수강이후 삭제여부</th>`;
+        subHeaderRow.style.height = '25px';
+        subHeaderRow.style.backgroundColor = '#ddd';
+        subHeaderRow.style.border = '1px solid #ddd';
+        thead.appendChild(subHeaderRow);
+        table.appendChild(thead);
+
+        const tbody = document.createElement('tbody');
+        fSungjuckList.forEach(course => {
+            const row = document.createElement('tr');
+
+            const retryArray = ['F'];
+            let retakeMarkup = course.retakeOpt === 'Y' ? '<span style="color: red;">재수강</span>' : '';
+            const trimGrade = course.getGrade.trim(); // 성적에서 공백 제거
+            
+            row.innerHTML = `
+                <td style="text-align: center;">${course.hakjungNo}</td>
+                <td style="text-align: center;">${course.gwamokKname}</td>
+                <td style="text-align: center;">${course.hakgwa}</td>
+                <td style="text-align: center;">${course.codeName1}</td>
+                <td style="text-align: center;">${course.hakjumNum}</td>
+                <td style="text-align: center;" class="${retryArray.includes(trimGrade) ? 'editable' : ''}"></td>
+                <td style="text-align: center;">${course.certname || ''}</td>
+                <td style="text-align: center;">${retakeMarkup}</td>
+                <td style="text-align: center;">${course.termFinish === 'Y' ? '' : ''}</td>
+            `;
+            
+            row.style.height = '30px'; //셀 높이
+            row.style.border = '1px solid #ddd';
+
+            if (course.getGrade.includes('삭제')) {
+                row.classList.add('strikeout'); // CSS 클래스 추가
+            }
+
+            tbody.appendChild(row);
+        });
+    table.appendChild(tbody);
+    
+    var secondChild = document.body.childNodes[1]; 
+    document.body.insertBefore(table, secondChild.nextSibling);
+    
+   // 이벤트 리스너 추가
+    table.addEventListener('click', function(e) {
+        if (e.target && e.target.nodeName === 'TD' && e.target.classList.contains('editable')) {
+            createDropdown(e.target);
+        }
+    });
+
+
+    function createDropdown(cell) {
+        const existingDropdown = cell.querySelector('select');
+        if (!existingDropdown) {
+            const dropdown = document.createElement('select');
+            const grades = ['A0', 'B+', 'B0', 'C+', 'C0', 'D+', 'D0', 'F', 'NF'];
+            grades.forEach(grade => {
+                const option = document.createElement('option');
+                option.value = grade;
+                option.textContent = grade;
+                if (cell.textContent === grade) option.selected = true;
+                dropdown.appendChild(option);
+            });
+            dropdown.onchange = function() {
+                cell.textContent = this.value; 
+                cell.style.backgroundColor = ''; // 색 변경을 초기화
+            };
+            cell.textContent = ''; 
+            cell.appendChild(dropdown); // 드롭다운을 셀에 추가
+        }
+    }
+    
+}
+
 
 
 

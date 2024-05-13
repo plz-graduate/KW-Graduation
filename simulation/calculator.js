@@ -244,7 +244,7 @@ function makingSungjukTable(dataArray) {
                 <td style="text-align: center;">${course.hakgwa}</td>
                 <td style="text-align: center;">${course.codeName1}</td>
                 <td style="text-align: center;">${course.hakjumNum}</td>
-                <td style="text-align: center;" class="${retryArray.includes(trimGrade) ? 'editable' : (trimGrade === '' ? 'thisSemester' : '')}"></td>
+                <td style="text-align: center;" class="${retryArray.includes(trimGrade) ? 'editable' : (trimGrade === '' ? 'thisSemester' : '')}">${course.getGrade}</td>
 
                 <td style="text-align: center;">${course.certname || ''}</td>
                 <td style="text-align: center;">${retakeMarkup}</td>

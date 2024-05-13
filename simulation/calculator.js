@@ -8,6 +8,7 @@ document.addEventListener("DOMContentLoaded", function () {
         // 수강 내역 테이블 생성 
         makingSungjukTable(result.AtnlcScreSungjukInfo);
         let temp = result.AtnlcScreSungjukInfo;
+        console.log(temp);
         makingFTable(temp);
         
     });
@@ -233,7 +234,7 @@ function makingSungjukTable(dataArray) {
         data.sungjukList.forEach(course => {
             const row = document.createElement('tr');
 
-            const retryArray = ['C+', 'C0', 'D+', 'D0'];
+            const retryArray = ['C+', 'C0', 'D+', 'D0', ];
             let retakeMarkup = course.retakeOpt === 'Y' ? '<span style="color: red;">재수강</span>' : '';
             const trimGrade = course.getGrade.trim(); // 성적에서 공백 제거
             
@@ -243,7 +244,8 @@ function makingSungjukTable(dataArray) {
                 <td style="text-align: center;">${course.hakgwa}</td>
                 <td style="text-align: center;">${course.codeName1}</td>
                 <td style="text-align: center;">${course.hakjumNum}</td>
-                <td style="text-align: center;" class="${retryArray.includes(trimGrade) ? 'editable' : ''}">${trimGrade}</td>
+                <td style="text-align: center;" class="${retryArray.includes(trimGrade) ? 'editable' : (trimGrade === '' ? 'thisSemester' : '')}"></td>
+
                 <td style="text-align: center;">${course.certname || ''}</td>
                 <td style="text-align: center;">${retakeMarkup}</td>
                 <td style="text-align: center;">${course.termFinish === 'Y' ? '' : ''}</td>
@@ -268,31 +270,15 @@ function makingSungjukTable(dataArray) {
         // 이벤트 리스너 추가
         table.addEventListener('click', function(e) {
             if (e.target && e.target.nodeName === 'TD' && e.target.classList.contains('editable')) {
-                createDropdown(e.target);
+                createDropdown1(e.target);
+            }
+            if (e.target && e.target.nodeName === 'TD' && e.target.classList.contains('thisSemester')) {
+                createDropdown2(e.target);
+
             }
         });
     });
 
-    function createDropdown(cell) {
-        const existingDropdown = cell.querySelector('select');
-        if (!existingDropdown) {
-            const dropdown = document.createElement('select');
-            const grades = ['A0', 'B+', 'B0', 'C+', 'C0', 'D+', 'D0', 'F', 'NF'];
-            grades.forEach(grade => {
-                const option = document.createElement('option');
-                option.value = grade;
-                option.textContent = grade;
-                if (cell.textContent === grade) option.selected = true;
-                dropdown.appendChild(option);
-            });
-            dropdown.onchange = function() {
-                cell.textContent = this.value; 
-                cell.style.backgroundColor = ''; // 색 변경을 초기화
-            };
-            cell.textContent = ''; 
-            cell.appendChild(dropdown); // 드롭다운을 셀에 추가
-        }
-    }
 }
 
 // F 받은 과목 모아서 테이블 생성
@@ -357,7 +343,7 @@ function makingFTable(dataArray) {
                 <td style="text-align: center;">${course.hakgwa}</td>
                 <td style="text-align: center;">${course.codeName1}</td>
                 <td style="text-align: center;">${course.hakjumNum}</td>
-                <td style="text-align: center;" class="${retryArray.includes(trimGrade) ? 'editable' : ''}"></td>
+                <td style="text-align: center;" class="${retryArray.includes(trimGrade) ? 'editable' : (trimGrade === '' ? 'thisSemester' : '')}"></td>
                 <td style="text-align: center;">${course.certname || ''}</td>
                 <td style="text-align: center;">${retakeMarkup}</td>
                 <td style="text-align: center;">${course.termFinish === 'Y' ? '' : ''}</td>
@@ -380,7 +366,7 @@ function makingFTable(dataArray) {
    // 이벤트 리스너 추가
     table.addEventListener('click', function(e) {
         if (e.target && e.target.nodeName === 'TD' && e.target.classList.contains('editable')) {
-            createDropdown(e.target);
+            createDropdown2(e.target);
         }
     });
 
@@ -389,7 +375,7 @@ function makingFTable(dataArray) {
         const existingDropdown = cell.querySelector('select');
         if (!existingDropdown) {
             const dropdown = document.createElement('select');
-            const grades = ['A0', 'B+', 'B0', 'C+', 'C0', 'D+', 'D0', 'F', 'NF'];
+            const grades = ['A+', 'A0', 'B+', 'B0', 'C+', 'C0', 'D+', 'D0', 'F', 'NF'];
             grades.forEach(grade => {
                 const option = document.createElement('option');
                 option.value = grade;
@@ -571,4 +557,50 @@ function displaySungjuk(data) {
         collectGradesAndCredits();
 
     });
+}
+
+
+// 성적 선택 토글
+// 재수강 시 => A+ 제외
+function createDropdown1(cell) {
+    const existingDropdown = cell.querySelector('select');
+    if (!existingDropdown) {
+        const dropdown = document.createElement('select');
+        const grades = ['A0', 'B+', 'B0', 'C+', 'C0', 'D+', 'D0', 'F', 'NF'];
+        grades.forEach(grade => {
+            const option = document.createElement('option');
+            option.value = grade;
+            option.textContent = grade;
+            if (cell.textContent === grade) option.selected = true;
+            dropdown.appendChild(option);
+        });
+        dropdown.onchange = function() {
+            cell.textContent = this.value; 
+            cell.style.backgroundColor = ''; // 색 변경을 초기화
+        };
+        cell.textContent = ''; 
+        cell.appendChild(dropdown); // 드롭다운을 셀에 추가
+    }
+}
+
+// F 혹은 이번 학기 성적 선택
+function createDropdown2(cell) {
+    const existingDropdown = cell.querySelector('select');
+    if (!existingDropdown) {
+        const dropdown = document.createElement('select');
+        const grades = ['A+','A0', 'B+', 'B0', 'C+', 'C0', 'D+', 'D0', 'F', 'NF'];
+        grades.forEach(grade => {
+            const option = document.createElement('option');
+            option.value = grade;
+            option.textContent = grade;
+            if (cell.textContent === grade) option.selected = true;
+            dropdown.appendChild(option);
+        });
+        dropdown.onchange = function() {
+            cell.textContent = this.value; 
+            cell.style.backgroundColor = ''; // 색 변경을 초기화
+        };
+        cell.textContent = ''; 
+        cell.appendChild(dropdown); // 드롭다운을 셀에 추가
+    }
 }

@@ -295,18 +295,25 @@ function makingSungjukTable(dataArray) {
 
 // F 받은 과목 모아서 테이블 생성
 function makingFTable(dataArray) {
+    let fSungjuckTemp = [];
     let fSungjuckList = [];
     dataArray.forEach(data => {
         data.sungjukList.forEach((course, index) => { // 두 번째 매개변수로 인덱스를 받습니다.
             const trimGrade = course.getGrade.trim();
             if (trimGrade == "F") {
-                fSungjuckList.push(course);
-                //data.sungjukList.splice(index, 1);
+                fSungjuckTemp.push(course);
+                data.sungjukList.splice(index, 1);
             }
         });
     });
+
+    fSungjuckList.forEach(fCourse => {
+            const hakjungNo = fCourse.hakjungNo;
+            fSungjuckList = fSungjuckList.filter(course => course.hakjungNo !== hakjungNo);
+        });
     
-    const table = document.createElement('table');
+    if (data.length != 0) {
+        const table = document.createElement('table');
         table.className = 'tablegw';
         table.style.width = '70%';
         table.style.marginBottom = '30px';
@@ -374,17 +381,18 @@ function makingFTable(dataArray) {
 
             tbody.appendChild(row);
         });
-    table.appendChild(tbody);
+        table.appendChild(tbody);
     
-    var secondChild = document.body.childNodes[1]; 
-    document.body.insertBefore(table, secondChild.nextSibling);
+        var secondChild = document.body.childNodes[1];
+        document.body.insertBefore(table, secondChild.nextSibling);
     
-   // 이벤트 리스너 추가
-    table.addEventListener('click', function(e) {
-        if (e.target && e.target.nodeName === 'TD' && e.target.classList.contains('editable')) {
-            createDropdown2(e.target);
-        }
-    });
+        // 이벤트 리스너 추가
+        table.addEventListener('click', function (e) {
+            if (e.target && e.target.nodeName === 'TD' && e.target.classList.contains('editable')) {
+                createDropdown2(e.target);
+            }
+        });
+    }
 }
 
 

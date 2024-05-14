@@ -416,7 +416,7 @@ function makingFTable(dataArray) {
             }
         });
     }
-
+}
 
 
 
@@ -503,7 +503,7 @@ function displaySungjuk(data, AtnlcScreSungjukInfo) {
     const calculateButton = document.createElement('button');
     calculateButton.textContent = '계산하기';
     calculateButton.style.padding = '5px 15px';
-    calculateButton.style.marginRight = '730px';
+    calculateButton.style.marginRight = '110px';
     headerContainer.appendChild(calculateButton); // 제목 옆에 계산하기 버튼 추가
 
     containerSimul.appendChild(headerContainer);

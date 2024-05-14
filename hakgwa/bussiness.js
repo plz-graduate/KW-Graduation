@@ -175,6 +175,7 @@ function checkScoreTable(data) {
       
       //컨테이너 생성
       const container = document.createElement('div');
+      container.className="gyoyang";
       container.style.marginLeft = '20%'; // 왼쪽 여백 설정
       container.style.width = '30%'; // 컨테이너의 너비를 40%로 설정
       container.style.float = 'left'; // 왼쪽으로 정렬
@@ -254,6 +255,7 @@ function checkScoreTable(data) {
   function partgyoyangTable(data) {
     //컨테이너 생성
     const container = document.createElement('div');
+    container.className = "partgyoyang";
     container.style.marginRight = '19%'; // 오른쪽 여백 설정
     container.style.width = '30%'; // 컨테이너의 너비를 40%로 설정
     container.style.float = 'right'; // 오른쪽으로 정렬

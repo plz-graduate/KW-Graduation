@@ -1,4 +1,20 @@
 
+let majorCredits, totalCredits;
+document.addEventListener("DOMContentLoaded", function() {
+  fetch('../data/informationConvergence.json')
+      .then(response => response.json())
+      .then(jsonData => {
+          // 여기서 변수를 직접 할당하지 말고, 필요한 값을 직접 추출
+          majorCredits = jsonData["졸업학점"]["전공학점"];
+          totalCredits = jsonData["졸업학점"]["전체학점"];
+
+           // 데이터 로딩 후 필요한 처리를 진행하거나 다른 함수 호출
+           console.log("Loaded credits:", majorCredits, totalCredits);
+      })
+      .catch(error => {
+          console.error('Error fetching data:', error);
+      });
+});
 // 데이터 순차적으로 로드
 document.addEventListener("DOMContentLoaded", async function() {
   console.log("Script started");  // 스크립트 실행 확인
@@ -93,22 +109,6 @@ function getHakbunFromURL() {
 
 
 
-let majorCredits, totalCredits;
-document.addEventListener("DOMContentLoaded", function() {
-  fetch('../data/informationConvergence.json')
-      .then(response => response.json())
-      .then(jsonData => {
-          // 여기서 변수를 직접 할당하지 말고, 필요한 값을 직접 추출
-          majorCredits = jsonData["졸업학점"]["전공학점"];
-          totalCredits = jsonData["졸업학점"]["전체학점"];
-
-           // 데이터 로딩 후 필요한 처리를 진행하거나 다른 함수 호출
-           console.log("Loaded credits:", majorCredits, totalCredits);
-      })
-      .catch(error => {
-          console.error('Error fetching data:', error);
-      });
-});
 
 
 
@@ -119,6 +119,7 @@ function checkScoreTable(data) {
 
     const textDiv = document.createElement('h1');
     textDiv.textContent = '현재 취득 학점(전공, 전체)'; // 텍스트 설정
+
     textDiv.style.textAlign = 'center'; // 가운데 정렬
     textDiv.style.marginTop = `${navbar.offsetHeight}px`; // 상단바의 높이만큼 여백 설정
     
@@ -168,11 +169,14 @@ function checkScoreTable(data) {
       });
 
     // document.body.insertBefore(textDiv, document.body.firstChild);
-    document.body.insertBefore(table, navbar.nextSibling);
-    document.body.insertBefore(textDiv, navbar.nextSibling);
 
-    // 문서의 body에 테이블 삽입
-    // document.body.insertBefore(table, textDiv.nextSibling);
+      // wrapper 아래에 추가
+      const wrapper = document.querySelector('.wrapper');
+      wrapper.appendChild(textDiv);
+      wrapper.appendChild(table);
+    // document.body.insertBefore(table, navbar.nextSibling);
+    // document.body.insertBefore(textDiv, navbar.nextSibling);
+
 
     // 수강 학점 채우기 조건 확인
     let result;
@@ -185,7 +189,7 @@ function checkScoreTable(data) {
     }else{
       result = "전공 학점, 전체 학점 모두 부족합니다."
     }
-    createBottomTable(result);
+    createBottomTable("현재취득 학점",result);
     }
   
     
@@ -251,7 +255,7 @@ function checkScoreTable(data) {
     
     
     
-      var secondChild = document.body.childNodes[1]; // 두 번째 자식 요소 가져오기
+      var secondChild = document.body.childNodes[2]; // 두 번째 자식 요소 가져오기
       document.body.insertBefore(container, secondChild.nextSibling);
       // document.body.insertBefore(textDiv, secondChild.nextSibling);
 
@@ -340,12 +344,12 @@ function checkScoreTable(data) {
     container.appendChild(completionDiv);
 
     // 결과를 createBottomTable 함수로 전달
-    createBottomTable(completionMessage);
+    createBottomTable("균형 교양",completionMessage);
 
     
   
   
-    var secondChild = document.body.childNodes[1]; // 두 번째 자식 요소 가져오기
+    var secondChild = document.body.childNodes[2]; // 두 번째 자식 요소 가져오기
     document.body.insertBefore(container, secondChild.nextSibling);
   }
   
@@ -412,7 +416,7 @@ function checkScoreTable(data) {
   
       // 결과를 createBottomTable 함수로 전달
       results.forEach(result => {
-          createBottomTable(result);
+          createBottomTable("기초 교양",result);
       });
   
     }
@@ -484,7 +488,7 @@ let geanpilData = {};
             if (courseStatus === "수강 필요") {
                 statusCell.style.color = 'red';
                 statusCell.style.fontWeight = 'bold';
-                createBottomTable(course.name);
+                createBottomTable("필수 과목 수강 필요!",course.name);
             }
   
             // 테이블 셀 스타일 설정
@@ -505,9 +509,9 @@ let geanpilData = {};
     // 모든 과목이 수강 완료되었으면 결과를 전달
     if (allCompleted) {
       if(name=="전필"){
-        createBottomTable("전공 필수 과목 수강 완료!");
+        createBottomTable("전공 필수","전공 필수 과목 수강 완료!");
       }else{
-        createBottomTable("기초 필수 과목 수강 완료!");
+        createBottomTable("기초 필수","기초 필수 과목 수강 완료!");
       }
       
 
@@ -549,46 +553,68 @@ let geanpilData = {};
   var globalHakbun;
   
 
-  function createBottomTable(data) {
-
-    const table = document.querySelector('.tablegw');
-
+  // 이전에 작성한 createBottomTable 함수를 그대로 사용하여 HTML 테이블에 데이터를 삽입합니다.
+  function createBottomTable(category, data) {
+    const table = document.querySelector('.tablegw_new');
+  
     if (table) {
-
-      const row = document.createElement('tr');
-      const cell = document.createElement('td');
-      cell.textContent = data;
-      cell.style.height = '30px'; // 셀 높이
-      cell.style.textAlign = 'center';
-      cell.style.border = '1px solid #ddd';
-      row.appendChild(cell);
-
-      const tbody = table.querySelector('tbody');
-      tbody.appendChild(row);
+        const tbody = table.querySelector('tbody');
+        const newRow = document.createElement('tr');
+        
+        // 첫 번째 칸에 카테고리를, 두 번째 칸에 데이터를 삽입합니다.
+        const categoryCell = document.createElement('td');
+        categoryCell.textContent = category; // 카테고리
+        const valueCell = document.createElement('td');
+        valueCell.textContent = data; // 데이터
+        newRow.appendChild(categoryCell); // 첫 번째 칸에 카테고리 삽입
+        newRow.appendChild(valueCell); // 두 번째 칸에 데이터 삽입
+  
+        tbody.appendChild(newRow);
     } else {
-      // 새로운 테이블을 생성하고 스타일을 적용합니다.
-      const newTable = document.createElement('table');
-      newTable.className = 'tablegw';
-      newTable.style.width = '60%'; // 가로폭 조정
-      newTable.style.margin = '20px auto'; // 가운데 정렬을 위해 margin 조정
-      newTable.style.border = '1px solid #ddd';
-      
-      // 새로운 행을 생성하고 데이터를 셀에 추가합니다.
-      const newRow = document.createElement('tr');
-      const newCell = document.createElement('td');
-      newCell.textContent = data;
-      newCell.style.height = '30px'; // 셀 높이
-      newCell.style.textAlign = 'center';
-      newCell.style.border = '1px solid #ddd';
-      newRow.appendChild(newCell);
-      
-      // 새로운 테이블의 tbody에 새로운 행을 추가합니다.
-      const newTbody = document.createElement('tbody');
-      newTbody.appendChild(newRow);
-      newTable.appendChild(newTbody);
-      
-      // 문서의 body에 새로운 테이블을 추가합니다.
-      document.body.appendChild(newTable);
+        console.error("Table not found.");
     }
   }
+
+  // function createBottomTable(data) {
+
+  //   const table = document.querySelector('.tablegw');
+
+  //   if (table) {
+
+  //     const row = document.createElement('tr');
+  //     const cell = document.createElement('td');
+  //     cell.textContent = data;
+  //     cell.style.height = '30px'; // 셀 높이
+  //     cell.style.textAlign = 'center';
+  //     cell.style.border = '1px solid #ddd';
+  //     row.appendChild(cell);
+
+  //     const tbody = table.querySelector('tbody');
+  //     tbody.appendChild(row);
+  //   } else {
+  //     // 새로운 테이블을 생성하고 스타일을 적용합니다.
+  //     const newTable = document.createElement('table');
+  //     newTable.className = 'tablegw';
+  //     newTable.style.width = '60%'; // 가로폭 조정
+  //     newTable.style.margin = '20px auto'; // 가운데 정렬을 위해 margin 조정
+  //     newTable.style.border = '1px solid #ddd';
+      
+  //     // 새로운 행을 생성하고 데이터를 셀에 추가합니다.
+  //     const newRow = document.createElement('tr');
+  //     const newCell = document.createElement('td');
+  //     newCell.textContent = data;
+  //     newCell.style.height = '30px'; // 셀 높이
+  //     newCell.style.textAlign = 'center';
+  //     newCell.style.border = '1px solid #ddd';
+  //     newRow.appendChild(newCell);
+      
+  //     // 새로운 테이블의 tbody에 새로운 행을 추가합니다.
+  //     const newTbody = document.createElement('tbody');
+  //     newTbody.appendChild(newRow);
+  //     newTable.appendChild(newTbody);
+      
+  //     // 문서의 body에 새로운 테이블을 추가합니다.
+  //     document.body.appendChild(newTable);
+  //   }
+  // }
   

@@ -25,16 +25,59 @@
       margin-top: 50px; /* 상단바 아래 여백 */
       text-align: center;
     }
+
+    /* 테이블 스타일 */
+    .tablegw {
+            width: 60%;
+            margin: 20px auto;
+            border: 1px solid #ddd;
+        }
+        .tablegw td {
+            height: 30px;
+            text-align: center;
+            border: 1px solid #ddd;
+        }
+
+        .tablegw_new {
+            width: 60%;
+            margin: 20px auto;
+            border: 1px solid #ddd;
+            margin-top:100px;
+        }
+        .tablegw_new td {
+            height: 30px;
+            text-align: center;
+            border: 1px solid #ddd;
+        }
+
     
 
 </style>
 </head>
 <body>
-  <div class="navbar">
-    <img src="/logo.png">
-  </div>
-  <div id="table-container"></div>
+  <div class="wrapper">
+    <div class="navbar">
+      <img src="/logo.png">
+    </div>
   
+    <!-- 새로운 테이블 -->
+    <table class="tablegw_new">
+      <thead>
+        <tr>
+            <th style="font-size: medium;">졸업 요건 리스트</th>
+            <th style="font-size: medium;">만족? 부족?</th>
+        </tr>
+      </thead>
+      <tbody>
+          
+      </tbody>
+    </table>
+  </div>
+
+
+<!-- <h1 style="text-align:center; ">졸업 시뮬레이션</h1> -->
+  <div id="table-container">
+
 </body>
 <script src="../hakgwa/informationConvergence.js"></script>
 </html>

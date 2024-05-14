@@ -176,8 +176,9 @@ function makingHakjukTable(data) {
         headerCell.textContent = headerText;
         headerCell.style.textAlign = 'center';
         headerCell.style.height = '25px';
-        headerCell.style.backgroundColor = '#cccccc';
+        headerCell.style.backgroundColor = '#72132F';
         headerCell.style.border = '1px solid #ddd';
+        headerCell.style.color = 'white';
         headerRow.appendChild(headerCell);
     });
 
@@ -226,15 +227,18 @@ function makingSungjukTable(dataArray) {
         const headerRow = document.createElement('tr');
         headerRow.innerHTML = `<th colspan="9">${data.thisYear}년도 ${data.hakgiOrder}학기</th>`;
         headerRow.style.height = '25px';
-        headerRow.style.backgroundColor = '#ddd';
+        headerRow.style.backgroundColor = '#72132F';
         headerRow.style.border = '1px solid #ddd';
+        headerRow.style.color = 'white';
         thead.appendChild(headerRow);
 
         const subHeaderRow = document.createElement('tr');
         subHeaderRow.innerHTML = `<th>학정번호</th><th>과목명</th><th>개설학과</th><th>이수구분</th><th>학점</th><th>성적</th><th>인증구분</th><th>재수강여부</th><th>재수강이후 삭제여부</th>`;
         subHeaderRow.style.height = '25px';
-        subHeaderRow.style.backgroundColor = '#ddd';
+        subHeaderRow.style.backgroundColor = '#72132F';
         subHeaderRow.style.border = '1px solid #ddd';
+        subHeaderRow.style.color = 'white';
+
         thead.appendChild(subHeaderRow);
         table.appendChild(thead);
 
@@ -325,15 +329,19 @@ function makingFTable(dataArray) {
         const headerRow = document.createElement('tr');
         headerRow.innerHTML = `<th colspan="9">F성적(F는 성적표 기준 제외 후 계산, 학적부 기준 F 포함 후 계산)`;
         headerRow.style.height = '25px';
-        headerRow.style.backgroundColor = '#ddd';
+        headerRow.style.backgroundColor = '#72132F';
         headerRow.style.border = '1px solid #ddd';
+        headerRow.style.color = 'white';
+
         thead.appendChild(headerRow);
 
         const subHeaderRow = document.createElement('tr');
         subHeaderRow.innerHTML = `<th>학정번호</th><th>과목명</th><th>개설학과</th><th>이수구분</th><th>학점</th><th>성적</th><th>인증구분</th><th>재수강여부</th><th>재수강이후 삭제여부</th>`;
         subHeaderRow.style.height = '25px';
-        subHeaderRow.style.backgroundColor = '#ddd';
+        subHeaderRow.style.backgroundColor = '#72132F';
         subHeaderRow.style.border = '1px solid #ddd';
+        subHeaderRow.style.color = 'white';
+
         thead.appendChild(subHeaderRow);
         table.appendChild(thead);
 
@@ -422,14 +430,18 @@ function displaySungjuk(data) {
     const headerTitle = document.createElement('th');
     headerTitle.setAttribute('colspan', '2');
     headerTitle.textContent = '평량평균';
-    headerTitle.style.backgroundColor = '#ddd';
+    headerTitle.style.backgroundColor = '#72132F';
     headerTitle.style.border = '1px solid #ddd';
+    headerTitle.style.color = 'white';
+
     headerRow.appendChild(headerTitle);
     thead.appendChild(headerRow);
 
     const subHeaderRow = document.createElement('tr');
     subHeaderRow.innerHTML = `<th>학적부 기준</th><th>성적증명서 기준</th>`;
-    subHeaderRow.style.backgroundColor = '#ddd';
+    subHeaderRow.style.backgroundColor = '#72132F';
+    subHeaderRow.style.color = 'white';
+
     thead.appendChild(subHeaderRow);
     table.appendChild(thead);
 
@@ -487,7 +499,9 @@ function displaySungjuk(data) {
     bodyRow.style.height = '25px';
     bodyRow.style.textAlign = 'center';
     bodyRow.style.border = '1px solid #ddd';
-    headerRowSimul.style.backgroundColor = '#ddd';
+    headerRowSimul.style.backgroundColor = '#72132F';
+    headerRowSimul.style.color = 'white';
+
     theadSimul.appendChild(headerRowSimul);
 
     const subHeaderRowSimul = document.createElement('tr');
@@ -495,7 +509,9 @@ function displaySungjuk(data) {
     bodyRow.style.height = '70px';
     bodyRow.style.textAlign = 'center';
     bodyRow.style.border = '1px solid #ddd';
-    subHeaderRowSimul.style.backgroundColor = '#ddd';
+    subHeaderRowSimul.style.backgroundColor = '#72132F';
+    subHeaderRowSimul.style.color = 'white';
+
 
     theadSimul.appendChild(subHeaderRowSimul);
     tableSimul.appendChild(theadSimul);
@@ -549,15 +565,19 @@ function createEditTable() {
     const headerRow = document.createElement('tr');
     headerRow.innerHTML = `<th colspan="9">졸업까지 수강 예정 과목`;
     headerRow.style.height = '25px';
-    headerRow.style.backgroundColor = '#ddd';
+    headerRow.style.backgroundColor = '#72132F';
     headerRow.style.border = '1px solid #ddd';
+    headerRow.style.color = 'white';
+
     thead.appendChild(headerRow);
 
     const subHeaderRow = document.createElement('tr');
     subHeaderRow.innerHTML = `<th>학정번호</th><th>과목명</th><th>개설학과</th><th>이수구분</th><th>학점</th><th>성적</th><th>인증구분</th><th>재수강여부</th><th>재수강이후 삭제여부</th>`;
     subHeaderRow.style.height = '25px';
-    subHeaderRow.style.backgroundColor = '#ddd';
+    subHeaderRow.style.backgroundColor = '#72132F';
     subHeaderRow.style.border = '1px solid #ddd';
+    subHeaderRow.style.color = 'white';
+
     thead.appendChild(subHeaderRow);
     table.appendChild(thead);
 

@@ -319,7 +319,7 @@ function makingFTable(dataArray) {
             fSungjuckList = fSungjuckList.filter(course => course.hakjungNo !== hakjungNo);
         });
     
-    if (fSungjuckList.length != 0) {
+    if (makingFTable.length != 0) {
         const table = document.createElement('table');
         table.className = 'tablegw';
         table.style.width = '70%';

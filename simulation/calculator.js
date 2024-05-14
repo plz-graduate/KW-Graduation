@@ -416,7 +416,7 @@ function makingFTable(dataArray) {
             }
         });
     }
-}
+
 
 
 

@@ -27,5 +27,8 @@
           "resources": ["data/*.json","newpage.html"],
           "matches": ["<all_urls>"]
       }
-  ]
+  ],
+    "icons": {
+      "128": "graduation.png"
+  }
   }   

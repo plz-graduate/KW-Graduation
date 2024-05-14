@@ -1,3 +1,18 @@
+// 목차
+// 1. DOMContentLoaded 이벤트 리스너
+// 2. 지연 함수
+// 3. 예상 성적 계산 함수
+// 4. 학적 정보 테이블 생성
+// 5. 수강 내역 성적 테이블 생성
+// 6. F 받은 과목 모아서 테이블 생성
+// 7. 성적 정보 테이블 생성
+// 8. 과목 추가 테이블 생성
+// 9. 테이블에 새로운 행 생성
+// 10. 성적 선택 토글
+// 11. F 혹은 이번 학기 성적 선택
+// 12. 이수 구분 선택 토글
+
+// 1. DOMContentLoaded 이벤트 리스너
 document.addEventListener("DOMContentLoaded", function () {
     window.scrollTo(0, 0); 
 
@@ -7,33 +22,49 @@ document.addEventListener("DOMContentLoaded", function () {
     chrome.storage.local.get(['AtnlcScreSungjukInfo'], function (result) {
         // 수강 내역 테이블 생성 
         makingSungjukTable(result.AtnlcScreSungjukInfo);
-        let temp = result.AtnlcScreSungjukInfo;
-        console.log("F 테이블 만드는 데 쓰는 데이터 : ",temp);
-        makingFTable(temp);
+        makingFTable(result.AtnlcScreSungjukInfo);
         
     });
-    chrome.storage.local.get(['AtnlcScreSungjukTot'], function (result) {
-        displaySungjuk(result.AtnlcScreSungjukTot);
+    chrome.storage.local.get(['AtnlcScreSungjukTot', 'AtnlcScreSungjukInfo'], function (result) {
+        displaySungjuk(result.AtnlcScreSungjukTot, result.AtnlcScreSungjukInfo);
         // 지연 시키고, collectGradesAndCredits() 실행하기
         delay(function () {
             createEditTable();
 
-            collectGradesAndCredits();
+            collectGradesAndCredits(result.AtnlcScreSungjukInfo);
         }, 100); 
     });
 
 
 });
 
-// 지연 함수
+// 2. 지연 함수
 function delay(callback, milliseconds) {
     setTimeout(callback, milliseconds);
 }
+// 수강 내역 데이터를 사전 형태로 변환
+function createSungjukMap(AtnlcScreSungjukInfo) {
+    const sungjukMap = new Map();
+    AtnlcScreSungjukInfo.forEach(data => {
+        if (Array.isArray(data.sungjukList)) {
+            data.sungjukList.forEach(course => {
+                sungjukMap.set(course.hakjungNo, course);
+            });
+        } else {
+            console.log("sungjukList가 배열이 아님:", data.sungjukList);
+        }
+    });
+    return sungjukMap;
+}
 
+// 3. 예상 성적 계산 함수
 // 예상 성적 계산하기 - 테이블 데이터를 array에 저장해서 계산
-function collectGradesAndCredits() {
+function collectGradesAndCredits(AtnlcScreSungjukInfo) {
+
     const gradesCreditsArray = [];
     const gradesList = ['전필','전선', '부필', '부선', '복필', '복선', '교필', '교선', '기필', '기선'];
+
+    const sungjukMap = createSungjukMap(AtnlcScreSungjukInfo);
 
     const tables = document.querySelectorAll('.tablegw');
 
@@ -46,13 +77,14 @@ function collectGradesAndCredits() {
 
         // 각 행을 순회하여 데이터 추출
         for (let row of rows) {
-
             const cells = row.querySelectorAll('td');
+            if (cells.length < 6) continue; // 셀의 수가 예상보다 적으면 건너뜀
+
             const subject = cells[1].textContent; // 과목명은 두 번째 열에 위치
             const classification = cells[3].textContent;
             const credit = cells[4].textContent; // '학점'은 다섯 번째 열에 위치
-            const grade = cells[5].textContent; // '성적'은 여섯 번째 열에 위치
-
+            let grade = cells[5].textContent; // '성적'은 여섯 번째 열에 위치
+            
             // P나 NP인 성적은 건너뛰기
             if (grade.includes('P') || grade === '' || grade.includes('삭제')) {
                 continue;
@@ -60,6 +92,13 @@ function collectGradesAndCredits() {
             if (!gradesList.includes(classification)) {
                 continue;
             }         
+            // 재수강 해야 하는 과목인데 드롭박스 상태로 있을 때 
+            if (grade.trim() == 'A0B+B0C+C0D+D0FNF') {
+                const course = sungjukMap.get(cells[0].textContent);
+                if (course) {
+                    grade = course.getGrade;
+                }
+            }
 
             if (grade.trim() == 'A+A0B+B0C+C0D+D0FNF') {
                 continue;
@@ -67,20 +106,16 @@ function collectGradesAndCredits() {
             
             gradesCreditsArray.push({
                 subject: subject,
-                classification : classification,
+                classification: classification,
                 credit: credit,
                 grade: grade
             });
-
-        }
-        
+        }  
     }
 
-    console.log("성적 추출 결과 : ", gradesCreditsArray);
 
-    result = calculateGrades(gradesCreditsArray);
+    const result = calculateGrades(gradesCreditsArray);
     const simulationTable = document.querySelector('.sungjuckCal');
-
 
     // 결과 테이블 업데이트
     const tbody = simulationTable.querySelector('tbody');
@@ -96,7 +131,7 @@ function collectGradesAndCredits() {
     // 성적 계산 함수
     function calculateGrades(gradesCreditsArray) {
         const gradeToPoint = {
-        'A+': 4.5, 'A0': 4.0, 'B+': 3.5, 'B0': 3.0, 'C+': 2.5, 'C0': 2.0, 'D+': 1.5, 'D0': 1.0, 'F': 0.0
+            'A+': 4.5, 'A0': 4.0, 'B+': 3.5, 'B0': 3.0, 'C+': 2.5, 'C0': 2.0, 'D+': 1.5, 'D0': 1.0, 'F': 0.0
         };
 
         let totalPointsHakjuk = 0, totalCreditsHakjuk = 0;
@@ -105,11 +140,9 @@ function collectGradesAndCredits() {
         let majorPointsSungjuk = 0, majorCreditsSungjuk = 0;
 
         gradesCreditsArray.forEach(course => {
-            const {classification, credit, grade } = course;
+            const { classification, credit, grade } = course;
             const points = gradeToPoint[grade.trim()];
             const credits = parseFloat(credit);
-            
-
 
             // 학적부 기준: F 포함 계산
             totalPointsHakjuk += points * credits;
@@ -130,7 +163,6 @@ function collectGradesAndCredits() {
                     majorCreditsSungjuk += credits;
                 }
             }
-
         });
 
         // 각 평균 계산
@@ -139,7 +171,6 @@ function collectGradesAndCredits() {
         const totalGPASungjuk = totalCreditsSungjuk ? (totalPointsSungjuk / totalCreditsSungjuk).toFixed(2) : 0;
         const majorGPASungjuk = majorCreditsSungjuk ? (majorPointsSungjuk / majorCreditsSungjuk).toFixed(2) : 0;
 
-        
         return {
             totalGPAHakjuk,
             majorGPAHakjuk,
@@ -147,13 +178,11 @@ function collectGradesAndCredits() {
             majorGPASungjuk
         };
     }
-
-
-        
 }
 
 
-// 학적 정보 테이블 생성
+
+// 4. 학적 정보 테이블 생성
 function makingHakjukTable(data) {
     const textDiv = document.createElement('h1');
     textDiv.textContent = '성적 시뮬레이션 계산기'; 
@@ -208,7 +237,7 @@ function makingHakjukTable(data) {
     document.body.insertBefore(table, textDiv.nextSibling);
 }
 
-// 수강 내역 성적 테이블 생성
+// 5. 수강 내역 성적 테이블 생성
 function makingSungjukTable(dataArray) {
     dataArray.reverse().forEach(data => {
         const table = document.createElement('table');
@@ -300,7 +329,7 @@ function makingSungjukTable(dataArray) {
 
 }
 
-// F 받은 과목 모아서 테이블 생성
+// 6. F 받은 과목 모아서 테이블 생성
 function makingFTable(dataArray) {
     let fSungjuckTemp = [];
     let fSungjuckList = [];
@@ -403,10 +432,8 @@ function makingFTable(dataArray) {
 }
 
 
-
-
-// 성적 정보 테이블 생성 
-function displaySungjuk(data) {
+// 7. 성적 정보 테이블 생성
+function displaySungjuk(data, AtnlcScreSungjukInfo) {
     const SungjuckTables = document.createElement('div');
     SungjuckTables.style.display = 'flex'; // 가로로 배치
     SungjuckTables.style.justifyContent = 'space-around'; // 컨테이너 사이의 간격 조절
@@ -549,12 +576,14 @@ function displaySungjuk(data) {
 
     // 계산하기 버튼 클릭 이벤트 설정
     calculateButton.addEventListener('click', function () {
-        collectGradesAndCredits();
+        collectGradesAndCredits(AtnlcScreSungjukInfo);
     });
 
     
 }
 
+
+// 8. 과목 추가 테이블 생성
 // 과목 추가 테이블
 function createEditTable() {
     const table = document.createElement('table');
@@ -633,6 +662,8 @@ function createEditTable() {
     });
 }
 
+
+// 9. 테이블에 새로운 행 생성
 // 테이블에 새로운 행 생성하는 함수
 function createEditableRow() {
     const row = document.createElement('tr');
@@ -674,7 +705,8 @@ function createEditableRow() {
     return row;
 }
 
-// 성적 선택 토글
+
+// 10. 성적 선택 드롭박스 
 // 재수강 시 => A+ 제외
 function createDropdown1(cell) {
     const existingDropdown = cell.querySelector('select');
@@ -699,6 +731,7 @@ function createDropdown1(cell) {
     }
 }
 
+// 11. F 혹은 이번 학기 성적 선택
 // F 혹은 이번 학기 성적 선택
 function createDropdown2(cell) {
     const existingDropdown = cell.querySelector('select');
@@ -723,7 +756,7 @@ function createDropdown2(cell) {
     }
 }
 
-// 이수 구분 선택하는 토글
+// 12. 이수 구분 선택 토글
 function createDropdownIsu(cell) {
     const existingDropdown = cell.querySelector('select');
     if (!existingDropdown) {
@@ -745,4 +778,3 @@ function createDropdownIsu(cell) {
         cell.appendChild(dropdown); // 드롭다운을 셀에 추가
     }
 }
-

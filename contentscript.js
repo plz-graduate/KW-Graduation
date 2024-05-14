@@ -38,7 +38,9 @@ var button1 = document.createElement("button");
 button1.textContent = "성적 계산기";
 button1.style.padding = "10px";
 button1.style.backgroundColor = "white";
-button1.style.color = "gray";
+button1.style.color = "#3a051f";
+button1.style.border="none";
+button1.style.borderRadius="10px";
 
 button1.addEventListener("click", function () {
   fetch('https://klas.kw.ac.kr/std/cps/inqire/AtnlcScreHakjukInfo.do', {
@@ -60,5 +62,4 @@ button1.addEventListener("click", function () {
 var targetElement = document.querySelector(".col-md-6.navtxt");
 if (targetElement) {
   targetElement.prepend(button1);  // 성적 계산기 버튼 먼저 삽입
-  targetElement.prepend(button);  // 졸업 가능 확인 버튼 다음 삽입
 }

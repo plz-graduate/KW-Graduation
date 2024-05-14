@@ -22,13 +22,8 @@ document.addEventListener("DOMContentLoaded", function () {
     chrome.storage.local.get(['AtnlcScreSungjukInfo'], function (result) {
         // 수강 내역 테이블 생성 
         makingSungjukTable(result.AtnlcScreSungjukInfo);
-<<<<<<< Updated upstream
         makingFTable(result.AtnlcScreSungjukInfo);
-=======
-        let temp = result.AtnlcScreSungjukInfo;
-        console.log(temp);
-        makingFTable(temp);
->>>>>>> Stashed changes
+
         
     });
     chrome.storage.local.get(['AtnlcScreSungjukTot', 'AtnlcScreSungjukInfo'], function (result) {
@@ -98,14 +93,11 @@ function collectGradesAndCredits(AtnlcScreSungjukInfo) {
             if (!gradesList.includes(classification)) {
                 continue;
             }         
-            // 재수강 해야 하는 과목인데 드롭박스 상태로 있을 때 
-            if (grade.trim() == 'A0B+B0C+C0D+D0FNF') {
-                const course = sungjukMap.get(cells[0].textContent);
-                if (course) {
-                    grade = course.getGrade;
-                }
-            }
 
+            if (grade.trim() == 'A+A0B+B0C+C0D+D0FNF') {
+                continue;
+            }
+            
             gradesCreditsArray.push({
                 subject: subject,
                 classification: classification,
@@ -417,13 +409,16 @@ function makingFTable(dataArray) {
     var secondChild = document.body.childNodes[1]; 
     document.body.insertBefore(table, secondChild.nextSibling);
     
-   // 이벤트 리스너 추가
-    table.addEventListener('click', function(e) {
-        if (e.target && e.target.nodeName === 'TD' && e.target.classList.contains('editable')) {
-            createDropdown2(e.target);
-        }
-    });
+        // 이벤트 리스너 추가
+        table.addEventListener('click', function (e) {
+            if (e.target && e.target.nodeName === 'TD' && e.target.classList.contains('editable')) {
+                createDropdown2(e.target);
+            }
+        });
+    }
 }
+
+
 
 
 // 7. 성적 정보 테이블 생성

@@ -8,7 +8,7 @@ document.addEventListener("DOMContentLoaded", function () {
         // 수강 내역 테이블 생성 
         makingSungjukTable(result.AtnlcScreSungjukInfo);
         let temp = result.AtnlcScreSungjukInfo;
-        console.log(temp);
+        console.log("F 테이블 만드는 데 쓰는 데이터 : ",temp);
         makingFTable(temp);
         
     });
@@ -61,6 +61,10 @@ function collectGradesAndCredits() {
                 continue;
             }         
 
+            if (grade.trim() == 'A+A0B+B0C+C0D+D0FNF') {
+                continue;
+            }
+            
             gradesCreditsArray.push({
                 subject: subject,
                 classification : classification,
@@ -104,6 +108,8 @@ function collectGradesAndCredits() {
             const {classification, credit, grade } = course;
             const points = gradeToPoint[grade.trim()];
             const credits = parseFloat(credit);
+            
+
 
             // 학적부 기준: F 포함 계산
             totalPointsHakjuk += points * credits;
@@ -124,6 +130,7 @@ function collectGradesAndCredits() {
                     majorCreditsSungjuk += credits;
                 }
             }
+
         });
 
         // 각 평균 계산
@@ -312,7 +319,7 @@ function makingFTable(dataArray) {
             fSungjuckList = fSungjuckList.filter(course => course.hakjungNo !== hakjungNo);
         });
     
-    if (data.length != 0) {
+    if (fSungjuckList.length != 0) {
         const table = document.createElement('table');
         table.className = 'tablegw';
         table.style.width = '70%';

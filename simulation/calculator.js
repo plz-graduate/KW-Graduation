@@ -22,7 +22,13 @@ document.addEventListener("DOMContentLoaded", function () {
     chrome.storage.local.get(['AtnlcScreSungjukInfo'], function (result) {
         // 수강 내역 테이블 생성 
         makingSungjukTable(result.AtnlcScreSungjukInfo);
+<<<<<<< Updated upstream
         makingFTable(result.AtnlcScreSungjukInfo);
+=======
+        let temp = result.AtnlcScreSungjukInfo;
+        console.log(temp);
+        makingFTable(temp);
+>>>>>>> Stashed changes
         
     });
     chrome.storage.local.get(['AtnlcScreSungjukTot', 'AtnlcScreSungjukInfo'], function (result) {
@@ -100,10 +106,6 @@ function collectGradesAndCredits(AtnlcScreSungjukInfo) {
                 }
             }
 
-            if (grade.trim() == 'A+A0B+B0C+C0D+D0FNF') {
-                continue;
-            }
-            
             gradesCreditsArray.push({
                 subject: subject,
                 classification: classification,
@@ -331,25 +333,18 @@ function makingSungjukTable(dataArray) {
 
 // 6. F 받은 과목 모아서 테이블 생성
 function makingFTable(dataArray) {
-    let fSungjuckTemp = [];
     let fSungjuckList = [];
     dataArray.forEach(data => {
         data.sungjukList.forEach((course, index) => { // 두 번째 매개변수로 인덱스를 받습니다.
             const trimGrade = course.getGrade.trim();
             if (trimGrade == "F") {
-                fSungjuckTemp.push(course);
-                data.sungjukList.splice(index, 1);
+                fSungjuckList.push(course);
+                //data.sungjukList.splice(index, 1);
             }
         });
     });
-
-    fSungjuckList.forEach(fCourse => {
-            const hakjungNo = fCourse.hakjungNo;
-            fSungjuckList = fSungjuckList.filter(course => course.hakjungNo !== hakjungNo);
-        });
     
-    if (makingFTable.length != 0) {
-        const table = document.createElement('table');
+    const table = document.createElement('table');
         table.className = 'tablegw';
         table.style.width = '70%';
         table.style.marginBottom = '30px';
@@ -417,18 +412,17 @@ function makingFTable(dataArray) {
 
             tbody.appendChild(row);
         });
-        table.appendChild(tbody);
+    table.appendChild(tbody);
     
-        var secondChild = document.body.childNodes[1];
-        document.body.insertBefore(table, secondChild.nextSibling);
+    var secondChild = document.body.childNodes[1]; 
+    document.body.insertBefore(table, secondChild.nextSibling);
     
-        // 이벤트 리스너 추가
-        table.addEventListener('click', function (e) {
-            if (e.target && e.target.nodeName === 'TD' && e.target.classList.contains('editable')) {
-                createDropdown2(e.target);
-            }
-        });
-    }
+   // 이벤트 리스너 추가
+    table.addEventListener('click', function(e) {
+        if (e.target && e.target.nodeName === 'TD' && e.target.classList.contains('editable')) {
+            createDropdown2(e.target);
+        }
+    });
 }
 
 
@@ -436,22 +430,22 @@ function makingFTable(dataArray) {
 function displaySungjuk(data, AtnlcScreSungjukInfo) {
     const SungjuckTables = document.createElement('div');
     SungjuckTables.style.display = 'flex'; // 가로로 배치
-    SungjuckTables.style.justifyContent = 'space-around'; // 컨테이너 사이의 간격 조절
+    SungjuckTables.style.justifyContent = 'start'; // 컨테이너 사이의 간격 조절
     SungjuckTables.style.width = '100%'; // 전체 너비 사용
     SungjuckTables.style.marginTop = '20px'; // 상단 여백 설정
 
     // 성적 정보 테이블 컨테이너
     const container = document.createElement('div');
-    container.style.width = '35%'; // 컨테이너 너비 
-    container.style.marginRight = '20px'; // 오른쪽 마진 고정
-
+    container.style.marginLeft = '15%'; // 왼쪽 여백 설정
+    container.style.width = '32%'; // 컨테이너의 너비를 40%로 설정
+    container.style.float = 'left'; // 왼쪽으로 정렬
     const textDiv = document.createElement('h2');
     textDiv.textContent = '성적 정보'; // 테이블 제목
     container.appendChild(textDiv);
 
     const table = document.createElement('table');
     table.className = 'sungjuckinfo';
-    table.style.width = '100%';
+    table.style.width = '80%';
     table.style.borderCollapse = 'collapse';
     table.style.border = '1px solid #ddd';
     table.style.marginBottom = '30px';
@@ -498,10 +492,11 @@ function displaySungjuk(data, AtnlcScreSungjukInfo) {
 
     // 예상 성적 테이블 컨테이너
     const containerSimul = document.createElement('div');
-    containerSimul.style.width = '45%'; // 컨테이너 너비 50% 설정
+    containerSimul.style.width = '51%'; // 컨테이너 너비 50% 설정
 
     // 제목과 계산하기 버튼을 포함할 헤더 컨테이너
     const headerContainer = document.createElement('div');
+    
     headerContainer.style.display = 'flex';
     headerContainer.style.alignItems = 'center';
     headerContainer.style.justifyContent = 'space-between'; // 제목과 버튼 사이의 간격 최대화
@@ -513,13 +508,14 @@ function displaySungjuk(data, AtnlcScreSungjukInfo) {
     const calculateButton = document.createElement('button');
     calculateButton.textContent = '계산하기';
     calculateButton.style.padding = '5px 15px';
+    calculateButton.style.marginRight = '110px';
     headerContainer.appendChild(calculateButton); // 제목 옆에 계산하기 버튼 추가
 
     containerSimul.appendChild(headerContainer);
 
     const tableSimul = document.createElement('table');
     tableSimul.className = 'sungjuckCal';
-    tableSimul.style.width = '100%';
+    tableSimul.style.width = '75%';
     tableSimul.style.borderCollapse = 'collapse';
     tableSimul.style.border = '1px solid #ddd';
     tableSimul.style.marginBottom = '30px';

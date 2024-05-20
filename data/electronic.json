@@ -1,350 +1,333 @@
 {
-    "졸업학점": {
-      "전공학점": 60,
-      "전체학점": 133,
-      "기초교양": 24,
-      "설계학점": 12
-    },
-    "학번별": {
-      "20": {
-        "전필": [
-          { "name": "기초전자회로및실험1", "id": "4512" },
-          { "name": "기초전자회로및실험2", "id": "4513" },
-          { "name": "전자회로실험", "id": "1471" },
-          { "name": "전자공학응용실험", "id": "7732" },
-          { "name": "캡스톤설계", "id": "4163" }
+  "졸업학점": {
+    "전공학점": 60,
+    "전체학점": 133,
+    "기초교양": 24,
+    "설계학점": 12
+  },
+  "학번별": {
+    "20": {
+      "전필": [
+        { "name": "기초전자회로및실험1", "id": "4512" },
+        { "name": "기초전자회로및실험2", "id": "4513" },
+        { "name": "전자회로실험", "id": "1471" },
+        { "name": "전자공학응용실험", "id": "7732" },
+        { "name": "캡스톤설계", "id": "4163" }
+      ],
+      "기초교양": {
+        "기필": [
+          { "name": "공학수학1", "id": "4969" },
+          { "name": "공학수학2", "id": "4970" },
+          { "name": "확률및불규칙신호론", "id": "2103" },
+          { "name": "대학물리및실험1", "id": "3414" },
+          { "name": "대학물리학2", "id": "9884", "subject": "science" },
+          { "name": "공학설계입문", "id": "2957" }
         ],
-        "기초교양": {
-          "기필": [
-            { "name": "공학수학1", "id": "4969" },
-            { "name": "공학수학2", "id": "4970" },
-            { "name": "확률및불규칙신호론", "id": "2103" },
-            { "name": "대학물리및실험1", "id": "3414" },
-  
-            { "name": "공학설계입문", "id": "2957" }
-          ],
-          "기선": [
-            { "name": "기초수학및연습", "id": "4628", "subject": "math" },
-            { "name": "대학수학및연습1", "id": "4625", "subject": "math" },
-            { "name": "대학수학및연습2", "id": "4626", "subject": "math" },
-            { "name": "공학수학1", "id": "4969", "subject": "math" },
-            { "name": "공학수학2", "id": "4970", "subject": "math" },
-            { "name": "벡터해석학및연습", "id": "4627", "subject": "math" },
-            { "name": "선형대수학", "id": "0819", "subject": "math" },
-            { "name": "기초수학및연습", "id": "4628", "subject": "math" },
-            {
-              "name": "이산수학",
-              "id": "1186",
-              "date": "2023-2",
-              "subject": "math"
-            },
-            {
-              "name": "확률및불규칙신호론",
-              "id": "2103",
-              "date": "2023-2",
-              "subject": "math"
-            },
-            { "name": "확률및통계", "id": "1942", "subject": "math" },
-            {
-              "name": "수치해석",
-              "id": "0875",
-              "date": "2023-2",
-              "subject": "math"
-            },
-            { "name": "대학물리및실험1", "id": "9753", "subject": "science" },
-            { "name": "대학물리및실험2", "id": "3416", "subject": "science" },
-            { "name": "대학물리학2", "id": "9884", "subject": "science" },
-            { "name": "대학화학", "id": "7466", "subject": "science" },
-            { "name": "대학화학및실험1", "id": "3415", "subject": "science" },
-            { "name": "대학화학및실험2", "id": "3417", "subject": "science" }
-          ],
-          "전산학(정보)": [
-            { "name": "C프로그래밍", "id": "0019" },
-            { "name": "C프로그래밍응용", "id": "7408" }
-          ]
-        },
-        "교필": [
-          { "name": "광운인되기", "id": "8128" },
-          { "name": "대학영어", "id": "3362" },
-          { "name": "C프로그래밍", "id": "0019" },
-          { "name": "C프로그래밍응용", "id": "7408" },
-          { "name": "융합적사고와글쓰기", "id": "3095" }
-        ],
-        "공필": [{ "name": "공학설계입문", "id": "2957" }],
-        "설계": [
-          { "name": "기초전자회로및실험1", "designCredits": 2, "id": "4512" },
-          { "name": "기초전자회로및실험2", "designCredits": 2, "id": "4513" },
-          { "name": "전자회로실험", "designCredits": 1, "id": "1471" },
-          { "name": "전자공학응용실험", "designCredits": 2, "id": "7732" },
-          { "name": "캡스톤설계", "designCredits": 3, "id": "4163" },
-          { "name": "공학설계입문", "designCredits": 3, "id": "2957" },
-          { "name": "데이터구조설계", "designCredits": 1, "id": "3703" },
-          { "name": "반도체소자및설계", "designCredits": 1, "id": "6528" },
-          { "name": "반도체공정및응용", "designCredits": 1, "id": "6529" },
-          { "name": "광전자공학", "designCredits": 1, "id": "0237" },
-          { "name": "광통신공학", "designCredits": 1, "id": "0240" },
-          { "name": "반도체집적회로설계", "designCredits": 1, "id": "3096" },
-          { "name": "영상신호처리", "designCredits": 1, "id": "3387" },
-          { "name": "RF시스템", "designCredits": 1, "id": "4168" },
-          { "name": "RFIC설계및실험", "designCredits": 1, "id": "4521" }
-        ]
-      },
-      "21": {
-        "전필": [
-          { "name": "기초전자회로및실험1", "id": "4512" },
-          { "name": "기초전자회로및실험2", "id": "4513" },
-          { "name": "전자회로실험", "id": "1471" },
-          { "name": "전자공학응용실험", "id": "7732" },
+        "기선": [
+          { "name": "기초수학및연습", "id": "4628", "subject": "math" },
+          { "name": "대학수학및연습1", "id": "4625", "subject": "math" },
+          { "name": "대학수학및연습2", "id": "4626", "subject": "math" },
+          { "name": "공학수학1", "id": "4969", "subject": "math" },
+          { "name": "공학수학2", "id": "4970", "subject": "math" },
+          { "name": "벡터해석학및연습", "id": "4627", "subject": "math" },
+          { "name": "선형대수학", "id": "0819", "subject": "math" },
+          { "name": "기초수학및연습", "id": "4628", "subject": "math" },
           {
-            "name": ["대학물리및실험2", "대학물리학2"],
-            "id": ["3416", "9884"]
+            "name": "이산수학",
+            "id": "1186",
+            "date": "2023-2",
+            "subject": "math"
           },
-  
-          { "name": "캡스톤설계", "id": "4163" }
+          {
+            "name": "확률및불규칙신호론",
+            "id": "2103",
+            "date": "2023-2",
+            "subject": "math"
+          },
+          { "name": "확률및통계", "id": "1942", "subject": "math" },
+          {
+            "name": "수치해석",
+            "id": "0875",
+            "date": "2023-2",
+            "subject": "math"
+          },
+          { "name": "대학화학", "id": "7466", "subject": "science" },
+          { "name": "대학화학및실험1", "id": "3415", "subject": "science" },
+          { "name": "대학화학및실험2", "id": "3417", "subject": "science" }
         ],
-        "기초교양": {
-          "기필": [
-            { "name": "공학수학1", "id": "4969" },
-            { "name": "공학수학2", "id": "4970" },
-            { "name": "확률및불규칙신호론", "id": "2103" },
-            { "name": "대학물리및실험1", "id": "3414" },
-  
-            { "name": "공학설계입문", "id": "2957" }
-          ],
-          "기선": [
-            { "name": "기초수학및연습", "id": "4628", "subject": "math" },
-            { "name": "대학수학및연습1", "id": "4625", "subject": "math" },
-            { "name": "대학수학및연습2", "id": "4626", "subject": "math" },
-            { "name": "공학수학1", "id": "4969", "subject": "math" },
-            { "name": "공학수학2", "id": "4970", "subject": "math" },
-            { "name": "벡터해석학및연습", "id": "4627", "subject": "math" },
-            { "name": "선형대수학", "id": "0819", "subject": "math" },
-            { "name": "기초수학및연습", "id": "4628", "subject": "math" },
-            {
-              "name": "이산수학",
-              "id": "1186",
-              "date": "2023-2",
-              "subject": "math"
-            },
-            {
-              "name": "확률및불규칙신호론",
-              "id": "2103",
-              "date": "2023-2",
-              "subject": "math"
-            },
-            { "name": "확률및통계", "id": "1942", "subject": "math" },
-            {
-              "name": "수치해석",
-              "id": "0875",
-              "date": "2023-2",
-              "subject": "math"
-            },
-  
-            { "name": "대학물리및실험1", "id": "9753", "subject": "science" },
-            { "name": "대학물리및실험2", "id": "3416", "subject": "science" },
-            { "name": "대학물리학2", "id": "9884", "subject": "science" },
-            { "name": "대학화학", "id": "7466", "subject": "science" },
-            { "name": "대학화학및실험1", "id": "3415", "subject": "science" },
-            { "name": "대학화학및실험2", "id": "3417", "subject": "science" }
-          ],
-  
-          "전산학(정보)": [
-            { "name": "C프로그래밍", "id": "0019" },
-            { "name": "C프로그래밍응용", "id": "7408" }
-          ]
-        },
-        "교필": [
-          { "name": "광운인되기", "id": "8128" },
-          { "name": "대학영어", "id": "3362" },
+        "전산학(정보)": [
           { "name": "C프로그래밍", "id": "0019" },
-          { "name": "C프로그래밍응용", "id": "7408" },
-          { "name": "융합적사고와글쓰기", "id": "3095" }
-        ],
-        "공필": [{ "name": "공학설계입문", "id": "2957" }],
-        "설계": [
-          { "name": "기초전자회로및실험1", "designCredits": 2, "id": "4512" },
-          { "name": "기초전자회로및실험2", "designCredits": 2, "id": "4513" },
-          { "name": "전자회로실험", "designCredits": 1, "id": "1471" },
-          { "name": "전자공학응용실험", "designCredits": 2, "id": "7732" },
-          { "name": "캡스톤설계", "designCredits": 3, "id": "4163" },
-          { "name": "공학설계입문", "designCredits": 3, "id": "2957" },
-          { "name": "데이터구조설계", "designCredits": 1, "id": "3703" },
-          { "name": "반도체소자및설계", "designCredits": 1, "id": "6528" },
-          { "name": "반도체공정및응용", "designCredits": 1, "id": "6529" },
-          { "name": "광전자공학", "designCredits": 1, "id": "0237" },
-          { "name": "광통신공학", "designCredits": 1, "id": "0240" },
-          { "name": "반도체집적회로설계", "designCredits": 1, "id": "3096" },
-          { "name": "영상신호처리", "designCredits": 1, "id": "3387" },
-          { "name": "RF시스템", "designCredits": 1, "id": "4168" },
-          { "name": "RFIC설계및실험", "designCredits": 1, "id": "4521" }
+          { "name": "C프로그래밍응용", "id": "7408" }
         ]
       },
-      "22": {
-        "전필": [
-          { "name": "기초전자회로및실험1", "id": "4512" },
-          { "name": "기초전자회로및실험2", "id": "4513" },
-          { "name": "전자회로실험", "id": "1471" },
-          { "name": "전자공학응용실험", "id": "7732" },
-          { "name": "캡스톤설계", "id": "4163" }
+      "교필": [
+        { "name": "광운인되기", "id": "8128" },
+        { "name": "대학영어", "id": "3362" },
+        { "name": "C프로그래밍", "id": "0019" },
+        { "name": "C프로그래밍응용", "id": "7408" },
+        { "name": "융합적사고와글쓰기", "id": "3095" }
+      ],
+      "공필": [{ "name": "공학설계입문", "id": "2957" }],
+      "설계": [
+        { "name": "기초전자회로및실험1", "designCredits": 2, "id": "4512" },
+        { "name": "기초전자회로및실험2", "designCredits": 2, "id": "4513" },
+        { "name": "전자회로실험", "designCredits": 1, "id": "1471" },
+        { "name": "전자공학응용실험", "designCredits": 2, "id": "7732" },
+        { "name": "캡스톤설계", "designCredits": 3, "id": "4163" },
+        { "name": "공학설계입문", "designCredits": 3, "id": "2957" },
+        { "name": "데이터구조설계", "designCredits": 1, "id": "3703" },
+        { "name": "반도체소자및설계", "designCredits": 1, "id": "6528" },
+        { "name": "반도체공정및응용", "designCredits": 1, "id": "6529" },
+        { "name": "광전자공학", "designCredits": 1, "id": "0237" },
+        { "name": "광통신공학", "designCredits": 1, "id": "0240" },
+        { "name": "반도체집적회로설계", "designCredits": 1, "id": "3096" },
+        { "name": "영상신호처리", "designCredits": 1, "id": "3387" },
+        { "name": "RF시스템", "designCredits": 1, "id": "4168" },
+        { "name": "RFIC설계및실험", "designCredits": 1, "id": "4521" }
+      ]
+    },
+    "21": {
+      "전필": [
+        { "name": "기초전자회로및실험1", "id": "4512" },
+        { "name": "기초전자회로및실험2", "id": "4513" },
+        { "name": "전자회로실험", "id": "1471" },
+        { "name": "전자공학응용실험", "id": "7732" },
+        { "name": "캡스톤설계", "id": "4163" }
+      ],
+      "기초교양": {
+        "기필": [
+          { "name": "공학수학1", "id": "4969" },
+          { "name": "공학수학2", "id": "4970" },
+          { "name": "확률및불규칙신호론", "id": "2103" },
+          { "name": "대학물리및실험1", "id": "3414" },
+          { "name": "대학물리학2", "id": "9884", "subject": "science" },
+          { "name": "공학설계입문", "id": "2957" }
         ],
-        "기초교양": {
-          "기필": [
-            { "name": "공학수학1", "id": "4969" },
-            { "name": "공학수학2", "id": "4970" },
-            { "name": "확률및불규칙신호론", "id": "2103" },
-            { "name": "대학물리및실험1", "id": "3414" },
-  
-            { "name": "공학설계입문", "id": "2957" }
-          ],
-          "기선": [
-            { "name": "기초수학및연습", "id": "4628", "subject": "math" },
-            { "name": "대학수학및연습1", "id": "4625", "subject": "math" },
-            { "name": "대학수학및연습2", "id": "4626", "subject": "math" },
-            { "name": "공학수학1", "id": "4969", "subject": "math" },
-            { "name": "공학수학2", "id": "4970", "subject": "math" },
-            { "name": "벡터해석학및연습", "id": "4627", "subject": "math" },
-            { "name": "선형대수학", "id": "0819", "subject": "math" },
-            { "name": "기초수학및연습", "id": "4628", "subject": "math" },
-            {
-              "name": "이산수학",
-              "id": "1186",
-              "date": "2023-2",
-              "subject": "math"
-            },
-            {
-              "name": "확률및불규칙신호론",
-              "id": "2103",
-              "date": "2023-2",
-              "subject": "math"
-            },
-            { "name": "확률및통계", "id": "1942", "subject": "math" },
-            {
-              "name": "수치해석",
-              "id": "0875",
-              "date": "2023-2",
-              "subject": "math"
-            },
-            { "name": "대학물리및실험1", "id": "9753", "subject": "science" },
-            { "name": "대학물리및실험2", "id": "3416", "subject": "science" },
-            { "name": "대학물리학2", "id": "9884", "subject": "science" },
-            { "name": "대학화학", "id": "7466", "subject": "science" },
-            { "name": "대학화학및실험1", "id": "3415", "subject": "science" },
-            { "name": "대학화학및실험2", "id": "3417", "subject": "science" }
-          ],
-          "전산학(정보)": [
-            { "name": "C프로그래밍", "id": "0019" },
-            { "name": "C프로그래밍응용", "id": "7408" }
-          ]
-        },
-        "교필": [
-          { "name": "광운인되기", "id": "8128" },
-          { "name": "대학영어", "id": "3362" },
+        "기선": [
+          { "name": "기초수학및연습", "id": "4628", "subject": "math" },
+          { "name": "대학수학및연습1", "id": "4625", "subject": "math" },
+          { "name": "대학수학및연습2", "id": "4626", "subject": "math" },
+          { "name": "공학수학1", "id": "4969", "subject": "math" },
+          { "name": "공학수학2", "id": "4970", "subject": "math" },
+          { "name": "벡터해석학및연습", "id": "4627", "subject": "math" },
+          { "name": "선형대수학", "id": "0819", "subject": "math" },
+          { "name": "기초수학및연습", "id": "4628", "subject": "math" },
+          {
+            "name": "이산수학",
+            "id": "1186",
+            "date": "2023-2",
+            "subject": "math"
+          },
+          {
+            "name": "확률및불규칙신호론",
+            "id": "2103",
+            "date": "2023-2",
+            "subject": "math"
+          },
+          { "name": "확률및통계", "id": "1942", "subject": "math" },
+          {
+            "name": "수치해석",
+            "id": "0875",
+            "date": "2023-2",
+            "subject": "math"
+          },
+
+          { "name": "대학화학", "id": "7466", "subject": "science" },
+          { "name": "대학화학및실험1", "id": "3415", "subject": "science" },
+          { "name": "대학화학및실험2", "id": "3417", "subject": "science" }
+        ],
+
+        "전산학(정보)": [
           { "name": "C프로그래밍", "id": "0019" },
-          { "name": "C프로그래밍응용", "id": "7408" },
-          { "name": "융합적사고와글쓰기", "id": "3095" }
-        ],
-        "공필": [{ "name": "공학설계입문", "id": "2957" }],
-        "설계": [
-          { "name": "기초전자회로및실험1", "designCredits": 2, "id": "4512" },
-          { "name": "기초전자회로및실험2", "designCredits": 2, "id": "4513" },
-          { "name": "전자회로실험", "designCredits": 1, "id": "1471" },
-          { "name": "전자공학응용실험", "designCredits": 2, "id": "7732" },
-          { "name": "캡스톤설계", "designCredits": 3, "id": "4163" },
-          { "name": "공학설계입문", "designCredits": 3, "id": "2957" },
-          { "name": "데이터구조설계", "designCredits": 1, "id": "3703" },
-          { "name": "반도체소자및설계", "designCredits": 1, "id": "6528" },
-          { "name": "반도체공정및응용", "designCredits": 1, "id": "6529" },
-          { "name": "광전자공학", "designCredits": 1, "id": "0237" },
-          { "name": "광통신공학", "designCredits": 1, "id": "0240" },
-          { "name": "반도체집적회로설계", "designCredits": 1, "id": "3096" },
-          { "name": "영상신호처리", "designCredits": 1, "id": "3387" },
-          { "name": "RF시스템", "designCredits": 1, "id": "4168" },
-          { "name": "RFIC설계및실험", "designCredits": 1, "id": "4521" }
+          { "name": "C프로그래밍응용", "id": "7408" }
         ]
       },
-      "23": {
-        "전필": [
-          { "name": "기초전자회로및실험1", "id": "4512" },
-          { "name": "기초전자회로및실험2", "id": "4513" },
-          { "name": "전자회로실험", "id": "1471" },
-          { "name": "전자공학응용실험", "id": "7732" },
-          { "name": "캡스톤설계", "id": "4163" }
+      "교필": [
+        { "name": "광운인되기", "id": "8128" },
+        { "name": "대학영어", "id": "3362" },
+        { "name": "C프로그래밍", "id": "0019" },
+        { "name": "C프로그래밍응용", "id": "7408" },
+        { "name": "융합적사고와글쓰기", "id": "3095" }
+      ],
+      "공필": [{ "name": "공학설계입문", "id": "2957" }],
+      "설계": [
+        { "name": "기초전자회로및실험1", "designCredits": 2, "id": "4512" },
+        { "name": "기초전자회로및실험2", "designCredits": 2, "id": "4513" },
+        { "name": "전자회로실험", "designCredits": 1, "id": "1471" },
+        { "name": "전자공학응용실험", "designCredits": 2, "id": "7732" },
+        { "name": "캡스톤설계", "designCredits": 3, "id": "4163" },
+        { "name": "공학설계입문", "designCredits": 3, "id": "2957" },
+        { "name": "데이터구조설계", "designCredits": 1, "id": "3703" },
+        { "name": "반도체소자및설계", "designCredits": 1, "id": "6528" },
+        { "name": "반도체공정및응용", "designCredits": 1, "id": "6529" },
+        { "name": "광전자공학", "designCredits": 1, "id": "0237" },
+        { "name": "광통신공학", "designCredits": 1, "id": "0240" },
+        { "name": "반도체집적회로설계", "designCredits": 1, "id": "3096" },
+        { "name": "영상신호처리", "designCredits": 1, "id": "3387" },
+        { "name": "RF시스템", "designCredits": 1, "id": "4168" },
+        { "name": "RFIC설계및실험", "designCredits": 1, "id": "4521" }
+      ]
+    },
+    "22": {
+      "전필": [
+        { "name": "기초전자회로및실험1", "id": "4512" },
+        { "name": "기초전자회로및실험2", "id": "4513" },
+        { "name": "전자회로실험", "id": "1471" },
+        { "name": "전자공학응용실험", "id": "7732" },
+        { "name": "캡스톤설계", "id": "4163" }
+      ],
+      "기초교양": {
+        "기필": [
+          { "name": "공학수학1", "id": "4969" },
+          { "name": "공학수학2", "id": "4970" },
+          { "name": "확률및불규칙신호론", "id": "2103" },
+          { "name": "대학물리및실험1", "id": "3414" },
+          { "name": "대학물리학2", "id": "9884", "subject": "science" },
+          { "name": "공학설계입문", "id": "2957" }
         ],
-        "기초교양": {
-          "기필": [
-            { "name": "공학수학1", "id": "4969" },
-            { "name": "공학수학2", "id": "4970" },
-            { "name": "확률및불규칙신호론", "id": "2103" },
-            { "name": "대학물리및실험1", "id": "3414" },
-  
-            { "name": "공학설계입문", "id": "2957" }
-          ],
-          "기선": [
-            { "name": "기초수학및연습", "id": "4628", "subject": "math" },
-            { "name": "대학수학및연습1", "id": "4625", "subject": "math" },
-            { "name": "대학수학및연습2", "id": "4626", "subject": "math" },
-            { "name": "공학수학1", "id": "4969", "subject": "math" },
-            { "name": "공학수학2", "id": "4970", "subject": "math" },
-            { "name": "벡터해석학및연습", "id": "4627", "subject": "math" },
-            { "name": "선형대수학", "id": "0819", "subject": "math" },
-            { "name": "기초수학및연습", "id": "4628", "subject": "math" },
-            {
-              "name": "이산수학",
-              "id": "1186",
-              "date": "2023-2",
-              "subject": "math"
-            },
-            {
-              "name": "확률및불규칙신호론",
-              "id": "2103",
-              "date": "2023-2",
-              "subject": "math"
-            },
-            { "name": "확률및통계", "id": "1942", "subject": "math" },
-            {
-              "name": "수치해석",
-              "id": "0875",
-              "date": "2023-2",
-              "subject": "math"
-            },
-            { "name": "대학물리및실험1", "id": "9753", "subject": "science" },
-            { "name": "대학물리및실험2", "id": "3416", "subject": "science" },
-            { "name": "대학물리학2", "id": "9884", "subject": "science" },
-            { "name": "대학화학", "id": "7466", "subject": "science" },
-            { "name": "대학화학및실험1", "id": "3415", "subject": "science" },
-            { "name": "대학화학및실험2", "id": "3417", "subject": "science" }
-          ],
-  
-          "전산학(정보)": [
-            { "name": "C프로그래밍", "id": "0019" },
-            { "name": "C프로그래밍응용", "id": "7408" }
-          ]
-        },
-        "교필": [
-          { "name": "광운인되기", "id": "8128" },
-          { "name": "대학영어", "id": "3362" },
+        "기선": [
+          { "name": "기초수학및연습", "id": "4628", "subject": "math" },
+          { "name": "대학수학및연습1", "id": "4625", "subject": "math" },
+          { "name": "대학수학및연습2", "id": "4626", "subject": "math" },
+          { "name": "공학수학1", "id": "4969", "subject": "math" },
+          { "name": "공학수학2", "id": "4970", "subject": "math" },
+          { "name": "벡터해석학및연습", "id": "4627", "subject": "math" },
+          { "name": "선형대수학", "id": "0819", "subject": "math" },
+          { "name": "기초수학및연습", "id": "4628", "subject": "math" },
+          {
+            "name": "이산수학",
+            "id": "1186",
+            "date": "2023-2",
+            "subject": "math"
+          },
+          {
+            "name": "확률및불규칙신호론",
+            "id": "2103",
+            "date": "2023-2",
+            "subject": "math"
+          },
+          { "name": "확률및통계", "id": "1942", "subject": "math" },
+          {
+            "name": "수치해석",
+            "id": "0875",
+            "date": "2023-2",
+            "subject": "math"
+          },
+          { "name": "대학화학", "id": "7466", "subject": "science" },
+          { "name": "대학화학및실험1", "id": "3415", "subject": "science" },
+          { "name": "대학화학및실험2", "id": "3417", "subject": "science" }
+        ],
+        "전산학(정보)": [
           { "name": "C프로그래밍", "id": "0019" },
-          { "name": "C프로그래밍응용", "id": "7408" },
-          { "name": "융합적사고와글쓰기", "id": "3095" }
-        ],
-        "공필": [{ "name": "공학설계입문", "id": "2957" }],
-        "설계": [
-          { "name": "기초전자회로및실험1", "designCredits": 2, "id": "4512" },
-          { "name": "기초전자회로및실험2", "designCredits": 2, "id": "4513" },
-          { "name": "전자회로실험", "designCredits": 1, "id": "1471" },
-          { "name": "전자공학응용실험", "designCredits": 2, "id": "7732" },
-          { "name": "캡스톤설계", "designCredits": 3, "id": "4163" },
-          { "name": "공학설계입문", "designCredits": 3, "id": "2957" },
-          { "name": "데이터구조설계", "designCredits": 1, "id": "3703" },
-          { "name": "반도체소자및설계", "designCredits": 1, "id": "6528" },
-          { "name": "반도체공정및응용", "designCredits": 1, "id": "6529" },
-          { "name": "광전자공학", "designCredits": 1, "id": "0237" },
-          { "name": "광통신공학", "designCredits": 1, "id": "0240" },
-          { "name": "반도체집적회로설계", "designCredits": 1, "id": "3096" },
-          { "name": "영상신호처리", "designCredits": 1, "id": "3387" },
-          { "name": "RF시스템", "designCredits": 1, "id": "4168" },
-          { "name": "RFIC설계및실험", "designCredits": 1, "id": "4521" }
+          { "name": "C프로그래밍응용", "id": "7408" }
         ]
-      }
+      },
+      "교필": [
+        { "name": "광운인되기", "id": "8128" },
+        { "name": "대학영어", "id": "3362" },
+        { "name": "C프로그래밍", "id": "0019" },
+        { "name": "C프로그래밍응용", "id": "7408" },
+        { "name": "융합적사고와글쓰기", "id": "3095" }
+      ],
+      "공필": [{ "name": "공학설계입문", "id": "2957" }],
+      "설계": [
+        { "name": "기초전자회로및실험1", "designCredits": 2, "id": "4512" },
+        { "name": "기초전자회로및실험2", "designCredits": 2, "id": "4513" },
+        { "name": "전자회로실험", "designCredits": 1, "id": "1471" },
+        { "name": "전자공학응용실험", "designCredits": 2, "id": "7732" },
+        { "name": "캡스톤설계", "designCredits": 3, "id": "4163" },
+        { "name": "공학설계입문", "designCredits": 3, "id": "2957" },
+        { "name": "데이터구조설계", "designCredits": 1, "id": "3703" },
+        { "name": "반도체소자및설계", "designCredits": 1, "id": "6528" },
+        { "name": "반도체공정및응용", "designCredits": 1, "id": "6529" },
+        { "name": "광전자공학", "designCredits": 1, "id": "0237" },
+        { "name": "광통신공학", "designCredits": 1, "id": "0240" },
+        { "name": "반도체집적회로설계", "designCredits": 1, "id": "3096" },
+        { "name": "영상신호처리", "designCredits": 1, "id": "3387" },
+        { "name": "RF시스템", "designCredits": 1, "id": "4168" },
+        { "name": "RFIC설계및실험", "designCredits": 1, "id": "4521" }
+      ]
+    },
+    "23": {
+      "전필": [
+        { "name": "기초전자회로및실험1", "id": "4512" },
+        { "name": "기초전자회로및실험2", "id": "4513" },
+        { "name": "전자회로실험", "id": "1471" },
+        { "name": "전자공학응용실험", "id": "7732" },
+        { "name": "캡스톤설계", "id": "4163" }
+      ],
+      "기초교양": {
+        "기필": [
+          { "name": "공학수학1", "id": "4969" },
+          { "name": "공학수학2", "id": "4970" },
+          { "name": "확률및불규칙신호론", "id": "2103" },
+          { "name": "대학물리및실험1", "id": "3414" },
+          { "name": "대학물리학2", "id": "9884", "subject": "science" },
+          { "name": "공학설계입문", "id": "2957" }
+        ],
+        "기선": [
+          { "name": "기초수학및연습", "id": "4628", "subject": "math" },
+          { "name": "대학수학및연습1", "id": "4625", "subject": "math" },
+          { "name": "대학수학및연습2", "id": "4626", "subject": "math" },
+          { "name": "공학수학1", "id": "4969", "subject": "math" },
+          { "name": "공학수학2", "id": "4970", "subject": "math" },
+          { "name": "벡터해석학및연습", "id": "4627", "subject": "math" },
+          { "name": "선형대수학", "id": "0819", "subject": "math" },
+          { "name": "기초수학및연습", "id": "4628", "subject": "math" },
+          {
+            "name": "이산수학",
+            "id": "1186",
+            "date": "2023-2",
+            "subject": "math"
+          },
+          {
+            "name": "확률및불규칙신호론",
+            "id": "2103",
+            "date": "2023-2",
+            "subject": "math"
+          },
+          { "name": "확률및통계", "id": "1942", "subject": "math" },
+          {
+            "name": "수치해석",
+            "id": "0875",
+            "date": "2023-2",
+            "subject": "math"
+          },
+          { "name": "대학화학", "id": "7466", "subject": "science" },
+          { "name": "대학화학및실험1", "id": "3415", "subject": "science" },
+          { "name": "대학화학및실험2", "id": "3417", "subject": "science" }
+        ],
+
+        "전산학(정보)": [
+          { "name": "C프로그래밍", "id": "0019" },
+          { "name": "C프로그래밍응용", "id": "7408" }
+        ]
+      },
+      "교필": [
+        { "name": "광운인되기", "id": "8128" },
+        { "name": "대학영어", "id": "3362" },
+        { "name": "C프로그래밍", "id": "0019" },
+        { "name": "C프로그래밍응용", "id": "7408" },
+        { "name": "융합적사고와글쓰기", "id": "3095" }
+      ],
+      "공필": [{ "name": "공학설계입문", "id": "2957" }],
+      "설계": [
+        { "name": "기초전자회로및실험1", "designCredits": 2, "id": "4512" },
+        { "name": "기초전자회로및실험2", "designCredits": 2, "id": "4513" },
+        { "name": "전자회로실험", "designCredits": 1, "id": "1471" },
+        { "name": "전자공학응용실험", "designCredits": 2, "id": "7732" },
+        { "name": "캡스톤설계", "designCredits": 3, "id": "4163" },
+        { "name": "공학설계입문", "designCredits": 3, "id": "2957" },
+        { "name": "데이터구조설계", "designCredits": 1, "id": "3703" },
+        { "name": "반도체소자및설계", "designCredits": 1, "id": "6528" },
+        { "name": "반도체공정및응용", "designCredits": 1, "id": "6529" },
+        { "name": "광전자공학", "designCredits": 1, "id": "0237" },
+        { "name": "광통신공학", "designCredits": 1, "id": "0240" },
+        { "name": "반도체집적회로설계", "designCredits": 1, "id": "3096" },
+        { "name": "영상신호처리", "designCredits": 1, "id": "3387" },
+        { "name": "RF시스템", "designCredits": 1, "id": "4168" },
+        { "name": "RFIC설계및실험", "designCredits": 1, "id": "4521" }
+      ]
     }
   }
+}

@@ -4,12 +4,10 @@ document.addEventListener("DOMContentLoaded", function() {
   fetch('../data/informationConvergence.json')
       .then(response => response.json())
       .then(jsonData => {
-          // 여기서 변수를 직접 할당하지 말고, 필요한 값을 직접 추출
           majorCredits = jsonData["졸업학점"]["전공학점"];
           totalCredits = jsonData["졸업학점"]["전체학점"];
 
-           // 데이터 로딩 후 필요한 처리를 진행하거나 다른 함수 호출
-           console.log("Loaded credits:", majorCredits, totalCredits);
+
       })
       .catch(error => {
           console.error('Error fetching data:', error);
@@ -17,7 +15,6 @@ document.addEventListener("DOMContentLoaded", function() {
 });
 // 데이터 순차적으로 로드
 document.addEventListener("DOMContentLoaded", async function() {
-  console.log("Script started");  // 스크립트 실행 확인
   try {
     globalHakbun = getHakbunFromURL();
     let gipilData = {};
@@ -144,6 +141,7 @@ function checkScoreTable(data) {
         headerCell.textContent = headerText;
         headerCell.style.textAlign = 'center';
         headerCell.style.backgroundColor = '#f5f5f5';
+        headerCell.style.fontSize = "1.3em"; // 헤더 셀의 폰트 크기 설정
         headerRow.appendChild(headerCell);
     });
   
@@ -163,9 +161,16 @@ function checkScoreTable(data) {
       rowData.forEach(cellData => {
         const cell = document.createElement('td');
         cell.textContent = cellData;
-        cell.style,height ='50px'; //셀 높이
+        cell.style,height ='60px'; //셀 높이
         cell.style.textAlign = 'center';
+        cell.style.fontSize = "1.1em";
         row.appendChild(cell);
+      });
+
+      // 행의 높이 지정
+      const rows = table.querySelectorAll("tr");
+      rows.forEach(row => {
+        row.style.height = "40px"; // 원하는 높이 값으로 변경 가능
       });
 
     // document.body.insertBefore(textDiv, document.body.firstChild);
@@ -228,6 +233,7 @@ function checkScoreTable(data) {
           const headerCell = document.createElement('th');
           headerCell.textContent = headerText;
           headerCell.style.textAlign = 'center';
+          headerCell.style.fontSize = "1.1em";
           headerCell.style.height = '50px'; // 셀의 높이를 조절합니다.
           headerCell.style.backgroundColor = '#f5f5f5';
           headerRow.appendChild(headerCell);
@@ -247,6 +253,7 @@ function checkScoreTable(data) {
         cell.textContent = cellData;
         cell.style,height ='50px'; //셀 높이
         cell.style.textAlign = 'center';
+        cell.style.fontSize = "1em";
         row.appendChild(cell);
       });
     
@@ -306,6 +313,7 @@ function checkScoreTable(data) {
         // 공백을 <br> 태그로 교체하여 줄바꿈을 수행
         headerCell.innerHTML = headerText.replace(/\s/g, '<br>');
         headerCell.style.textAlign = 'center';
+        headerCell.style.fontSize = "1.1em";
         headerCell.style.height = '50px'; // 셀의 높이를 조절합니다.
         headerCell.style.backgroundColor = '#f5f5f5';
         headerRow.appendChild(headerCell);
@@ -325,6 +333,7 @@ function checkScoreTable(data) {
       cell.textContent = cellData;
       cell.style,height ='50px'; //셀 높이
       cell.style.textAlign = 'center';
+      cell.style.fontSize = "1em";
       row.appendChild(cell);
     });
 
@@ -429,7 +438,6 @@ let geanpilData = {};
   // 필수 강의 데이터와 비교하여 테이블 생성 및 페이지에 삽입하는 함수
   function createAndInsertTable(completedCourses, requiredCourses,name) {
     try{
-      console.log("requiredCourses : ",requiredCourses);
       // 테이블 요소 생성
     const table = document.createElement('table');
     table.style.width = '60%'; // 가로폭 조정
@@ -450,6 +458,7 @@ let geanpilData = {};
         const headerCell = document.createElement('th');
         headerCell.textContent = headerText;
         headerCell.style.textAlign = 'center';
+        headerCell.style.fontSize = "1.3em"
         headerCell.style.backgroundColor = '#f5f5f5';
         headerRow.appendChild(headerCell);
     });
@@ -458,16 +467,10 @@ let geanpilData = {};
     const tbody = document.createElement('tbody');
     table.appendChild(tbody);
 
-    console.log("Global Hakbun:", globalHakbun);
-
-
-    console.log("Courses data:", requiredCourses.학번별[globalHakbun]);
-
   
     // 필수 강의 데이터와 비교하여 테이블 행 생성
     for (const category in requiredCourses.학번별[globalHakbun]) {
         requiredCourses.학번별[globalHakbun][category].forEach(course => {
-          console.log("Processing course:", course);
             const row = document.createElement('tr');
             const idCell = document.createElement('td');
             const nameCell = document.createElement('td');
@@ -481,7 +484,6 @@ let geanpilData = {};
             // 수강 여부 확인
             const courseStatus = completedCourses.includes(parseInt(course.id)) ? "수강 완료" : "수강 필요";
             statusCell.textContent = courseStatus;
-            console.log("Completed courses list:", completedCourses);
 
   
             // 수강 필요 시 텍스트 스타일 변경
@@ -490,16 +492,26 @@ let geanpilData = {};
                 statusCell.style.fontWeight = 'bold';
                 createBottomTable("필수 과목 수강 필요!",course.name);
             }
+            if(courseStatus ==="수강 완료"){
+                statusCell.style.color = 'blue';
+                statusCell.style.fontWeight = 'bold';
+            }
   
             // 테이블 셀 스타일 설정
             [idCell, nameCell, categoryCell, statusCell].forEach(cell => {
                 cell.style.textAlign = 'center';
                 cell.style.border = '1px solid #ddd';
+                cell.style.fontSize = "1.2em"
                 row.appendChild(cell);
             });
   
             tbody.appendChild(row);
-            console.log("Row added to table");
+        });
+
+        // 행의 높이 지정
+        const rows = table.querySelectorAll("tr");
+        rows.forEach(row => {
+          row.style.height = "40px"; // 원하는 높이 값으로 변경 가능
         });
     }
 
@@ -543,7 +555,7 @@ let geanpilData = {};
             hakjungNoList.push(thirdPart);
           });
       });
-      console.log(hakjungNoList);
+
       return hakjungNoList;
   }
   
@@ -575,46 +587,4 @@ let geanpilData = {};
     }
   }
 
-  // function createBottomTable(data) {
 
-  //   const table = document.querySelector('.tablegw');
-
-  //   if (table) {
-
-  //     const row = document.createElement('tr');
-  //     const cell = document.createElement('td');
-  //     cell.textContent = data;
-  //     cell.style.height = '30px'; // 셀 높이
-  //     cell.style.textAlign = 'center';
-  //     cell.style.border = '1px solid #ddd';
-  //     row.appendChild(cell);
-
-  //     const tbody = table.querySelector('tbody');
-  //     tbody.appendChild(row);
-  //   } else {
-  //     // 새로운 테이블을 생성하고 스타일을 적용합니다.
-  //     const newTable = document.createElement('table');
-  //     newTable.className = 'tablegw';
-  //     newTable.style.width = '60%'; // 가로폭 조정
-  //     newTable.style.margin = '20px auto'; // 가운데 정렬을 위해 margin 조정
-  //     newTable.style.border = '1px solid #ddd';
-      
-  //     // 새로운 행을 생성하고 데이터를 셀에 추가합니다.
-  //     const newRow = document.createElement('tr');
-  //     const newCell = document.createElement('td');
-  //     newCell.textContent = data;
-  //     newCell.style.height = '30px'; // 셀 높이
-  //     newCell.style.textAlign = 'center';
-  //     newCell.style.border = '1px solid #ddd';
-  //     newRow.appendChild(newCell);
-      
-  //     // 새로운 테이블의 tbody에 새로운 행을 추가합니다.
-  //     const newTbody = document.createElement('tbody');
-  //     newTbody.appendChild(newRow);
-  //     newTable.appendChild(newTbody);
-      
-  //     // 문서의 body에 새로운 테이블을 추가합니다.
-  //     document.body.appendChild(newTable);
-  //   }
-  // }
-  

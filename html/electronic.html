@@ -1,16 +1,75 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>New Page</title>
-  <style>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Graduation Simulation</title>
+    <style>
+      .navbar {
+        position: fixed; /* 고정 위치 */
+        top: 0; /* 위쪽에 배치 */
+        left: 0; /* 왼쪽 정렬 */
+        width: 100%; /* 너비를 화면 전체로 설정 */
+        background-color: #3a051f; /* 배경색 */
+        color: #007bff; /* 글자색 */
 
-</style>
-</head>
-<body>
-  <div id="table-container"></div>
-  
-</body>
-<script src="../hakgwa/electronic.js"></script>
+        padding: 0.5rem 1rem; /* 내부 여백 */
+        text-align: center; /* 가운데 정렬 */
+        height: 40px;
+      }
+      .navbar img {
+        margin-top: 5px; /* 이미지를 아래로 5px만큼 내립니다. */
+      }
+      #text-container {
+        margin-top: 50px; /* 상단바 아래 여백 */
+        text-align: center;
+      }
+
+      /* 테이블 스타일 */
+      .tablegw {
+        width: 60%;
+        margin: 20px auto;
+        border: 1px solid #ddd;
+      }
+      .tablegw td {
+        height: 30px;
+        text-align: center;
+        font-size: medium;
+        border: 1px solid #ddd;
+      }
+
+      .tablegw_new {
+        width: 60%;
+        margin: 20px auto;
+        border: 1px solid #ddd;
+        margin-top: 100px;
+      }
+      .tablegw_new td {
+        height: 30px;
+        text-align: center;
+        font-size: small;
+        border: 1px solid #ddd;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="wrapper">
+      <div class="navbar">
+        <img src="/logo.png" />
+      </div>
+
+      <!-- 새로운 테이블 -->
+      <table class="tablegw_new">
+        <thead>
+          <tr>
+            <th style="font-size: medium">졸업 요건 리스트</th>
+            <th style="font-size: medium">만족? 부족?</th>
+          </tr>
+        </thead>
+        <tbody></tbody>
+      </table>
+    </div>
+    <div id="table-container"></div>
+  </body>
+  <script src="../hakgwa/electronic.js"></script>
 </html>

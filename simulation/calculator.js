@@ -387,7 +387,7 @@ function displaySungjuk(data) {
     const sungjukAvgValue = document.getElementById('sungjukAvgValue');
     sungjukAvgValue.textContent = data.jaechulScoresum;
 }
-
+s
 
 
 // 예상 성적 테이블의 셀을 수정 가능하도록 설정
@@ -402,6 +402,7 @@ function setEditableCells() {
 function addRowToTable() {
     const plannedCoursesTable = document.querySelector('#plannedCoursesTable');
     const newRow = createEditableRow();
+    newRow.style.backgroundColor = 'white';
     plannedCoursesTable.appendChild(newRow);
 }
 

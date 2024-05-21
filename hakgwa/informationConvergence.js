@@ -59,8 +59,8 @@ document.addEventListener("DOMContentLoaded", async function() {
     //수강한 강의 불러오기
     chrome.storage.local.get(['AtnlcScreSungjukInfo'], function (result) {
       const completedCourses=extractCompletedCourses(result.AtnlcScreSungjukInfo);
-      createAndInsertTable(completedCourses, gipilData,"기필");
-      createAndInsertTable(completedCourses, geanpilData,"전필");
+      createAndInsertTable(completedCourses, gipilData,"기필","기초필수");
+      createAndInsertTable(completedCourses, geanpilData,"전필","전공필수");
       gyopilCompare(completedCourses,gyopilData);
     });
 
@@ -209,7 +209,7 @@ function checkScoreTable(data) {
       container.style.marginTop = '20px'; // 상단 여백 설정
     
       const textDiv = document.createElement('h1');
-      textDiv.textContent = '기초교양'; // 텍스트 설정
+      textDiv.textContent = '필수 교양'; // 텍스트 설정
       // textDiv.style.textAlign = 'left'; // 가운데 정렬
     
       // 테이블 요소 생성
@@ -234,7 +234,7 @@ function checkScoreTable(data) {
           headerCell.textContent = headerText;
           headerCell.style.textAlign = 'center';
           headerCell.style.fontSize = "1.1em";
-          headerCell.style.height = '50px'; // 셀의 높이를 조절합니다.
+          headerCell.style.height = '70px'; // 셀의 높이를 조절합니다.
           headerCell.style.backgroundColor = '#f5f5f5';
           headerRow.appendChild(headerCell);
       });
@@ -251,9 +251,9 @@ function checkScoreTable(data) {
       rowData.forEach(cellData => {
         const cell = document.createElement('td');
         cell.textContent = cellData;
-        cell.style,height ='50px'; //셀 높이
+        cell.style,height ='70px'; //셀 높이
         cell.style.textAlign = 'center';
-        cell.style.fontSize = "1em";
+        cell.style.fontSize = "1.3em";
         row.appendChild(cell);
       });
     
@@ -314,7 +314,7 @@ function checkScoreTable(data) {
         headerCell.innerHTML = headerText.replace(/\s/g, '<br>');
         headerCell.style.textAlign = 'center';
         headerCell.style.fontSize = "1.1em";
-        headerCell.style.height = '50px'; // 셀의 높이를 조절합니다.
+        headerCell.style.height = '70px'; // 셀의 높이를 조절합니다.
         headerCell.style.backgroundColor = '#f5f5f5';
         headerRow.appendChild(headerCell);
     });
@@ -331,9 +331,9 @@ function checkScoreTable(data) {
     rowData.forEach(cellData => {
       const cell = document.createElement('td');
       cell.textContent = cellData;
-      cell.style,height ='50px'; //셀 높이
+      cell.style,height ='70px'; //셀 높이
       cell.style.textAlign = 'center';
-      cell.style.fontSize = "1em";
+      cell.style.fontSize = "1.3em";
       row.appendChild(cell);
     });
 
@@ -380,7 +380,7 @@ function checkScoreTable(data) {
       resultsDiv.style.textAlign = 'center';
       resultsDiv.style.marginTop = '20px';
       resultsDiv.style.marginBottom = '20px'; 
-      resultsDiv.style.color='red';
+      
       container.parentNode.insertBefore(resultsDiv, container.nextSibling); // gyoyangTable 다음에 결과 div 삽입
       
       // requiredCourses가 배열인지 확인
@@ -401,12 +401,14 @@ function checkScoreTable(data) {
               needToTake = true; // 수강 필요한 과목이 하나라도 있으면 true로 설정
               const p = document.createElement("p");
               p.textContent = `${course.name} 수강해야 됩니다.`;
+              resultsDiv.style.color='red';
               resultsDiv.appendChild(p);
           }
       });
   
       if (!needToTake) { // 모든 과목을 수강했다면
           resultsDiv.textContent = "모두 수강 완료!";
+          resultsDiv.style.color="blue";
       }
 
       const results = []; // 결과를 담을 배열 초기화
@@ -425,7 +427,7 @@ function checkScoreTable(data) {
   
       // 결과를 createBottomTable 함수로 전달
       results.forEach(result => {
-          createBottomTable("기초 교양",result);
+          createBottomTable("필수 교양",result);
       });
   
     }
@@ -436,13 +438,24 @@ let gipilData = {};
 let geanpilData = {};
 
   // 필수 강의 데이터와 비교하여 테이블 생성 및 페이지에 삽입하는 함수
-  function createAndInsertTable(completedCourses, requiredCourses,name) {
+  function createAndInsertTable(completedCourses, requiredCourses,name,courseType) {
     try{
       // 테이블 요소 생성
     const table = document.createElement('table');
     table.style.width = '60%'; // 가로폭 조정
     table.style.margin = '20px auto'; // 가운데 정렬을 위해 margin 조정
     table.style.border = '1px solid #ddd';
+    table.style.marginBottom = '100px';
+    
+
+      // 캡션 추가
+      const caption = document.createElement("caption");
+      caption.style.textAlign = "left";
+      caption.style.fontSize = "2em"; // h1 크기와 유사하게 설정
+      caption.style.fontWeight = "bold"; // h1과 유사한 두껍게 설정
+      caption.style.marginBottom = "10px"; // 여백 추가
+      caption.textContent = courseType;
+      table.appendChild(caption);
   
     // 테이블 헤더 생성
     const thead = document.createElement('thead');

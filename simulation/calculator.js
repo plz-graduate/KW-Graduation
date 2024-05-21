@@ -6,11 +6,10 @@
 // 5. 수강 내역 성적 테이블 생성
 // 6. F 받은 과목 모아서 테이블 생성
 // 7. 성적 정보 테이블 생성
-// 8. 과목 추가 테이블 생성
-// 9. 테이블에 새로운 행 생성
-// 10. 성적 선택 토글
-// 11. F 혹은 이번 학기 성적 선택
-// 12. 이수 구분 선택 토글
+// 8. 테이블에 새로운 행 생성
+// 9. 성적 선택 토글
+// 10. F 혹은 이번 학기 성적 선택
+// 11. 이수 구분 선택 토글
 
 // 1. DOMContentLoaded 이벤트 리스너
 document.addEventListener("DOMContentLoaded", function () {
@@ -36,7 +35,16 @@ document.addEventListener("DOMContentLoaded", function () {
         }, 100); 
     });
 
-
+    //계산하기 버튼
+    document.getElementById('calculateButton').addEventListener('click', function () {
+        chrome.storage.local.get(['AtnlcScreSungjukInfo'], function (result) {
+            collectGradesAndCredits(result.AtnlcScreSungjukInfo);
+        });
+    });
+    //+ 버튼
+    document.querySelector('.text-wrapper-9').addEventListener('click', function () {
+        addRowToTable();
+    });
 });
 
 // 2. 지연 함수
@@ -61,9 +69,8 @@ function createSungjukMap(AtnlcScreSungjukInfo) {
 // 3. 예상 성적 계산 함수
 // 예상 성적 계산하기 - 테이블 데이터를 array에 저장해서 계산
 function collectGradesAndCredits(AtnlcScreSungjukInfo) {
-
     const gradesCreditsArray = [];
-    const gradesList = ['전필','전선', '부필', '부선', '복필', '복선', '교필', '교선', '기필', '기선'];
+    const gradesList = ['전필', '전선', '부필', '부선', '복필', '복선', '교필', '교선', '기필', '기선'];
 
     const sungjukMap = createSungjukMap(AtnlcScreSungjukInfo);
 
@@ -85,41 +92,36 @@ function collectGradesAndCredits(AtnlcScreSungjukInfo) {
             const classification = cells[3].textContent;
             const credit = cells[4].textContent; // '학점'은 다섯 번째 열에 위치
             let grade = cells[5].textContent; // '성적'은 여섯 번째 열에 위치
-            
+
             // P나 NP인 성적은 건너뛰기
             if (grade.includes('P') || grade === '' || grade.includes('삭제')) {
                 continue;
             }
             if (!gradesList.includes(classification)) {
                 continue;
-            }         
+            }
 
             if (grade.trim() == 'A+A0B+B0C+C0D+D0FNF') {
                 continue;
             }
-            
+
             gradesCreditsArray.push({
                 subject: subject,
                 classification: classification,
                 credit: credit,
                 grade: grade
             });
-        }  
+        }
     }
 
-
     const result = calculateGrades(gradesCreditsArray);
-    const simulationTable = document.querySelector('.sungjuckCal');
 
-    // 결과 테이블 업데이트
-    const tbody = simulationTable.querySelector('tbody');
-    tbody.innerHTML = '';  // 기존 테이블 데이터 클리어
-    const newRow = document.createElement('tr');
-    newRow.innerHTML = `<td>${result.majorGPAHakjuk}</td><td>${result.totalGPAHakjuk}</td><td>${result.majorGPASungjuk}</td><td>${result.totalGPASungjuk}</td>`;
-    newRow.style.height = '70px';
-    newRow.style.textAlign = 'center';
-    newRow.style.border = '1px solid #ddd';
-    tbody.appendChild(newRow);
+    // 결과를 HTML 요소에 업데이트
+    document.getElementById('majorGPAHakjukValue').textContent = result.majorGPAHakjuk;
+    document.getElementById('totalGPAHakjukValue').textContent = result.totalGPAHakjuk;
+    document.getElementById('majorGPASungjuk').textContent = result.majorGPASungjuk;
+    document.getElementById('totalGPASungjuk').textContent = result.totalGPASungjuk;
+
     console.log("페이지에 있는 테이블을 바탕으로 성적 계산 결과 : ", result);
 
     // 성적 계산 함수
@@ -178,57 +180,11 @@ function collectGradesAndCredits(AtnlcScreSungjukInfo) {
 
 // 4. 학적 정보 테이블 생성
 function makingHakjukTable(data) {
-    const textDiv = document.createElement('h1');
-    textDiv.textContent = '성적 시뮬레이션 계산기'; 
-    textDiv.style.textAlign = 'center'; 
-
-    document.body.insertBefore(textDiv, document.body.firstChild);
-
-    const table = document.createElement('table');
-    table.style.width = '70%'; // 가로폭 조정
-    table.style.margin = '0'; 
-    table.style.borderCollapse = 'collapse';
-    table.style.border = '2px solid #ddd';
-    table.style.wordBreak = 'break-all';
-    table.style.textOverflow = 'clip';
-    table.style.marginBottom = '50px';
-    table.style.margin = '15px auto';
-
-    const thead = document.createElement('thead');
-    table.appendChild(thead);
-    const headerRow = document.createElement('tr');
-    thead.appendChild(headerRow);    
-
-    // table header 데이터 삽입
-    const headers = ['학과/학부', '학번', '이름', '학적상황'];
-    headers.forEach(headerText => {
-        const headerCell = document.createElement('th');
-        headerCell.textContent = headerText;
-        headerCell.style.textAlign = 'center';
-        headerCell.style.height = '25px';
-        headerCell.style.backgroundColor = '#72132F';
-        headerCell.style.border = '1px solid #ddd';
-        headerCell.style.color = 'white';
-        headerRow.appendChild(headerCell);
-    });
-
-    // table body 데이터 삽입
-    const tbody = document.createElement('tbody');
-    table.appendChild(tbody);
-    const rowData = [`${data.hakgwa}`, `${data.hakbun}`, `${data.kname}`, `${data.hakjukStatu}`];
-    const row = document.createElement('tr');
-    tbody.appendChild(row);
-
-    rowData.forEach(cellData => {
-        const cell = document.createElement('td');
-        cell.textContent = cellData;
-        cell.style.height ='50px'; //셀 높이
-        cell.style.textAlign = 'center';
-        cell.style.border = '1px solid #ddd';
-        row.appendChild(cell);
-    });
-
-    document.body.insertBefore(table, textDiv.nextSibling);
+    // 학적 정보 값 설정
+    document.getElementById('hakgwa').textContent = data.hakgwa;
+    document.getElementById('hakbun').textContent = data.hakbun;
+    document.getElementById('kname').textContent = data.kname;
+    document.getElementById('hakjukStatu').textContent = data.hakjukStatu;
 }
 
 // 5. 수강 내역 성적 테이블 생성
@@ -422,282 +378,143 @@ function makingFTable(dataArray) {
 
 
 // 7. 성적 정보 테이블 생성
-function displaySungjuk(data, AtnlcScreSungjukInfo) {
-    const SungjuckTables = document.createElement('div');
-    SungjuckTables.style.display = 'flex'; // 가로로 배치
-    SungjuckTables.style.justifyContent = 'start'; // 컨테이너 사이의 간격 조절
-    SungjuckTables.style.width = '100%'; // 전체 너비 사용
-    SungjuckTables.style.marginTop = '20px'; // 상단 여백 설정
+function displaySungjuk(data) {
+    // 학적부 기준 값 설정
+    const hakjukAvgValue = document.getElementById('hakjukAvgValue');
+    hakjukAvgValue.textContent = data.hwakinScoresum;
 
-    // 성적 정보 테이블 컨테이너
-    const container = document.createElement('div');
-    container.style.marginLeft = '15%'; // 왼쪽 여백 설정
-    container.style.width = '32%'; // 컨테이너의 너비를 40%로 설정
-    container.style.float = 'left'; // 왼쪽으로 정렬
-    const textDiv = document.createElement('h2');
-    textDiv.textContent = '성적 정보'; // 테이블 제목
-    container.appendChild(textDiv);
-
-    const table = document.createElement('table');
-    table.className = 'sungjuckinfo';
-    table.style.width = '80%';
-    table.style.borderCollapse = 'collapse';
-    table.style.border = '1px solid #ddd';
-    table.style.marginBottom = '30px';
-    table.style.wordBreak = 'break-all';
-    table.style.textOverflow = 'clip';
-
-    const colgroup = document.createElement('colgroup');
-    const colWidths = ['50%', '50%'];
-    colWidths.forEach(width => {
-        const col = document.createElement('col');
-        col.style.width = width;
-        colgroup.appendChild(col);
-    });
-    table.appendChild(colgroup);
-
-    const thead = document.createElement('thead');
-    const headerRow = document.createElement('tr');
-    const headerTitle = document.createElement('th');
-    headerTitle.setAttribute('colspan', '2');
-    headerTitle.textContent = '평량평균';
-    headerTitle.style.backgroundColor = '#72132F';
-    headerTitle.style.border = '1px solid #ddd';
-    headerTitle.style.color = 'white';
-
-    headerRow.appendChild(headerTitle);
-    thead.appendChild(headerRow);
-
-    const subHeaderRow = document.createElement('tr');
-    subHeaderRow.innerHTML = `<th>학적부 기준</th><th>성적증명서 기준</th>`;
-    subHeaderRow.style.backgroundColor = '#72132F';
-    subHeaderRow.style.color = 'white';
-
-    thead.appendChild(subHeaderRow);
-    table.appendChild(thead);
-
-    const tbody = document.createElement('tbody');
-    const bodyRow = document.createElement('tr');
-    bodyRow.innerHTML = `<td>${data.hwakinScoresum}</td><td>${data.jaechulScoresum}</td>`;
-    tbody.appendChild(bodyRow);
-    table.appendChild(tbody);
-
-    container.appendChild(table);
-    SungjuckTables.appendChild(container);
-
-    // 예상 성적 테이블 컨테이너
-    const containerSimul = document.createElement('div');
-    containerSimul.style.width = '51%'; // 컨테이너 너비 50% 설정
-
-    // 제목과 계산하기 버튼을 포함할 헤더 컨테이너
-    const headerContainer = document.createElement('div');
-    
-    headerContainer.style.display = 'flex';
-    headerContainer.style.alignItems = 'center';
-    headerContainer.style.justifyContent = 'space-between'; // 제목과 버튼 사이의 간격 최대화
-
-    const textDivSimul = document.createElement('h2');
-    textDivSimul.textContent = '예상 성적';
-    headerContainer.appendChild(textDivSimul);
-
-    const calculateButton = document.createElement('button');
-    calculateButton.textContent = '계산하기';
-    calculateButton.style.padding = '5px 15px';
-    calculateButton.style.marginRight = '300px';
-    headerContainer.appendChild(calculateButton); // 제목 옆에 계산하기 버튼 추가
-
-    containerSimul.appendChild(headerContainer);
-
-    const tableSimul = document.createElement('table');
-    tableSimul.className = 'sungjuckCal';
-    tableSimul.style.width = '75%';
-    tableSimul.style.borderCollapse = 'collapse';
-    tableSimul.style.border = '1px solid #ddd';
-    tableSimul.style.marginBottom = '30px';
-    tableSimul.style.wordBreak = 'break-all';
-    tableSimul.style.textOverflow = 'clip';
-
-    const colgroupSimul = document.createElement('colgroup');
-    const colWidthsSimul = ['25%', '25%', '25%', '25%'];
-    colWidthsSimul.forEach(width => {
-        const col = document.createElement('col');
-        col.style.width = width;
-        colgroupSimul.appendChild(col);
-    });
-    tableSimul.appendChild(colgroupSimul);
-
-    const theadSimul = document.createElement('thead');
-    const headerRowSimul = document.createElement('tr');
-    headerRowSimul.innerHTML = `<th colspan="2">학적부 기준</th><th colspan="2">성적표 기준</th>`;
-    bodyRow.style.height = '25px';
-    bodyRow.style.textAlign = 'center';
-    bodyRow.style.border = '1px solid #ddd';
-    headerRowSimul.style.backgroundColor = '#72132F';
-    headerRowSimul.style.color = 'white';
-
-    theadSimul.appendChild(headerRowSimul);
-
-    const subHeaderRowSimul = document.createElement('tr');
-    subHeaderRowSimul.innerHTML = `<th>전공 성적</th><th>전체 성적</th><th>전공 성적</th><th>전체 성적</th>`;
-    bodyRow.style.height = '70px';
-    bodyRow.style.textAlign = 'center';
-    bodyRow.style.border = '1px solid #ddd';
-    subHeaderRowSimul.style.backgroundColor = '#72132F';
-    subHeaderRowSimul.style.color = 'white';
-
-
-    theadSimul.appendChild(subHeaderRowSimul);
-    tableSimul.appendChild(theadSimul);
-
-    const tbodySimul = document.createElement('tbody');
-    const bodyRowSimul = document.createElement('tr');
-    bodyRowSimul.innerHTML = `<td>-</td><td>-</td><td>-</td><td>-</td>`;
-    bodyRow.style.height = '70px';
-    bodyRow.style.textAlign = 'center';
-    bodyRow.style.border = '1px solid #ddd';
-    tbodySimul.appendChild(bodyRowSimul);
-    tableSimul.appendChild(tbodySimul);
-
-    containerSimul.appendChild(tableSimul);
-    SungjuckTables.appendChild(containerSimul);
-
-    // 페이지에 테이블 추가
-    var secondChild = document.body.childNodes[1]; 
-    document.body.insertBefore(SungjuckTables, secondChild.nextSibling);
-
-    // 계산하기 버튼 클릭 이벤트 설정
-    calculateButton.addEventListener('click', function () {
-        collectGradesAndCredits(AtnlcScreSungjukInfo);
-    });
-
-    
+    // 성적증명서 기준 값 설정
+    const sungjukAvgValue = document.getElementById('sungjukAvgValue');
+    sungjukAvgValue.textContent = data.jaechulScoresum;
 }
 
 
-// 8. 과목 추가 테이블 생성
-// 과목 추가 테이블
-function createEditTable() {
-    const table = document.createElement('table');
-    table.className = 'tablegw';
-    table.style.width = '70%';
-    table.style.marginBottom = '30px';
-    table.style.borderCollapse = 'collapse';
-    table.style.border = '0.5px solid #ddd';
-    table.style.wordBreak = 'break-all';
-    table.style.textOverflow = 'clip';
-    table.style.margin = '15px auto';
 
-    const colgroup = document.createElement('colgroup');
-    const colWidths = ['11%', '23%', '15%', '5%', '5%', '10%', '10%', '10%', '10%'];
-    colWidths.forEach(width => {
-        const col = document.createElement('col');
-        col.style.width = width;
-        colgroup.appendChild(col);
-    });
-    table.appendChild(colgroup);
-
-    const thead = document.createElement('thead');
-    const headerRow = document.createElement('tr');
-    headerRow.innerHTML = `<th colspan="9">졸업까지 수강 예정 과목`;
-    headerRow.style.height = '25px';
-    headerRow.style.backgroundColor = '#72132F';
-    headerRow.style.border = '1px solid #ddd';
-    headerRow.style.color = 'white';
-
-    thead.appendChild(headerRow);
-
-    const subHeaderRow = document.createElement('tr');
-    subHeaderRow.innerHTML = `<th>학정번호</th><th>과목명</th><th>개설학과</th><th>이수구분</th><th>학점</th><th>성적</th><th>인증구분</th><th>재수강여부</th><th>재수강이후 삭제여부</th>`;
-    subHeaderRow.style.height = '25px';
-    subHeaderRow.style.backgroundColor = '#72132F';
-    subHeaderRow.style.border = '1px solid #ddd';
-    subHeaderRow.style.color = 'white';
-
-    thead.appendChild(subHeaderRow);
-    table.appendChild(thead);
-
-    const tbody = document.createElement('tbody');
-        
-    const newRow = createEditableRow(); // 새로운 행 생성
-    tbody.appendChild(newRow); // 생성된 행을 tbody에 추가
-    
-
-    table.appendChild(tbody);
-
-    // 테이블에 행 추가하는 함수
-    function addRow() {
-        const newRow = createEditableRow();
-        tbody.appendChild(newRow);
-    }
-
-    // 헤더 행에 버튼 삽입
-    const addButtonCell = document.createElement('th');
-    addButtonCell.style.textAlign = 'center';
-    const addButton = document.createElement('button');
-    addButton.textContent = '+';
-    addButton.addEventListener('click', addRow);
-    addButtonCell.appendChild(addButton);
-    headerRow.appendChild(addButtonCell);
-
-    var secondChild = document.body.childNodes[2]; 
-    document.body.insertBefore(table, secondChild.nextSibling);
-
-    // 테이블 편집 가능한 셀에 클릭 이벤트 리스너 추가
-    table.addEventListener('click', function(e) {
-        if (e.target && e.target.nodeName === 'TD' && e.target.classList.contains('editable')) {
-            createDropdown2(e.target);
-        }
-        if (e.target && e.target.nodeName === 'TD' && e.target.classList.contains('editIsuTable')) {
-            createDropdownIsu(e.target);
-        }
+// 예상 성적 테이블의 셀을 수정 가능하도록 설정
+function setEditableCells() {
+    const editableCells = document.querySelectorAll('#majorGPASungjuk, #totalGPASungjuk, #majorGPAHakjukValue, #totalGPAHakjukValue');
+    editableCells.forEach(cell => {
+        cell.contentEditable = 'true';
     });
 }
 
+// + 버튼 클릭 시 실행되는 함수
+function addRowToTable() {
+    const plannedCoursesTable = document.querySelector('#plannedCoursesTable');
+    const newRow = createEditableRow();
+    plannedCoursesTable.appendChild(newRow);
+}
 
-// 9. 테이블에 새로운 행 생성
+// 8. 테이블에 새로운 행 생성
 // 테이블에 새로운 행 생성하는 함수
 function createEditableRow() {
-    const row = document.createElement('tr');
+    const row = document.createElement('div');
+    row.className = 'row-4';  // HTML 구조에 맞는 클래스 이름 사용
+
     const columns = ['학정번호', '과목명', '개설학과', '이수구분', '학점', '성적', '인증구분', '재수강여부', '재수강이후 삭제여부'];
-    
+
     columns.forEach(columnName => {
-        const cell = document.createElement('td');
-        cell.style.textAlign = 'center';
-        cell.textContent = ''; // 초기 내용은 비워둠
-
-        switch (columnName) {
-            case '학정번호':
-                cell.textContent = '-';
-                break;
-            case '과목명':
-                cell.contentEditable = true;
-                break;
-            case '개설학과':
-                cell.textContent = '-';
-                break;
-            case '이수구분':
-                cell.textContent = '선택하세요';
-                cell.classList.add('editIsuTable');
-                break;
-            case '학점':
-                cell.textContent = '3'; // 기본 학점은 3
-                cell.contentEditable = true; // 사용자가 수정 가능
-                break;
-            case '성적':
-                cell.classList.add('editable'); // 수정 가능한 셀에 클래스 추가
-                break;
-            default:
-                break;
+        const cell = document.createElement('div');
+        cell.className = getColumnClass(columnName);  // 각 컬럼에 맞는 클래스 설정
+        if (columnName === '성적') {
+            cell.innerHTML = `
+                <div class="content"><div class="text-3">
+                    <select>
+                        <option value="A+">A+</option>
+                        <option value="A0">A0</option>
+                        <option value="B+">B+</option>
+                        <option value="B0">B0</option>
+                        <option value="C+">C+</option>
+                        <option value="C0">C0</option>
+                        <option value="D+">D+</option>
+                        <option value="D0">D0</option>
+                        <option value="F">F</option>
+                        <option value="P">P</option>
+                        <option value="NP">NP</option>
+                    </select>
+                </div></div>
+            `;
+        } else if (columnName === '이수구분') {
+            cell.innerHTML = `
+                <div class="content"><div class="text-3">
+                    <select>
+                        <option value="전필">전필</option>
+                        <option value="전선">전선</option>
+                        <option value="부필">부필</option>
+                        <option value="부선">부선</option>
+                        <option value="복필">복필</option>
+                        <option value="복선">복선</option>
+                        <option value="교필">교필</option>
+                        <option value="교선">교선</option>
+                        <option value="기필">기필</option>
+                        <option value="기선">기선</option>
+                    </select>
+                </div></div>
+            `;
+        } else {
+            cell.innerHTML = '<div class="content"><div class="text-3" contentEditable="true"></div></div>';  // HTML 구조에 맞는 내용 설정
         }
-
         row.appendChild(cell);
     });
 
     return row;
 }
 
+// 각 컬럼에 맞는 클래스 이름 반환 함수
+function getColumnClass(columnName) {
+    switch (columnName) {
+        case '학정번호': return 'cell-2';
+        case '과목명': return 'cell-2';
+        case '개설학과': return 'cell-3';
+        case '이수구분': return 'cell-4';
+        case '학점': return 'cell-5';
+        case '성적': return 'cell-6';
+        case '인증구분': return 'cell-7';
+        case '재수강여부': return 'cell-8';
+        case '재수강이후 삭제여부': return 'cell-2';
+        default: return 'cell-9';
+    }
+}
 
-// 10. 성적 선택 드롭박스 
+document.addEventListener("DOMContentLoaded", function () {
+    window.scrollTo(0, 0); 
+
+    chrome.storage.local.get(['AtnlcScreHakjukInfo'], function (result) {
+        makingHakjukTable(result.AtnlcScreHakjukInfo);
+    });
+    chrome.storage.local.get(['AtnlcScreSungjukInfo'], function (result) {
+        // 수강 내역 테이블 생성 
+        makingSungjukTable(result.AtnlcScreSungjukInfo);
+        makingFTable(result.AtnlcScreSungjukInfo);
+    });
+    chrome.storage.local.get(['AtnlcScreSungjukTot', 'AtnlcScreSungjukInfo'], function (result) {
+        displaySungjuk(result.AtnlcScreSungjukTot, result.AtnlcScreSungjukInfo);
+        delay(function () {
+            createEditTable();
+            collectGradesAndCredits(result.AtnlcScreSungjukInfo);
+        }, 100); 
+    });
+
+    // 계산하기 버튼
+    document.getElementById('calculateButton').addEventListener('click', function () {
+        chrome.storage.local.get(['AtnlcScreSungjukInfo'], function (result) {
+            collectGradesAndCredits(result.AtnlcScreSungjukInfo);
+        });
+    });
+
+    // + 버튼
+    document.querySelector('.text-wrapper-9').addEventListener('click', function () {
+        addRowToTable();
+    });
+
+    // 예상 성적 테이블의 셀을 수정 가능하도록 설정
+    setEditableCells();
+});
+
+
+
+
+// 9. 성적 선택 드롭박스 
 // 재수강 시 => A+ 제외
 function createDropdown1(cell) {
     const existingDropdown = cell.querySelector('select');
@@ -722,7 +539,7 @@ function createDropdown1(cell) {
     }
 }
 
-// 11. F 혹은 이번 학기 성적 선택
+// 10. F 혹은 이번 학기 성적 선택
 // F 혹은 이번 학기 성적 선택
 function createDropdown2(cell) {
     const existingDropdown = cell.querySelector('select');
@@ -747,7 +564,7 @@ function createDropdown2(cell) {
     }
 }
 
-// 12. 이수 구분 선택 토글
+// 11. 이수 구분 선택 토글
 function createDropdownIsu(cell) {
     const existingDropdown = cell.querySelector('select');
     if (!existingDropdown) {

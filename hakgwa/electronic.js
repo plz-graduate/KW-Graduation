@@ -1,25 +1,34 @@
 document.addEventListener("DOMContentLoaded", function () {
-  window.scrollTo(0, 0);
-  chrome.storage.local.get(["AtnlcScreHakjukInfo"], function (result) {
-    console.log(result.AtnlcScreHakjukInfo, "이거 뭔데1");
-  });
-  chrome.storage.local.get(["AtnlcScreSungjukInfo"], function (result) {
-    console.log(result.AtnlcScreSungjukInfo, "이거 뭔데3");
-  });
-  chrome.storage.local.get(["AtnlcScreSungjukTot"], function (result) {
-    console.log(result.AtnlcScreSungjukTot, "이거 뭔데5");
-  });
-});
-
-document.addEventListener("DOMContentLoaded", function () {
   chrome.storage.local.get(["key"], function (result) {
     console.log("Value currently is " + result.key);
   });
 });
 
-var globalHakbun;
+let globalHakbun;
 let gipilData = {};
 let geanpilData = {};
+let gyopilData = {};
+
+//교필 데이터 변환해주는 함수
+function transformCourseData(courseData) {
+  let transformedData = [];
+  courseData.forEach((course) => {
+    if (Array.isArray(course.name)) {
+      course.name.forEach((name, index) => {
+        transformedData.push({
+          id: course.id[index],
+          name: name,
+        });
+      });
+    } else {
+      transformedData.push({
+        id: course.id,
+        name: course.name,
+      });
+    }
+  });
+  return transformedData;
+}
 
 //학번 추출해서 전역변수로 만드는 함수
 function getHakbunFromURL() {
@@ -50,10 +59,11 @@ function checkScoreTable(data) {
   const textDiv = document.createElement("h1");
   textDiv.textContent = "현재 취득 학점(전공, 전체)"; // 텍스트 설정
   textDiv.style.textAlign = "center"; // 가운데 정렬
+  textDiv.style.marginTop = `${navbar.offsetHeight}px`; // 상단바의 높이만큼 여백 설정
 
   // 테이블 요소 생성
   const table = document.createElement("table");
-  table.style.width = "80%"; // 가로폭 조정
+  table.style.width = "60%"; // 가로폭 조정
   table.style.margin = "20px auto"; // 가운데 정렬을 위해 margin 조정
   table.style.border = "1px solid #ddd";
 
@@ -72,6 +82,7 @@ function checkScoreTable(data) {
     headerCell.textContent = headerText;
     headerCell.style.textAlign = "center";
     headerCell.style.backgroundColor = "#f5f5f5";
+    headerCell.style.fontSize = "1.3em"; // 헤더 셀의 폰트 크기 설정
     headerRow.appendChild(headerCell);
   });
 
@@ -90,40 +101,56 @@ function checkScoreTable(data) {
   rowData.forEach((cellData) => {
     const cell = document.createElement("td");
     cell.textContent = cellData;
-    cell.style, (height = "50px"); //셀 높이
+    cell.style, (height = "60px"); //셀 높이
     cell.style.textAlign = "center";
+    cell.style.fontSize = "1.1em";
     row.appendChild(cell);
   });
 
-  document.body.insertBefore(textDiv, document.body.firstChild);
+  // 행의 높이 지정
+  const rows = table.querySelectorAll("tr");
+  rows.forEach((row) => {
+    row.style.height = "40px"; // 원하는 높이 값으로 변경 가능
+  });
 
-  // 문서의 body에 테이블 삽입
-  document.body.insertBefore(table, textDiv.nextSibling);
+  // document.body.insertBefore(textDiv, document.body.firstChild);
+
+  // wrapper 아래에 추가
+  const wrapper = document.querySelector(".wrapper");
+  wrapper.appendChild(textDiv);
+  wrapper.appendChild(table);
+  // document.body.insertBefore(table, navbar.nextSibling);
+  // document.body.insertBefore(textDiv, navbar.nextSibling);
+
+  // 수강 학점 채우기 조건 확인
+  let result;
+  if (
+    data.majorChidukHakjum >= majorCredits &&
+    data.chidukHakjum >= totalCredits
+  ) {
+    result = "전공 학점, 전체 학점 채우기 완료!";
+  } else if (
+    data.majorChidukHakjum < majorCredits &&
+    data.chidukHakjum >= totalCredits
+  ) {
+    result = "전공 학점 채우기 실패! 전공 학점을 더 수강하세요";
+  } else if (
+    data.majorChidukHakjum >= majorCredits &&
+    data.chidukHakjum < totalCredits
+  ) {
+    result = "전공 학점 채우기 성공했지만 전체 학점이 부족합니다.";
+  } else {
+    result = "전공 학점, 전체 학점 모두 부족합니다.";
+  }
+  createBottomTable("현재취득 학점", result);
 }
-
-// 취득 학점 불러오기
-// fetch("https://klas.kw.ac.kr/std/cps/inqire/AtnlcScreSungjukTot.do", {
-//   method: "POST",
-//   headers: {
-//     "Content-Type": "application/json",
-//   },
-//   body: JSON.stringify({}),
-// })
-//   .then((response) => response.json())
-//   .then((jsonData) => {
-//     // gyoyangTable 함수 호출하여 테이블 업데이트
-//     checkScoreTable(jsonData);
-//   })
-//   .catch((error) => {
-//     console.error("Error fetching data:", error);
-//   });
 
 //필수교양 테이블 재생성하여 배치
 function gyoyangTable(data) {
   //컨테이너 생성
   const container = document.createElement("div");
-  container.style.marginLeft = "10%"; // 왼쪽 여백 설정
-  container.style.width = "32%"; // 컨테이너의 너비를 40%로 설정
+  container.style.marginLeft = "20%"; // 왼쪽 여백 설정
+  container.style.width = "30%"; // 컨테이너의 너비를 40%로 설정
   container.style.float = "left"; // 왼쪽으로 정렬
   container.style.marginTop = "20px"; // 상단 여백 설정
 
@@ -133,7 +160,8 @@ function gyoyangTable(data) {
 
   // 테이블 요소 생성
   const table = document.createElement("table");
-  table.style.width = "100%"; // 가로폭 조정
+  table.id = "gyoyangTable"; // 테이블에 ID 할당
+  table.style.width = "80%"; // 가로폭 조정
   // table.style.margin = '20px auto'; // 가운데 정렬을 위해 margin 조정
   table.style.border = "1px solid #ddd";
 
@@ -156,6 +184,7 @@ function gyoyangTable(data) {
     const headerCell = document.createElement("th");
     headerCell.textContent = headerText;
     headerCell.style.textAlign = "center";
+    headerCell.style.fontSize = "1.1em";
     headerCell.style.height = "50px"; // 셀의 높이를 조절합니다.
     headerCell.style.backgroundColor = "#f5f5f5";
     headerRow.appendChild(headerCell);
@@ -174,23 +203,29 @@ function gyoyangTable(data) {
     cell.textContent = cellData;
     cell.style, (height = "50px"); //셀 높이
     cell.style.textAlign = "center";
+    cell.style.fontSize = "1em";
     row.appendChild(cell);
   });
 
   container.appendChild(textDiv);
   container.appendChild(table);
 
-  var secondChild = document.body.childNodes[1]; // 두 번째 자식 요소 가져오기
+  var secondChild = document.body.childNodes[2]; // 두 번째 자식 요소 가져오기
   document.body.insertBefore(container, secondChild.nextSibling);
   // document.body.insertBefore(textDiv, secondChild.nextSibling);
+
+  // 결과 출력을 위한 div 생성 및 추가
+  const resultsDiv = document.createElement("div");
+  resultsDiv.id = "gyopilResults"; // gyopilCompare 함수에서 사용할 ID
+  container.appendChild(resultsDiv);
 }
 
 //균형교양 테이블 생성 배치
 function partgyoyangTable(data) {
   //컨테이너 생성
   const container = document.createElement("div");
-  container.style.marginRight = "10%"; // 왼쪽 여백 설정
-  container.style.width = "45%"; // 컨테이너의 너비를 40%로 설정
+  container.style.marginRight = "19%"; // 왼쪽 여백 설정
+  container.style.width = "30%"; // 컨테이너의 너비를 40%로 설정
   container.style.float = "right"; // 왼쪽으로 정렬
   container.style.marginTop = "20px"; // 상단 여백 설정
   container.style.marginBottom = "30px"; // 기필 table과 여백 설정
@@ -200,7 +235,7 @@ function partgyoyangTable(data) {
 
   // 테이블 요소 생성
   const table = document.createElement("table");
-  table.style.width = "100%"; // 가로폭 조정
+  table.style.width = "95%"; // 가로폭 조정
   // table.style.margin = '20px auto'; // 가운데 정렬을 위해 margin 조정
   table.style.border = "1px solid #ddd";
 
@@ -251,6 +286,7 @@ function partgyoyangTable(data) {
     cell.textContent = cellData;
     cell.style, (height = "50px"); //셀 높이
     cell.style.textAlign = "center";
+    cell.style.fontSize = "1em";
     row.appendChild(cell);
   });
   container.appendChild(textDiv);
@@ -258,17 +294,21 @@ function partgyoyangTable(data) {
 
   // 균형교양 완료 여부 확인
   const completed = rowData.filter((value) => value >= 3).length >= 3;
-  if (completed) {
-    const completionDiv = document.createElement("div");
-    completionDiv.textContent = "균형교양 수강 완료!";
-    completionDiv.style.textAlign = "center";
-    completionDiv.style.marginTop = "20px";
-    completionDiv.style.fontSize = "15px";
-    completionDiv.style.marginBottom = "20px";
-    container.appendChild(completionDiv);
-  }
+  const completionMessage = completed
+    ? "균형교양 수강 완료!"
+    : "균형교양 실패!";
+  const completionDiv = document.createElement("div");
+  completionDiv.textContent = completionMessage;
+  completionDiv.style.textAlign = "center";
+  completionDiv.style.marginTop = "20px";
+  completionDiv.style.fontSize = "15px";
+  completionDiv.style.marginBottom = "20px";
+  container.appendChild(completionDiv);
 
-  var secondChild = document.body.childNodes[1]; // 두 번째 자식 요소 가져오기
+  // 결과를 createBottomTable 함수로 전달
+  createBottomTable("균형 교양", completionMessage);
+
+  var secondChild = document.body.childNodes[2]; // 두 번째 자식 요소 가져오기
   document.body.insertBefore(container, secondChild.nextSibling);
 }
 
@@ -283,6 +323,11 @@ function gyopilCompare(completedCourses, requiredCourses) {
   // 결과를 담을 div 생성
   const resultsDiv = document.createElement("div");
   resultsDiv.id = "results"; // 결과 div에 ID 설정
+  resultsDiv.style.fontSize = "15px"; // 결과 div의 글자 크기를 15px로 설정
+  resultsDiv.style.textAlign = "center";
+  resultsDiv.style.marginTop = "20px";
+  resultsDiv.style.marginBottom = "20px";
+  resultsDiv.style.color = "red";
   container.parentNode.insertBefore(resultsDiv, container.nextSibling); // gyoyangTable 다음에 결과 div 삽입
 
   // requiredCourses가 배열인지 확인
@@ -311,6 +356,26 @@ function gyopilCompare(completedCourses, requiredCourses) {
     // 모든 과목을 수강했다면
     resultsDiv.textContent = "모두 수강 완료!";
   }
+
+  const results = []; // 결과를 담을 배열 초기화
+
+  requiredCourses.forEach((course) => {
+    // 두 ID 모두 문자열로 비교
+    if (!completedIds.includes(course.id)) {
+      needToTake = true; // 수강 필요한 과목이 하나라도 있으면 true로 설정
+      results.push(`${course.name} 수강해야 됩니다.`);
+    }
+  });
+
+  if (!needToTake) {
+    // 모든 과목을 수강했다면
+    results.push("모두 수강 완료!");
+  }
+
+  // 결과를 createBottomTable 함수로 전달
+  results.forEach((result) => {
+    createBottomTable("기초 교양", result);
+  });
 }
 
 //필수강의 테이블 생성!
@@ -323,7 +388,7 @@ function createAndInsertTable(
 ) {
   // 테이블 요소 생성
   const table = document.createElement("table");
-  table.style.width = "80%"; // 가로폭 조정
+  table.style.width = "60%"; // 가로폭 조정
   table.style.margin = "20px auto"; // 가운데 정렬을 위해 margin 조정
   table.style.border = "1px solid #ddd";
 
@@ -381,6 +446,7 @@ function createAndInsertTable(
       if (courseStatus === "수강 필요") {
         statusCell.style.color = "red";
         statusCell.style.fontWeight = "bold";
+        createBottomTable("필수 과목 수강 필요!", course.name);
       }
       if (courseStatus === "수강 완료") {
         statusCell.style.color = "blue";
@@ -396,9 +462,33 @@ function createAndInsertTable(
 
       tbody.appendChild(row);
     });
+
+    // 행의 높이 지정
+    const rows = table.querySelectorAll("tr");
+    rows.forEach((row) => {
+      row.style.height = "40px"; // 원하는 높이 값으로 변경 가능
+    });
   }
 
-  document.body.appendChild(table);
+  // 모든 강의가 수강 완료되었는지 확인
+  const allCompleted = !document.querySelector('td[style*="color: red"]');
+
+  // 모든 과목이 수강 완료되었으면 결과를 전달
+  if (allCompleted) {
+    if (name == "전필") {
+      createBottomTable("전공 필수", "전공 필수 과목 수강 완료!");
+    } else {
+      createBottomTable("기초 필수", "기초 필수 과목 수강 완료!");
+    }
+  }
+
+  // .tablegw 클래스를 가진 첫 번째 요소를 찾아 그 다음 위치에 테이블 삽입
+  const insertionPoint = document.querySelector(".tablegw");
+  if (insertionPoint) {
+    insertionPoint.parentNode.insertBefore(table, insertionPoint.nextSibling);
+  } else {
+    document.body.appendChild(table);
+  }
 }
 
 //학정번호 추출하는 함수
@@ -413,6 +503,28 @@ function extractCompletedCourses(data) {
   });
   console.log(hakjungNoList);
   return hakjungNoList;
+}
+
+// 이전에 작성한 createBottomTable 함수를 그대로 사용하여 HTML 테이블에 데이터를 삽입합니다.
+function createBottomTable(category, data) {
+  const table = document.querySelector(".tablegw_new");
+
+  if (table) {
+    const tbody = table.querySelector("tbody");
+    const newRow = document.createElement("tr");
+
+    // 첫 번째 칸에 카테고리를, 두 번째 칸에 데이터를 삽입합니다.
+    const categoryCell = document.createElement("td");
+    categoryCell.textContent = category; // 카테고리
+    const valueCell = document.createElement("td");
+    valueCell.textContent = data; // 데이터
+    newRow.appendChild(categoryCell); // 첫 번째 칸에 카테고리 삽입
+    newRow.appendChild(valueCell); // 두 번째 칸에 데이터 삽입
+
+    tbody.appendChild(newRow);
+  } else {
+    console.error("Table not found.");
+  }
 }
 
 // 기초교양& 설계 학점 계산
@@ -438,7 +550,7 @@ function calculateCompletedCredits(completedCourses, requiredCourses) {
 
   // 컨테이너 div 설정
   const container = document.createElement("div");
-  container.style.width = "80%"; // 가로폭 조정
+  container.style.width = "60%"; // 가로폭 조정
   container.style.margin = "20px auto";
   container.style.display = "flex";
   container.style.flexWrap = "wrap";
@@ -603,6 +715,10 @@ document.addEventListener("DOMContentLoaded", function () {
           },
         };
 
+        const gyopilData = transformCourseData(
+          jsonData["학번별"][globalHakbun]["교필"]
+        );
+
         const requiredCourses = {
           학번별: {
             [globalHakbun]: {
@@ -642,6 +758,7 @@ document.addEventListener("DOMContentLoaded", function () {
           );
           // 기초교양 및 설계학점 불러오기
           calculateCompletedCredits(completedCourses, requiredCourses);
+          gyopilCompare(completedCourses, gyopilData);
         });
 
         //취득학점 불러오기

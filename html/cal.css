@@ -1,0 +1,38 @@
+body {
+    font-family: "Inter-Medium", Helvetica;
+}
+
+/* 성적 계산기 title 글쓰기 */
+.text-wrapper-1 {
+    font-size: 24px;
+    font-weight: bold;
+    text-align: center;
+    margin-top: 20px;
+}
+
+.text-wrapper-2 {
+    font-size: 20px;
+    font-weight: bold;
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.text-wrapper {
+    font-size: 20px;
+    font-weight: bold;
+}
+
+.table th, .table td {
+    text-align: center;
+    vertical-align: middle;
+}
+
+.table th {
+    background-color: #f8f9fa;
+    font-weight: bold;
+}
+
+#calculateButton {
+    padding: 10px 20px;
+    font-size: 16px;
+}

@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>재수강하면 얼마나 성적이 오를까?</title>
+    <link rel="stylesheet" href="cal.css" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
+</head>
+<body>
+
+<div class="text-wrapper-1 text-center">성적 계산기</div>
+
+<div class="container mt-4">
+    <table class="table table-bordered">
+        <thead>
+        <tr>
+            <th scope="col">학과 / 학부</th>
+            <th scope="col">학번</th>
+            <th scope="col">이름</th>
+            <th scope="col">학적 상황</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td id="hakgwa"></td>
+            <td id="hakbun"></td>
+            <td id="kname"></td>
+            <td id="hakjukStatu"></td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+
+<!--성적정보(평량평균) 및 예상성적 테이블-->
+<div class="container mt-4">
+    <div class="row">
+        <div class="col-md-6">
+            <div class="text-wrapper-2 text-center">성적정보(평량평균)</div>
+            <table class="table table-bordered">
+                <thead>
+                <tr>
+                    <th scope="col">학적부 기준</th>
+                    <th scope="col">성적증명서 기준</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                    <td id="hakjukAvgValue">3.46</td>
+                    <td id="sungjukAvgValue">3.66</td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="col-md-6">
+            <div class="text-wrapper-2 text-center mb-3">예상성적</div>
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="text-center mb-3">성적표 기준</div>
+                    <table class="table table-bordered">
+                        <thead>
+                        <tr>
+                            <th>전공 성적</th>
+                            <th>전체 성적</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr>
+                            <td id="majorGPASungjuk">3.79</td>
+                            <td id="totalGPASungjuk">3.66</td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="col-md-6">
+                    <div class="text-center mb-3">학적부 기준</div>
+                    <table class="table table-bordered">
+                        <thead>
+                        <tr>
+                            <th>전공 성적</th>
+                            <th>전체 성적</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr>
+                            <td id="majorGPAHakjukValue">3.60</td>
+                            <td id="totalGPAHakjukValue">3.57</td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <!-- 계산하기 버튼 -->
+            <div class="text-center mt-4">
+                <button class="btn btn-primary" id="calculateButton">계산하기</button>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<!-- 수강 예정 과목 -->
+<div class="container mt-4">
+    <div class="text-wrapper">수강 예정 과목</div>
+    <table class="table table-bordered">
+        <thead>
+        <tr>
+            <th scope="col">학정번호</th>
+            <th scope="col">과목명</th>
+            <th scope="col">개설학과</th>
+            <th scope="col">이수구분</th>
+            <th scope="col">학점</th>
+            <th scope="col">성적</th>
+            <th scope="col">인증구분</th>
+            <th scope="col">재수강여부</th>
+            <th scope="col">재수강이후 삭제여부</th>
+        </tr>
+        </thead>
+        <tbody id="plannedCoursesTable">
+        <tr>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td>
+                <select class="form-select">
+                    <option value="전필">전필</option>
+                    <option value="전선">전선</option>
+                    <option value="부필">부필</option>
+                    <option value="부선">부선</option>
+                    <option value="복필">복필</option>
+                    <option value="복선">복선</option>
+                    <option value="교필">교필</option>
+                    <option value="교선">교선</option>
+                    <option value="기필">기필</option>
+                    <option value="기선">기선</option>
+                </select>
+            </td>
+            <td></td>
+            <td>
+                <select class="form-select">
+                    <option value="A+">A+</option>
+                    <option value="A0">A0</option>
+                    <option value="B+">B+</option>
+                    <option value="B0">B0</option>
+                    <option value="C+">C+</option>
+                    <option value="C0">C0</option>
+                    <option value="D+">D+</option>
+                    <option value="D0">D0</option>
+                    <option value="F">F</option>
+                    <option value="P">P</option>
+                    <option value="NP">NP</option>
+                </select>
+            </td>
+            <td></td>
+            <td></td>
+            <td></td>
+        </tr>
+        </tbody>
+    </table>
+    <p class="text-center">수강 예정인 과목의 이수구분, 학점, 성적을 입력하고 예상 성적을 확인해보세요</p>
+    <div class="text-center">
+        <button class="btn btn-secondary">+</button>
+    </div>
+</div>
+
+<!-- 수강 예정 과목 -->
+<div class="container mt-4">
+    <div class="text-wrapper">F 성적</div>
+    <p class="p">F는 성적표 기준 제외 후 계산, 학적부 기준 F 포함 후 계산</p>
+    <p class="p">재수강 예정인 과목의 성적을 수정하고 예상 성적을 확인해보세요</p>
+    <div class = "fTable">
+        <!-- F 테이블 삽입 자리 -->
+    </div>
+</div>
+
+<div class="container mt-4">
+    <div class="text-wrapper">수강 내역</div>
+   <div class = "classTable">
+        <!-- 수강 내역 테이블 삽입 자리 -->
+    </div>
+</div>
+
+
+</body>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        document.querySelector('.btn.btn-secondary').addEventListener('click', function() {
+            // 새로운 행 생성
+            const newRow = document.createElement('tr');
+
+            // 각 셀 생성 및 추가
+            for (let i = 0; i < 9; i++) {
+                const newCell = document.createElement('td');
+                if (i === 3) {
+                    const select = document.createElement('select');
+                    select.classList.add('form-select');
+                    const options = ['전필', '전선', '부필', '부선', '복필', '복선', '교필', '교선', '기필', '기선'];
+                    options.forEach(optionText => {
+                        const option = document.createElement('option');
+                        option.value = optionText;
+                        option.text = optionText;
+                        select.appendChild(option);
+                    });
+                    newCell.appendChild(select);
+                } else if (i === 5) {
+                    const select = document.createElement('select');
+                    select.classList.add('form-select');
+                    const options = ['A+', 'A0', 'B+', 'B0', 'C+', 'C0', 'D+', 'D0', 'F', 'P', 'NP'];
+                    options.forEach(optionText => {
+                        const option = document.createElement('option');
+                        option.value = optionText;
+                        option.text = optionText;
+                        select.appendChild(option);
+                    });
+                    newCell.appendChild(select);
+                }
+                newRow.appendChild(newCell);
+            }
+
+            // 테이블에 새로운 행 추가
+            document.querySelector('#plannedCoursesTable').appendChild(newRow);
+        });
+    });
+
+</script>
+</html>

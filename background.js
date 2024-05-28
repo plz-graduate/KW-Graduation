@@ -12,7 +12,6 @@ function fetchData() {
       // 데이터를 chrome.storage에 저장
       chrome.storage.local.set({ AtnlcScreSungjukTot: data }, () => {
       });
-      console.log("background - AtnlcScreSungjukTot : ", data);
     })
     .catch(error => {
       console.error('취득 학점 정보를 가져오는데 실패하였습니다:', error);
@@ -31,7 +30,6 @@ function fetchData() {
       // 데이터를 chrome.storage에 저장
       chrome.storage.local.set({ AtnlcScreSungjukInfo: data }, () => {
       });
-      console.log("background - AtnlcScreSungjukInfo : ", data);
     })
     .catch(error => {
       console.error('성적 정보를 가져오는데 실패하였습니다:', error);
@@ -50,7 +48,6 @@ function fetchData() {
       // 데이터를 chrome.storage에 저장
       chrome.storage.local.set({ AtnlcScreHakjukInfo: data }, () => {
       });
-      console.log("background - AtnlcScreHakjukInfo : ", data);
     })
     .catch(error => {
       console.error('학적 정보를 가져오는데 실패하였습니다:', error);
@@ -69,7 +66,6 @@ function fetchData() {
     
       chrome.storage.local.set({GyoyangIsuInfo: data }, () => {
     });
-    console.log("background - GyoyangIsuInfo : ", data);
   })
   .catch(error => {
     console.error('Error fetching data:', error);

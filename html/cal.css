@@ -79,9 +79,14 @@ body {
     width:200px;
 }
 
-#sub-bold{
+#sub-bold-1{
     font-weight: 600;
 }
+
+#sub-bold-2{
+    font-weight: 600;
+}
+
 
 #yejung{
     margin-bottom: 30px;

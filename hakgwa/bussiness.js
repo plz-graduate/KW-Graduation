@@ -529,7 +529,7 @@ let geanpilData = {};
     }
 
     // 모든 강의가 수강 완료되었는지 확인
-    const allCompleted = !document.querySelector('td[style*="color: red"]');
+    const allCompleted = !Array.from(document.querySelectorAll('td')).some(td => td.textContent.includes('수강 필요'));
   
     // 모든 과목이 수강 완료되었으면 결과를 전달
     if (allCompleted) {

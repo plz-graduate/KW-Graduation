@@ -187,46 +187,5 @@
 
 </body>
 
-<script>
-    document.addEventListener('DOMContentLoaded', function() {
-        document.querySelector('.btn.btn-secondary').addEventListener('click', function() {
-            // 새로운 행 생성
-            const newRow = document.createElement('tr');
-
-            // 각 셀 생성 및 추가
-            for (let i = 0; i < 9; i++) {
-                const newCell = document.createElement('td');
-                if (i === 3) {
-                    const select = document.createElement('select');
-                    select.classList.add('form-select');
-                    const options = ['전필', '전선', '부필', '부선', '복필', '복선', '교필', '교선', '기필', '기선'];
-                    options.forEach(optionText => {
-                        const option = document.createElement('option');
-                        option.value = optionText;
-                        option.text = optionText;
-                        select.appendChild(option);
-                    });
-                    newCell.appendChild(select);
-                } else if (i === 5) {
-                    const select = document.createElement('select');
-                    select.classList.add('form-select');
-                    const options = ['A+', 'A0', 'B+', 'B0', 'C+', 'C0', 'D+', 'D0', 'F', 'P', 'NP'];
-                    options.forEach(optionText => {
-                        const option = document.createElement('option');
-                        option.value = optionText;
-                        option.text = optionText;
-                        select.appendChild(option);
-                    });
-                    newCell.appendChild(select);
-                }
-                newRow.appendChild(newCell);
-            }
-
-            // 테이블에 새로운 행 추가
-            document.querySelector('#plannedCoursesTable').appendChild(newRow);
-        });
-    });
-
-</script>
 <script src = "../simulation/renewalCalculator.js"></script>
 </html>

@@ -1,7 +1,5 @@
 document.addEventListener("DOMContentLoaded", function () {
-  chrome.storage.local.get(["key"], function (result) {
-    console.log("Value currently is " + result.key);
-  });
+  chrome.storage.local.get(["key"], function (result) {});
 });
 
 let globalHakbun;
@@ -37,7 +35,7 @@ function getHakbunFromURL() {
   return urlParams.get("hakbun");
 }
 
-let majorCredits, totalCredits;
+let majorCredits, totalCredits, gichoCredit, designCredit;
 document.addEventListener("DOMContentLoaded", function () {
   fetch("../data/electronic.json")
     .then((response) => response.json())
@@ -45,9 +43,8 @@ document.addEventListener("DOMContentLoaded", function () {
       // 여기서 변수를 직접 할당하지 말고, 필요한 값을 직접 추출
       majorCredits = jsonData["졸업학점"]["전공학점"];
       totalCredits = jsonData["졸업학점"]["전체학점"];
-
-      // 데이터 로딩 후 필요한 처리를 진행하거나 다른 함수 호출
-      console.log("Loaded credits:", majorCredits, totalCredits);
+      gichoCredit = jsonData["졸업학점"]["기초교양"];
+      designCredit = jsonData["졸업학점"]["설계학점"];
     })
     .catch((error) => {
       console.error("Error fetching data:", error);
@@ -295,8 +292,8 @@ function partgyoyangTable(data) {
   // 균형교양 완료 여부 확인
   const completed = rowData.filter((value) => value >= 3).length >= 3;
   const completionMessage = completed
-    ? "균형교양 수강 완료!"
-    : "균형교양 실패!";
+    ? "균형 교양 수강 완료!"
+    : "균형 교양 실패!";
   const completionDiv = document.createElement("div");
   completionDiv.textContent = completionMessage;
   completionDiv.style.textAlign = "center";
@@ -374,7 +371,7 @@ function gyopilCompare(completedCourses, requiredCourses) {
 
   // 결과를 createBottomTable 함수로 전달
   results.forEach((result) => {
-    createBottomTable("기초 교양", result);
+    createBottomTable("필수 교양", result);
   });
 }
 
@@ -389,7 +386,7 @@ function createAndInsertTable(
   // 테이블 요소 생성
   const table = document.createElement("table");
   table.style.width = "60%"; // 가로폭 조정
-  table.style.margin = "20px auto"; // 가운데 정렬을 위해 margin 조정
+  table.style.margin = "30px auto"; // 가운데 정렬을 위해 margin 조정
   table.style.border = "1px solid #ddd";
 
   // 캡션 추가
@@ -471,7 +468,9 @@ function createAndInsertTable(
   }
 
   // 모든 강의가 수강 완료되었는지 확인
-  const allCompleted = !document.querySelector('td[style*="color: red"]');
+  const allCompleted = !Array.from(document.querySelectorAll("td")).some((td) =>
+    td.textContent.includes("수강 필요")
+  );
 
   // 모든 과목이 수강 완료되었으면 결과를 전달
   if (allCompleted) {
@@ -501,7 +500,7 @@ function extractCompletedCourses(data) {
       hakjungNoList.push(thirdPart);
     });
   });
-  console.log(hakjungNoList);
+
   return hakjungNoList;
 }
 
@@ -548,10 +547,18 @@ function calculateCompletedCredits(completedCourses, requiredCourses) {
     }
   });
 
+  const completionMessageG =
+    completedCredits >= 30 ? "기초 교양 학점 만족!" : "기초 교양 학점 부족!";
+  const completionMessageD =
+    completedDesignCredits >= 30 ? "설계 학점 만족!" : "설계 학점 부족!";
+  createBottomTable("기초 교양", completionMessageG);
+  createBottomTable("설계 과목", completionMessageD);
+
   // 컨테이너 div 설정
   const container = document.createElement("div");
+  container.className = "container";
   container.style.width = "60%"; // 가로폭 조정
-  container.style.margin = "20px auto";
+  container.style.margin = "30px auto";
   container.style.display = "flex";
   container.style.flexWrap = "wrap";
   container.style.justifyContent = "space-around";
@@ -559,17 +566,30 @@ function calculateCompletedCredits(completedCourses, requiredCourses) {
 
   // 기초교양 테이블 생성 및 스타일 설정
   const gichoContainer = document.createElement("div");
+  gichoContainer.className = "section";
   gichoContainer.style.width = "100%";
   gichoContainer.style.marginBottom = "40px";
 
-  // 기초교양 제목
-  const headerGicho = document.createElement("h1");
-  headerGicho.textContent = "기초교양(30)";
+  // 기초교양 제목 및 토글 버튼
+  const headerGicho = document.createElement("div");
+  headerGicho.className = "toggle-button";
+  headerGicho.innerHTML = `기초교양(${gichoCredit})<span class="arrow">&#9660;</span>`;
+  headerGicho.style.fontSize = "24px";
+  headerGicho.style.fontWeight = "700";
+  headerGicho.onclick = () => {
+    const table = gichoContainer.querySelector("table");
+    const arrow = headerGicho.querySelector(".arrow");
+    const isHidden = table.style.display === "none";
+    table.style.display = table.style.display === "none" ? "table" : "none";
+    arrow.classList.toggle("up", !isHidden);
+  };
   gichoContainer.appendChild(headerGicho);
 
   // 기초교양 수강한 학점 표시
   const resultText_gicho = document.createElement("p");
-  resultText_gicho.textContent = `수강한 기초교양 학점: ${completedCredits}/30`;
+  resultText_gicho.textContent = `수강한 기초교양 학점: ${completedCredits}/${gichoCredit}`;
+  resultText_gicho.style.fontSize = "15px";
+  resultText_gicho.style.fontWeight = "700";
   gichoContainer.appendChild(resultText_gicho);
 
   // 기초교양 테이블 설정
@@ -610,6 +630,7 @@ function calculateCompletedCredits(completedCourses, requiredCourses) {
         }
         [tdId, tdName].forEach((cell) => {
           cell.style.textAlign = "center";
+          cell.style.height = "30px";
           cell.style.border = "1px solid #ddd";
           tr.appendChild(cell);
         });
@@ -617,20 +638,34 @@ function calculateCompletedCredits(completedCourses, requiredCourses) {
     }
     tbody_gicho.appendChild(tr);
   }
+
   container.appendChild(gichoContainer);
 
   // 설계 과목 테이블 생성 및 스타일 설정
   const designContainer = document.createElement("div");
+  designContainer.className = "section";
   designContainer.style.width = "100%";
 
-  // 설계 제목
-  const headerDesign = document.createElement("h1");
-  headerDesign.textContent = "설계학점(12)";
+  // 설계 제목 및 토글 버튼
+  const headerDesign = document.createElement("div");
+  headerDesign.className = "toggle-button";
+  headerDesign.innerHTML = `설계과목(${designCredit})<span class="arrow">&#9660;</span>`;
+  headerDesign.style.fontSize = "24px";
+  headerDesign.style.fontWeight = "700";
+  headerDesign.onclick = () => {
+    const table = designContainer.querySelector("table");
+    const arrow = designContainer.querySelector(".arrow");
+    const isHidden = table.style.display === "none";
+    table.style.display = table.style.display === "none" ? "table" : "none";
+    arrow.classList.toggle("up", !isHidden);
+  };
   designContainer.appendChild(headerDesign);
 
   // 설계 수강한 학점 표시
   const resultText_design = document.createElement("p");
-  resultText_design.textContent = `수강한 설계 학점: ${completedDesignCredits}/12`;
+  resultText_design.textContent = `수강한 설계 학점: ${completedDesignCredits}/${designCredit}`;
+  resultText_design.style.fontSize = "15px";
+  resultText_design.style.fontWeight = "700";
   designContainer.appendChild(resultText_design);
 
   // 설계 테이블 설정
@@ -680,6 +715,7 @@ function calculateCompletedCredits(completedCourses, requiredCourses) {
         }
         [tdId, tdName, tdCredits].forEach((cell) => {
           cell.style.textAlign = "center";
+          cell.style.height = "30px";
           cell.style.border = "1px solid #ddd";
           tr.appendChild(cell);
         });

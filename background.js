@@ -99,7 +99,7 @@ chrome.runtime.onMessage.addListener(function(message, sender, sendResponse) {
         openNewTab("html/business.html", message.hakbun);
         break;
       case "성적계산기":
-        openNewTab("html/calculator.html");
+        openNewTab("html/new.html");
         break;
       default:
         console.log("해당 학과 정보를 처리할 수 없습니다.");

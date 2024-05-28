@@ -94,7 +94,7 @@ function makingSungjukTable(dataArray) {
     dataArray.reverse().forEach(data => {
         const table = document.createElement('table');
         table.className = 'tablegw';
-        table.style.width = '70%';
+        table.style.width = '100%';
         table.style.marginBottom = '30px';
         table.style.borderCollapse = 'collapse';
         table.style.border = '0.5px solid #ddd';
@@ -118,6 +118,7 @@ function makingSungjukTable(dataArray) {
         headerRow.style.backgroundColor = '#72132F';
         headerRow.style.border = '1px solid #ddd';
         headerRow.style.color = 'white';
+        headerRow.style.textAlign="center";
         thead.appendChild(headerRow);
 
         const subHeaderRow = document.createElement('tr');

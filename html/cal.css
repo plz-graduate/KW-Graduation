@@ -61,6 +61,9 @@ body {
 #calculateButton {
     padding: 10px 20px;
     font-size: 16px;
+    background-color: #3a051f;
+    border:1px solid #3a051f;
+    color:#ffffff
 }
 
 #sungjuk {
@@ -76,7 +79,15 @@ body {
 }
 
 #btn-plus {
-    width:200px;
+    width: 100%;
+    text-align: center;
+    padding: 10px;
+    box-sizing: border-box;
+    background-color: #D9D9D9;
+    color:#3a051f;
+    border:none;
+    
+
 }
 
 #sub-bold-1{
@@ -91,3 +102,4 @@ body {
 #yejung{
     margin-bottom: 30px;
 }
+

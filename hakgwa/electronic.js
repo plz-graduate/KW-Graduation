@@ -53,8 +53,11 @@ document.addEventListener("DOMContentLoaded", function () {
 
 //전공,교양 학점 현재 score 확인
 function checkScoreTable(data) {
+  const navbar = document.querySelector(".navbar"); // 상단바 요소 선택
+
   const textDiv = document.createElement("h1");
   textDiv.textContent = "현재 취득 학점(전공, 전체)"; // 텍스트 설정
+
   textDiv.style.textAlign = "center"; // 가운데 정렬
   textDiv.style.marginTop = `${navbar.offsetHeight}px`; // 상단바의 높이만큼 여백 설정
 

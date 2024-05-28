@@ -11,11 +11,17 @@
 <div class="navbar">
     <img class="navbar-img" alt="" src="/logo.png">
 </div>
-
+<div class="div-cal">
 <div class="text-wrapper-1 text-center">성적 계산기</div>
 
 <div class="container" id="table-1">
     <table class="table table-bordered">
+        <colgroup>
+            <col style="width: 40%;">
+            <col style="width: 20%;">
+            <col style="width: 20%;">
+            <col style="width: 20%;">
+        </colgroup>
         <thead>
         <tr>
             <th scope="col">학과 / 학부</th>
@@ -40,7 +46,11 @@
     <div class="row">
         <div class="col-md-6">
             <div class="text-wrapper-2 text-center">성적정보(평량평균)</div>
-            <table class="table table-bordered" id="sungjuk"> 
+            <table class="table table-bordered " id="sungjuk"> 
+                <colgroup>
+                    <col style="width: 20%;">
+                    <col style="width: 20%;">
+                </colgroup>
                 <thead>
                 <tr>
                     <th scope="col">학적부 기준</th>
@@ -60,7 +70,7 @@
             <div class="text-wrapper-2 text-center mb-3">예상성적</div>
             <div class="row">
                 <div class="col-md-6">
-                    <div class="text-center mb-3">성적표 기준</div>
+                    <div class="text-center mb-3" id="sub-bold">성적표 기준</div>
                     <table class="table table-bordered">
                         <thead>
                         <tr>
@@ -77,7 +87,7 @@
                     </table>
                 </div>
                 <div class="col-md-6">
-                    <div class="text-center mb-3">학적부 기준</div>
+                    <div class="text-center mb-3" id="sub-bold">학적부 기준</div>
                     <table class="table table-bordered">
                         <thead>
                         <tr>
@@ -106,7 +116,7 @@
 <!-- 수강 예정 과목 -->
 <div class="container mt-4">
     <div class="text-wrapper">수강 예정 과목</div>
-    <p class="text">수강 예정인 과목의 이수구분, 학점, 성적을 입력하고 예상 성적을 확인해보세요</p>
+    <p class="text" id="yejung">수강 예정인 과목의 이수구분, 학점, 성적을 입력하고 예상 성적을 확인해보세요</p>
     <table class="table table-bordered">
         <thead>
         <tr>
@@ -163,7 +173,7 @@
         </tbody>
     </table>
     <div class="text-center">
-        <button class="btn btn-secondary">+</button>
+        <button class="btn btn-secondary" id="btn-plus">+</button>
     </div>
 </div>
 
@@ -184,7 +194,7 @@
     </div>
 </div>
 
-
+</div>
 </body>
 
 <script src = "../simulation/renewalCalculator.js"></script>

@@ -2,7 +2,10 @@ body {
     font-family: "Inter-Medium", Helvetica;
 }
 
-
+.div-cal{
+    width:70%;
+    margin:20px auto;
+}
 .navbar {
     position: fixed; /* 고정 위치 */
     top: 0; /* 위쪽에 배치 */
@@ -70,4 +73,16 @@ body {
 
 #table-2{
     margin-top: 50px;
+}
+
+#btn-plus {
+    width:200px;
+}
+
+#sub-bold{
+    font-weight: 600;
+}
+
+#yejung{
+    margin-bottom: 30px;
 }

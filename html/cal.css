@@ -2,12 +2,29 @@ body {
     font-family: "Inter-Medium", Helvetica;
 }
 
+
+.navbar{
+    position: fixed; /* 고정 위치 */
+      top: 0; /* 위쪽에 배치 */
+      left: 0; /* 왼쪽 정렬 */
+      width: 100%; /* 너비를 화면 전체로 설정 */
+      background-color: #3a051f; /* 배경색 */
+      color: #007bff; /* 글자색 */
+      padding: .5rem 1rem; /* 내부 여백 */
+      text-align: center; /* 가운데 정렬 */
+      height: 50px;
+}
+
+.navbar img {
+    margin-top: 5px; /* 이미지를 아래로 5px만큼 내립니다. */
+  }
+
 /* 성적 계산기 title 글쓰기 */
 .text-wrapper-1 {
     font-size: 24px;
     font-weight: bold;
     text-align: center;
-    margin-top: 20px;
+    margin-top: 70px;
 }
 
 .text-wrapper-2 {

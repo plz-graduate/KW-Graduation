@@ -3,28 +3,34 @@ body {
 }
 
 
-.navbar{
+.navbar {
     position: fixed; /* 고정 위치 */
-      top: 0; /* 위쪽에 배치 */
-      left: 0; /* 왼쪽 정렬 */
-      width: 100%; /* 너비를 화면 전체로 설정 */
-      background-color: #3a051f; /* 배경색 */
-      color: #007bff; /* 글자색 */
-      padding: .5rem 1rem; /* 내부 여백 */
-      text-align: center; /* 가운데 정렬 */
-      height: 50px;
+    top: 0; /* 위쪽에 배치 */
+    left: 0; /* 왼쪽 정렬 */
+    width: 100%; /* 너비를 화면 전체로 설정 */
+    background-color: #3a051f; /* 배경색 */
+    color: #007bff; /* 글자색 */
+    padding: .5rem 1rem; /* 내부 여백 */
+    text-align: center; /* 가운데 정렬 */
+    height: 50px;
+    display: flex; /* Flexbox 사용 */
+    justify-content: center; /* 수평으로 가운데 정렬 */
+    align-items: center; /* 수직으로 가운데 정렬 */
 }
 
-.navbar img {
+.navbar .navbar-img {
     margin-top: 5px; /* 이미지를 아래로 5px만큼 내립니다. */
-  }
+    max-width: 100%; /* 이미지 너비를 부모 요소에 맞게 조정 */
+    height: auto; /* 이미지 높이를 자동으로 조정 */
+}
+
 
 /* 성적 계산기 title 글쓰기 */
 .text-wrapper-1 {
     font-size: 24px;
     font-weight: bold;
     text-align: center;
-    margin-top: 70px;
+    margin-top: 100px;
 }
 
 .text-wrapper-2 {
@@ -52,4 +58,8 @@ body {
 #calculateButton {
     padding: 10px 20px;
     font-size: 16px;
+}
+
+#sungjuk {
+    margin-top: 57px;
 }

@@ -18,49 +18,212 @@ document.addEventListener("DOMContentLoaded", function () {
         }, 100);
     });
 
+    //계산하기 버튼
+    document.getElementById('calculateButton').addEventListener('click', function () {
+        chrome.storage.local.get(['AtnlcScreSungjukInfo'], function (result) {
+            collectGradesAndCredits(result.AtnlcScreSungjukInfo);
+        });
+    });
+
+    // 드롭다운 요소에 이벤트 리스너 추가
+    document.querySelectorAll('#plannedCoursesTable select').forEach(select => {
+        select.addEventListener('change', function() {
+            updateCellText(this);
+        });
+    });
+
+
     // + 버튼
-    document.querySelector('.btn.btn-secondary').addEventListener('click', function() {
+    document.querySelector('#btn-plus').addEventListener('click', function() {
         // 새로운 행 생성
         const newRow = document.createElement('tr');
 
-        // 각 셀 생성 및 추가
-        for (let i = 0; i < 9; i++) {
-            const newCell = document.createElement('td');
-            if (i === 3) {
-                const select = document.createElement('select');
-                select.classList.add('form-select');
-                const options = ['전필', '전선', '부필', '부선', '복필', '복선', '교필', '교선', '기필', '기선'];
-                options.forEach(optionText => {
-                    const option = document.createElement('option');
-                    option.value = optionText;
-                    option.text = optionText;
-                    select.appendChild(option);
-                });
-                newCell.appendChild(select);
-            } else if (i === 5) {
-                const select = document.createElement('select');
-                select.classList.add('form-select');
-                const options = ['A+', 'A0', 'B+', 'B0', 'C+', 'C0', 'D+', 'D0', 'F', 'P', 'NP'];
-                options.forEach(optionText => {
-                    const option = document.createElement('option');
-                    option.value = optionText;
-                    option.text = optionText;
-                    select.appendChild(option);
-                });
-                newCell.appendChild(select);
-            }
-            newRow.appendChild(newCell);
-        }
+        newRow.innerHTML = `
+            <td>-</td>
+            <td><input type="text" class="form-control" /></td>
+            <td>-</td>
+            <td>
+                <select class="form-select" onchange="updateCellText(this)">
+                    <option value="전필">전필</option>
+                    <option value="전선">전선</option>
+                    <option value="부필">부필</option>
+                    <option value="부선">부선</option>
+                    <option value="복필">복필</option>
+                    <option value="복선">복선</option>
+                    <option value="교필">교필</option>
+                    <option value="교선">교선</option>
+                    <option value="기필">기필</option>
+                    <option value="기선">기선</option>
+                </select>
+            </td>
+            <td>
+                <select class="form-select" onchange="updateCellText(this)">
+                    <option value="1">1</option>
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                    <option value="4">4</option>
+                    <option value="5">5</option>
+                    <option value="6">6</option>
+                </select>
+            </td>
+            <td>
+                <select class="form-select" onchange="updateCellText(this)">
+                    <option value="A+">A+</option>
+                    <option value="A0">A0</option>
+                    <option value="B+">B+</option>
+                    <option value="B0">B0</option>
+                    <option value="C+">C+</option>
+                    <option value="C0">C0</option>
+                    <option value="D+">D+</option>
+                    <option value="D0">D0</option>
+                    <option value="F">F</option>
+                    <option value="P">P</option>
+                    <option value="NP">NP</option>
+                </select>
+            </td>
+            <td>-</td>
+            <td>-</td>
+            <td>-</td>
+        `;
 
         // 테이블에 새로운 행 추가
         document.querySelector('#plannedCoursesTable').appendChild(newRow);
+
+        // 새로 추가된 행의 드롭다운에도 이벤트 리스너 추가
+        newRow.querySelectorAll('select').forEach(select => {
+            select.addEventListener('change', function() {
+                updateCellText(this);
+            });
+        });
+
+        // 새로 추가된 행의 셀에 클릭 이벤트 리스너 추가
+        newRow.querySelectorAll('td').forEach(cell => {
+            if (cell.cellIndex === 3 || cell.cellIndex === 4 || cell.cellIndex === 5) {
+                cell.addEventListener('click', function() {
+                    if (this.querySelector('select')) {
+                        return;
+                    }
+                    const textContent = this.textContent.trim();
+                    const select = document.createElement('select');
+                    select.classList.add('form-select');
+                    let options = [];
+
+                    if (this.cellIndex === 3) {
+                        options = ['전필', '전선', '부필', '부선', '복필', '복선', '교필', '교선', '기필', '기선'];
+                    } else if (this.cellIndex === 4) {
+                        options = ['1', '2', '3', '4', '5', '6'];
+                    } else if (this.cellIndex === 5) {
+                        options = ['A+', 'A0', 'B+', 'B0', 'C+', 'C0', 'D+', 'D0', 'F', 'P', 'NP'];
+                    }
+
+                    options.forEach(optionText => {
+                        const option = document.createElement('option');
+                        option.value = optionText;
+                        option.text = optionText;
+                        if (optionText === textContent) {
+                            option.selected = true;
+                        }
+                        select.appendChild(option);
+                    });
+
+                    this.innerHTML = '';
+                    this.appendChild(select);
+
+                    select.addEventListener('change', function() {
+                        updateCellText(this);
+                    });
+                });
+            }
+        });
     });
 
+    // 기존 행의 드롭다운에도 이벤트 리스너 추가
+    document.querySelectorAll('#plannedCoursesTable select').forEach(select => {
+        select.addEventListener('change', function() {
+            updateCellText(this);
+        });
+    });
+
+    // 클릭 이벤트 리스너 추가
+    document.querySelectorAll('#plannedCoursesTable td').forEach(cell => {
+        if (cell.cellIndex === 3 || cell.cellIndex === 4 || cell.cellIndex === 5) {
+            cell.addEventListener('click', function() {
+                if (this.querySelector('select')) {
+                    return;
+                }
+                const textContent = this.textContent.trim();
+                const select = document.createElement('select');
+                select.classList.add('form-select');
+                let options = [];
+
+                if (this.cellIndex === 3) {
+                    options = ['전필', '전선', '부필', '부선', '복필', '복선', '교필', '교선', '기필', '기선'];
+                } else if (this.cellIndex === 4) {
+                    options = ['1', '2', '3', '4', '5', '6'];
+                } else if (this.cellIndex === 5) {
+                    options = ['A+', 'A0', 'B+', 'B0', 'C+', 'C0', 'D+', 'D0', 'F', 'P', 'NP'];
+                }
+
+                options.forEach(optionText => {
+                    const option = document.createElement('option');
+                    option.value = optionText;
+                    option.text = optionText;
+                    if (optionText === textContent) {
+                        option.selected = true;
+                    }
+                    select.appendChild(option);
+                });
+
+                this.innerHTML = '';
+                this.appendChild(select);
+
+                select.addEventListener('change', function() {
+                    updateCellText(this);
+                });
+            });
+        }
+    });
 });
 
+function updateCellText(selectElement) {
+    const selectedValue = selectElement.value;
+    const cell = selectElement.parentElement;
+    cell.innerHTML = selectedValue;
+    cell.addEventListener('click', function() {
+        if (cell.querySelector('select')) {
+            return;
+        }
+        const textContent = cell.textContent.trim();
+        const newSelect = document.createElement('select');
+        newSelect.classList.add('form-select');
+        let options = [];
 
+        if (cell.cellIndex === 3) {
+            options = ['전필', '전선', '부필', '부선', '복필', '복선', '교필', '교선', '기필', '기선'];
+        } else if (cell.cellIndex === 4) {
+            options = ['1', '2', '3', '4', '5', '6'];
+        } else if (cell.cellIndex === 5) {
+            options = ['A+', 'A0', 'B+', 'B0', 'C+', 'C0', 'D+', 'D0', 'F', 'P', 'NP'];
+        }
 
+        options.forEach(optionText => {
+            const option = document.createElement('option');
+            option.value = optionText;
+            option.text = optionText;
+            if (optionText === textContent) {
+                option.selected = true;
+            }
+            newSelect.appendChild(option);
+        });
 
+        cell.innerHTML = '';
+        cell.appendChild(newSelect);
+
+        newSelect.addEventListener('change', function() {
+            updateCellText(this);
+        });
+    });
+}
 
 function delay(callback, milliseconds) {
     setTimeout(callback, milliseconds);
@@ -91,7 +254,7 @@ function makingSungjukTable(dataArray) {
     const container = document.querySelector('.classTable');
     container.innerHTML = ''; // 기존 테이블 초기화
 
-    dataArray.reverse().forEach(data => {
+    dataArray.forEach(data => {
         const table = document.createElement('table');
         table.className = 'tablegw';
         table.style.width = '100%';
@@ -284,7 +447,6 @@ function makingFTable(dataArray) {
 }
 
 // 5. 예상 성적 계산하기
-
 // 수강 내역 데이터를 사전 형태로 변환
 function createSungjukMap(AtnlcScreSungjukInfo) {
     const sungjukMap = new Map();
@@ -299,8 +461,6 @@ function createSungjukMap(AtnlcScreSungjukInfo) {
     });
     return sungjukMap;
 }
-
-
 // 예상 성적 계산하기 - 테이블 데이터를 array에 저장해서 계산
 function collectGradesAndCredits(AtnlcScreSungjukInfo) {
     const gradesCreditsArray = [];
@@ -310,6 +470,7 @@ function collectGradesAndCredits(AtnlcScreSungjukInfo) {
 
     const tables = document.querySelectorAll('.tablegw');
 
+    // 기존 테이블 데이터 추출
     for (let table of tables) {
         const th = table.querySelector('thead th').textContent;
         if (th.includes("계절")) {
@@ -317,17 +478,15 @@ function collectGradesAndCredits(AtnlcScreSungjukInfo) {
         }
         const rows = table.querySelectorAll('tbody tr');
 
-        // 각 행을 순회하여 데이터 추출
         for (let row of rows) {
             const cells = row.querySelectorAll('td');
-            if (cells.length < 6) continue; // 셀의 수가 예상보다 적으면 건너뜀
+            if (cells.length < 6) continue;
 
-            const subject = cells[1].textContent; // 과목명은 두 번째 열에 위치
-            const classification = cells[3].textContent;
-            const credit = cells[4].textContent; // '학점'은 다섯 번째 열에 위치
-            let grade = cells[5].textContent; // '성적'은 여섯 번째 열에 위치
+            const subject = cells[1].textContent.trim();
+            const classification = cells[3].textContent.trim();
+            const credit = cells[4].textContent.trim();
+            let grade = cells[5].textContent.trim();
 
-            // P나 NP인 성적은 건너뛰기
             if (grade.includes('P') || grade === '' || grade.includes('삭제')) {
                 continue;
             }
@@ -335,7 +494,7 @@ function collectGradesAndCredits(AtnlcScreSungjukInfo) {
                 continue;
             }
 
-            if (grade.trim() == 'A+A0B+B0C+C0D+D0FNF') {
+            if (grade == 'A+A0B+B0C+C0D+D0FNF') {
                 continue;
             }
 
@@ -347,6 +506,41 @@ function collectGradesAndCredits(AtnlcScreSungjukInfo) {
             });
         }
     }
+
+    // 수강 예정 과목 데이터 추출
+    const plannedCoursesRows = document.querySelectorAll('#plannedCoursesTable tr');
+    plannedCoursesRows.forEach(row => {
+        const cells = row.querySelectorAll('td');
+        if (cells.length < 6) return;
+
+        const subject = cells[1].querySelector('input') ? cells[1].querySelector('input').value.trim() : cells[1].textContent.trim();
+        const classificationCell = cells[3];
+        const creditCell = cells[4];
+        const gradeCell = cells[5];
+
+        // 드롭박스가 아닌 텍스트 상태의 데이터만 수집
+        if (classificationCell.querySelector('select') || creditCell.querySelector('select') || gradeCell.querySelector('select')) {
+            return;
+        }
+
+        const classification = classificationCell.textContent.trim();
+        const credit = creditCell.textContent.trim();
+        let grade = gradeCell.textContent.trim();
+
+        if (grade.includes('P') || grade === '' || grade.includes('삭제')) {
+            return;
+        }
+        if (!gradesList.includes(classification)) {
+            return;
+        }
+
+        gradesCreditsArray.push({
+            subject: subject,
+            classification: classification,
+            credit: credit,
+            grade: grade
+        });
+    });
 
     const result = calculateGrades(gradesCreditsArray);
 
@@ -409,6 +603,8 @@ function collectGradesAndCredits(AtnlcScreSungjukInfo) {
         };
     }
 }
+
+
 
 // 수강 내역에서 성적 바꾸기
 // 1) 성적 선택 드롭박스

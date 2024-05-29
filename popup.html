@@ -1,22 +1,58 @@
 <!DOCTYPE html>
-<html lang="kr">
+<html lang="ko">
 <head>
     <meta charset="UTF-8">
-    <title>Document</title>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>성적 시뮬레이션 계산기</title>
     <style>
-        body, html {
-            width: 200px; /* 팝업의 너비 */
-            height: 50px; /* 팝업의 높이 */
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            width: 700px;  /* 팝업의 너비 설정 */
+            height: 200px; /* 팝업의 높이 설정 */
+        }
+        table {
+            width: 100%;
+            margin: 20px 0;
+            border-collapse: collapse;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: center;
+        }
+        th {
+            background-color: #72132F;
+            color: white;
+        }
+        .editable {
+            background-color: #F5BCA9;
+        }
+        .thisSemester {
+            background-color: #FFFACD;
+        }
+        .strikeout {
+            text-decoration: line-through;
+        }
+        button {
+            padding: 5px 15px;
+            margin: 10px 0;
+        }
+        h1, h2, h3, h4 {
             text-align: center;
         }
     </style>
-    
-    <!-- html 파일에 script를 작성하는 것이 아니라 별도의 파일을 만들어서 작업해야됨-->
-    <div id="average"></div>
-    <script src="popup.js"></script>
 </head>
 <body>
-
+    <div style="text-align: center;">
+        <img src="/kw-image.jpg" width="90" height="80">
+    </div>
+    <h1>광운대학교 졸업 시뮬레이션</h1>
+    
+    <h4>재수강하거나 앞으로 들을 과목들의 성적을 자신이 임의로 입력하여<br/>
+    총 학점을 계산해주는 프로그램<h4>
     
 </body>
 </html>

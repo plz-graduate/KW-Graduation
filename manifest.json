@@ -1,6 +1,6 @@
 { 
     "manifest_version": 3,
-    "name": "Average Score",
+    "name": "KW-graduation",
     "description": "광운대학교",
     "version": "1.0",
 
@@ -27,5 +27,8 @@
           "resources": ["data/*.json","newpage.html"],
           "matches": ["<all_urls>"]
       }
-  ]
+  ],
+    "icons": {
+      "128": "graduation.png"
+  }
   }   

@@ -50,7 +50,9 @@ var button1 = document.createElement("button");
 button1.textContent = "성적 계산기";
 button1.style.padding = "10px";
 button1.style.backgroundColor = "white";
-button1.style.color = "gray";
+button1.style.color = "#3a051f";
+button1.style.border = "none";
+button1.style.borderRadius = "10px";
 
 button1.addEventListener("click", function () {
   fetch("https://klas.kw.ac.kr/std/cps/inqire/AtnlcScreHakjukInfo.do", {

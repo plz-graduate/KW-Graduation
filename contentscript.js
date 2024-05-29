@@ -3,7 +3,10 @@ var button = document.createElement("button");
 button.textContent = "졸업 가능 확인";
 button.style.padding = "10px";
 button.style.backgroundColor = "white";
-button.style.color = "gray";
+button.style.color = "#3a051f";
+button.style.border = "none";
+button.style.borderRadius = "10px";
+button.style.marginRight = "5px";
 
 // 버튼 클릭 이벤트 핸들러
 button.addEventListener("click", function () {
@@ -50,7 +53,10 @@ var button1 = document.createElement("button");
 button1.textContent = "성적 계산기";
 button1.style.padding = "10px";
 button1.style.backgroundColor = "white";
-button1.style.color = "gray";
+button1.style.color = "#3a051f";
+button1.style.border = "none";
+button1.style.borderRadius = "10px";
+button1.style.marginRight = "5px";
 
 button1.addEventListener("click", function () {
   fetch("https://klas.kw.ac.kr/std/cps/inqire/AtnlcScreHakjukInfo.do", {

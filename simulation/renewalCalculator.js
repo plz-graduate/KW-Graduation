@@ -267,7 +267,7 @@ function makingSungjukTable(dataArray) {
         table.style.borderTop = '2px #96878e solid';
 
         const colgroup = document.createElement('colgroup');
-        const colWidths = ['11%', '23%', '15%', '5%', '5%', '10%', '10%', '10%', '10%'];
+        const colWidths = ['11%', '23%', '15%', '5%', '5%', '10%', '8%', '10%', '12%'];
         colWidths.forEach(width => {
             const col = document.createElement('col');
             col.style.width = width;
@@ -292,6 +292,8 @@ function makingSungjukTable(dataArray) {
         subHeaderRow.style.border = '1px solid #d7d7d7';
         subHeaderRow.style.color = '#474747';
         subHeaderRow.style.padding = '15px auto';
+        subHeaderRow.style.textAlign = 'center';
+        
 
         thead.appendChild(subHeaderRow);
         table.appendChild(thead);

@@ -264,6 +264,7 @@ function makingSungjukTable(dataArray) {
         table.style.wordBreak = 'break-all';
         table.style.textOverflow = 'clip';
         table.style.margin = '15px auto';
+        table.style.borderTop = '2px #96878e solid';
 
         const colgroup = document.createElement('colgroup');
         const colWidths = ['11%', '23%', '15%', '5%', '5%', '10%', '10%', '10%', '10%'];

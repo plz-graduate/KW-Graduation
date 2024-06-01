@@ -278,18 +278,19 @@ function makingSungjukTable(dataArray) {
         const headerRow = document.createElement('tr');
         headerRow.innerHTML = `<th colspan="9">${data.thisYear}년도 ${data.hakgiOrder}학기</th>`;
         headerRow.style.height = '25px';
-        headerRow.style.backgroundColor = '#72132F';
-        headerRow.style.border = '1px solid #ddd';
-        headerRow.style.color = 'white';
+        headerRow.style.backgroundColor = '#efefef';
+        headerRow.style.border = '1px solid #d7d7d7';
+        headerRow.style.color = '#474747';
         headerRow.style.textAlign="center";
         thead.appendChild(headerRow);
 
         const subHeaderRow = document.createElement('tr');
         subHeaderRow.innerHTML = `<th>학정번호</th><th>과목명</th><th>개설학과</th><th>이수구분</th><th>학점</th><th>성적</th><th>인증구분</th><th>재수강여부</th><th>재수강이후 삭제여부</th>`;
         subHeaderRow.style.height = '25px';
-        subHeaderRow.style.backgroundColor = '#72132F';
-        subHeaderRow.style.border = '1px solid #ddd';
-        subHeaderRow.style.color = 'white';
+        subHeaderRow.style.backgroundColor = '#efefef';
+        subHeaderRow.style.border = '1px solid #d7d7d7';
+        subHeaderRow.style.color = '#474747';
+        subHeaderRow.style.padding = '15px auto';
 
         thead.appendChild(subHeaderRow);
         table.appendChild(thead);

@@ -375,16 +375,17 @@ function makingFTable(dataArray) {
     if (fSungjuckList.length != 0) {
         const table = document.createElement('table');
         table.className = 'tablegw';
-        table.style.width = '70%';
+        table.style.width = '100%';
         table.style.marginBottom = '30px';
         table.style.borderCollapse = 'collapse';
         table.style.border = '0.5px solid #ddd';
         table.style.wordBreak = 'break-all';
         table.style.textOverflow = 'clip';
         table.style.margin = '15px auto';
+        table.style.borderTop = '2px #96878e solid';
 
         const colgroup = document.createElement('colgroup');
-        const colWidths = ['11%', '23%', '15%', '5%', '5%', '10%', '10%', '10%', '10%'];
+        const colWidths = ['11%', '23%', '15%', '5%', '5%', '10%', '8%', '10%', '12%'];
         colWidths.forEach(width => {
             const col = document.createElement('col');
             col.style.width = width;
@@ -396,18 +397,21 @@ function makingFTable(dataArray) {
         const headerRow = document.createElement('tr');
         headerRow.innerHTML = `<th colspan="9">F성적(F는 성적표 기준 제외 후 계산, 학적부 기준 F 포함 후 계산)`;
         headerRow.style.height = '25px';
-        headerRow.style.backgroundColor = '#72132F';
-        headerRow.style.border = '1px solid #ddd';
-        headerRow.style.color = 'white';
+        headerRow.style.backgroundColor = '#efefef';
+        headerRow.style.border = '1px solid #d7d7d7';
+        headerRow.style.color = '#474747';
+        headerRow.style.textAlign = 'center';
+        headerRow.style.padding = '15px 15px';
 
         thead.appendChild(headerRow);
 
         const subHeaderRow = document.createElement('tr');
         subHeaderRow.innerHTML = `<th>학정번호</th><th>과목명</th><th>개설학과</th><th>이수구분</th><th>학점</th><th>성적</th><th>인증구분</th><th>재수강여부</th><th>재수강이후 삭제여부</th>`;
         subHeaderRow.style.height = '25px';
-        subHeaderRow.style.backgroundColor = '#72132F';
-        subHeaderRow.style.border = '1px solid #ddd';
-        subHeaderRow.style.color = 'white';
+        subHeaderRow.style.backgroundColor = '#efefef';
+        subHeaderRow.style.border = '1px solid #d7d7d7';
+        subHeaderRow.style.color = '#474747';
+        subHeaderRow.style.textAlign = 'center';
 
         thead.appendChild(subHeaderRow);
         table.appendChild(thead);

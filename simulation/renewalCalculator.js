@@ -358,18 +358,25 @@ function makingFTable(dataArray) {
         data.sungjukList.forEach((course, index) => {
             const trimGrade = course.getGrade.trim();
             if (trimGrade == "F") {
-                console.log("F라면 여기 나와야 하는데.. " + trimGrade);
                 fSungjuckTemp.push(course);
+                fSungjuckList.push(course);
+                data.sungjukList.splice(index, 1);
             }
         });
     });
 
+
     // 중복 제거
-    fSungjuckTemp.forEach(fCourse => {
-        const hakjungNo = fCourse.hakjungNo;
-        if (!fSungjuckList.some(course => course.hakjungNo === hakjungNo)) {
-            fSungjuckList.push(fCourse);
-        }
+    fSungjuckTemp.forEach((fcourse, index) => {
+        const hakjungNo = fcourse.hakjungNo.substr(7,4);
+        dataArray.forEach(data => {
+            data.sungjukList.forEach(course => {
+                const comparisonTarget = course.hakjungNo.substr(7, 4);
+                if (hakjungNo == comparisonTarget) {
+                    fSungjuckList.splice(index, 1);
+                }
+            });
+        });
     });
 
     if (fSungjuckList.length != 0) {

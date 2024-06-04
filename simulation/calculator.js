@@ -314,8 +314,8 @@ function makingFTable(dataArray) {
         const thead = document.createElement('thead');
         const headerRow = document.createElement('tr');
         headerRow.innerHTML = `<th colspan="9">F성적(F는 성적표 기준 제외 후 계산, 학적부 기준 F 포함 후 계산)`;
-        headerRow.style.height = '25px';
-        headerRow.style.backgroundColor = '#72132F';
+        headerRow.style.height = '55px';
+        headerRow.style.backgroundColor = '#f8f9fa';
         headerRow.style.border = '1px solid #ddd';
         headerRow.style.color = 'white';
 
@@ -324,8 +324,8 @@ function makingFTable(dataArray) {
         const subHeaderRow = document.createElement('tr');
         subHeaderRow.innerHTML = `<th>학정번호</th><th>과목명</th><th>개설학과</th><th>이수구분</th><th>학점</th><th>성적</th><th>인증구분</th><th>재수강여부</th><th>재수강이후 삭제여부</th>`;
         subHeaderRow.style.height = '25px';
-        subHeaderRow.style.backgroundColor = '#72132F';
-        subHeaderRow.style.border = '1px solid #ddd';
+        subHeaderRow.style.backgroundColor = '#f8f9fa';
+        subHeaderRow.style.border = 'solid #ddd';
         subHeaderRow.style.color = 'white';
 
         thead.appendChild(subHeaderRow);

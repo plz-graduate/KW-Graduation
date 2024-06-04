@@ -27,6 +27,36 @@ body {
     height: auto; /* 이미지 높이를 자동으로 조정 */
 }
 
+.fixed-warning {
+    position: fixed;
+    right: 0.5%;
+    top: 30%;
+    transform: translateY(-50%);
+    color : white;
+    padding: 20px;
+}
+.fixed-warning {
+    background: #3a051f;
+    border-radius: .4em;
+    text-align: center;
+}
+.strong-text{
+    text-align: center;
+}
+.fixed-warning:after {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 50%;
+    width: 0;
+    height: 0;
+    border: 20px solid transparent;
+    border-right-color: #3a051f;
+    border-left: 0;
+    margin-top: -20px;
+    margin-left: -20px;
+}
+
 
 /* 성적 계산기 title 글쓰기 */
 .text-wrapper-1 {
@@ -56,6 +86,16 @@ body {
 .table th {
     background-color: #f8f9fa;
     font-weight: bold;
+}
+
+#Ftable.tablegw select{
+    height : 35px !important;
+    border-color : #dee2e6;
+    border-radius: 7px;
+}
+.tablegw select{
+    border-color : #dee2e6;
+    border-radius: 7px;
 }
 
 #calculateButton {
@@ -108,3 +148,4 @@ body {
 .p {
     margin-bottom: 20px;
 }
+

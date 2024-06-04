@@ -349,25 +349,30 @@ function makingSungjukTable(dataArray) {
 // 4. F 학점 받고 재수강 안한 과목 모음
 function makingFTable(dataArray) {
     const container = document.querySelector('.fTable');
+    container.innerHTML = ''; // 기존 테이블 초기화
 
     let fSungjuckTemp = [];
     let fSungjuckList = [];
+
     dataArray.forEach(data => {
-        data.sungjukList.forEach((course, index) => { // 두 번째 매개변수로 인덱스를 받습니다.
+        data.sungjukList.forEach((course, index) => {
             const trimGrade = course.getGrade.trim();
             if (trimGrade == "F") {
+                console.log("F라면 여기 나와야 하는데.. " + trimGrade);
                 fSungjuckTemp.push(course);
-                data.sungjukList.splice(index, 1);
             }
         });
     });
 
-    fSungjuckList.forEach(fCourse => {
+    // 중복 제거
+    fSungjuckTemp.forEach(fCourse => {
         const hakjungNo = fCourse.hakjungNo;
-        fSungjuckList = fSungjuckList.filter(course => course.hakjungNo !== hakjungNo);
+        if (!fSungjuckList.some(course => course.hakjungNo === hakjungNo)) {
+            fSungjuckList.push(fCourse);
+        }
     });
 
-    if (data.length != 0) {
+    if (fSungjuckList.length != 0) {
         const table = document.createElement('table');
         table.className = 'tablegw';
         table.style.width = '70%';
@@ -421,13 +426,13 @@ function makingFTable(dataArray) {
                 <td style="text-align: center;">${course.hakgwa}</td>
                 <td style="text-align: center;">${course.codeName1}</td>
                 <td style="text-align: center;">${course.hakjumNum}</td>
-                <td style="text-align: center;" class="${retryArray.includes(trimGrade) ? 'editable' : (trimGrade === '' ? 'thisSemester' : '')}"></td>
+                <td style="text-align: center;" class="${retryArray.includes(trimGrade) ? 'editable' : (trimGrade === '' ? 'thisSemester' : '')}">${course.getGrade}</td>
                 <td style="text-align: center;">${course.certname || ''}</td>
                 <td style="text-align: center;">${retakeMarkup}</td>
                 <td style="text-align: center;">${course.termFinish === 'Y' ? '' : ''}</td>
             `;
 
-            row.style.height = '30px'; //셀 높이
+            row.style.height = '30px'; // 셀 높이
             row.style.border = '1px solid #ddd';
 
             if (course.getGrade.includes('삭제')) {
@@ -440,7 +445,6 @@ function makingFTable(dataArray) {
 
         container.appendChild(table);
 
-
         // 이벤트 리스너 추가
         table.addEventListener('click', function (e) {
             if (e.target && e.target.nodeName === 'TD' && e.target.classList.contains('editable')) {
@@ -449,6 +453,7 @@ function makingFTable(dataArray) {
         });
     }
 }
+
 
 // 5. 예상 성적 계산하기
 // 수강 내역 데이터를 사전 형태로 변환

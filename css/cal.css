@@ -29,7 +29,7 @@ body {
 
 .fixed-warning {
     position: fixed;
-    right: 0.5%;
+    right: 0.9%;
     top: 30%;
     transform: translateY(-50%);
     color : white;

@@ -1,0 +1,151 @@
+body {
+    font-family: "Inter-Medium", Helvetica;
+}
+
+.div-cal{
+    width:70%;
+    margin:20px auto;
+}
+.navbar {
+    position: fixed; /* 고정 위치 */
+    top: 0; /* 위쪽에 배치 */
+    left: 0; /* 왼쪽 정렬 */
+    width: 100%; /* 너비를 화면 전체로 설정 */
+    background-color: #3a051f; /* 배경색 */
+    color: #007bff; /* 글자색 */
+    padding: .5rem 1rem; /* 내부 여백 */
+    text-align: center; /* 가운데 정렬 */
+    height: 50px;
+    display: flex; /* Flexbox 사용 */
+    justify-content: center; /* 수평으로 가운데 정렬 */
+    align-items: center; /* 수직으로 가운데 정렬 */
+}
+
+.navbar .navbar-img {
+    margin-top: 5px; /* 이미지를 아래로 5px만큼 내립니다. */
+    max-width: 100%; /* 이미지 너비를 부모 요소에 맞게 조정 */
+    height: auto; /* 이미지 높이를 자동으로 조정 */
+}
+
+.fixed-warning {
+    position: fixed;
+    right: 0.9%;
+    top: 30%;
+    transform: translateY(-50%);
+    color : white;
+    padding: 20px;
+}
+.fixed-warning {
+    background: #3a051f;
+    border-radius: .4em;
+    text-align: center;
+}
+.strong-text{
+    text-align: center;
+}
+.fixed-warning:after {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 50%;
+    width: 0;
+    height: 0;
+    border: 20px solid transparent;
+    border-right-color: #3a051f;
+    border-left: 0;
+    margin-top: -20px;
+    margin-left: -20px;
+}
+
+
+/* 성적 계산기 title 글쓰기 */
+.text-wrapper-1 {
+    font-size: 30px;
+    font-weight: bold;
+    text-align: center;
+    margin-top: 100px;
+}
+
+.text-wrapper-2 {
+    font-size: 20px;
+    font-weight: bold;
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.text-wrapper {
+    font-size: 20px;
+    font-weight: bold;
+}
+
+.table th, .table td {
+    text-align: center;
+    vertical-align: middle;
+}
+
+.table th {
+    background-color: #f8f9fa;
+    font-weight: bold;
+}
+
+#Ftable.tablegw select{
+    height : 35px !important;
+    border-color : #dee2e6;
+    border-radius: 7px;
+}
+.tablegw select{
+    border-color : #dee2e6;
+    border-radius: 7px;
+}
+
+#calculateButton {
+    padding: 10px 20px;
+    font-size: 16px;
+    background-color: #3a051f;
+    border:1px solid #3a051f;
+    color:#ffffff;
+    margin-top : -20px;
+}
+
+#sungjuk {
+    margin-top: 57px;
+}
+
+#table-1{
+    margin-top: 50px;
+}
+
+#table-2{
+    margin-top: 50px;
+}
+
+#btn-plus {
+    width: 100%;
+    text-align: center;
+    padding: 10px;
+    box-sizing: border-box;
+    background-color: #D9D9D9;
+    color:#3a051f;
+    border:none;
+    margin-bottom: 50px;
+    
+
+}
+
+#sub-bold-1{
+    font-weight: 600;
+}
+
+#sub-bold-2{
+    font-weight: 600;
+}
+
+
+#yejung{
+    margin-bottom: 30px;
+}
+
+.p {
+    margin-bottom: 20px;
+}
+

@@ -92,7 +92,7 @@ chrome.runtime.onMessage.addListener(function(message, sender, sendResponse) {
         openNewTab("html/electronic.html", message.hakbun);
         break;
       case "경영학부":
-        openNewTab("html/business.html", message.hakbun);
+        openNewTab("html/bussiness.html", message.hakbun);
         break;
       case "성적계산기":
         openNewTab("html/new.html");

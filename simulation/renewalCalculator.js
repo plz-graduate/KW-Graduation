@@ -1,3 +1,36 @@
+document.addEventListener("DOMContentLoaded", function() {
+    const rows = document.querySelectorAll('table tbody tr');
+
+    rows.forEach(row => {
+        const selects = row.querySelectorAll('select');
+
+        selects.forEach(select => {
+            const cell = select.parentElement;
+            const cellText = cell.textContent.trim();
+
+            let optionFound = false;
+            select.querySelectorAll('option').forEach(option => {
+                if (option.value === cellText) {
+                    option.selected = true;
+                    optionFound = true;
+                }
+            });
+
+            if (!optionFound) {
+                select.value = "";
+            }
+
+            // 이벤트 리스너를 추가하여 인라인 이벤트 핸들러를 대체
+            select.addEventListener('change', function() {
+                updateCellText(this);
+            });
+        });
+    });
+});
+
+
+
+
 // 1. DOMContentLoaded 이벤트 리스너
 document.addEventListener("DOMContentLoaded", function () {
     window.scrollTo(0, 0);
@@ -33,6 +66,7 @@ document.addEventListener("DOMContentLoaded", function () {
     });
 
 
+    // 앞으로 수강 예정 테이블
     // + 버튼
     document.querySelector('#btn-plus').addEventListener('click', function() {
         // 새로운 행 생성
@@ -185,9 +219,42 @@ document.addEventListener("DOMContentLoaded", function () {
     });
 });
 
+document.addEventListener("DOMContentLoaded", function() {
+    const rows = document.querySelectorAll('table tbody tr');
+
+    rows.forEach(row => {
+        const selects = row.querySelectorAll('select');
+
+        selects.forEach(select => {
+            const cell = select.parentElement;
+            const cellText = cell.textContent.trim();
+
+            let optionFound = false;
+            select.querySelectorAll('option').forEach(option => {
+                if (option.value === cellText) {
+                    option.selected = true;
+                    optionFound = true;
+                }
+            });
+
+            if (!optionFound) {
+                select.value = "";
+            }
+
+            // 이벤트 리스너를 추가하여 인라인 이벤트 핸들러를 대체
+            select.addEventListener('change', function() {
+                updateCellText(this);
+            });
+        });
+    });
+});
+
 function updateCellText(selectElement) {
     const selectedValue = selectElement.value;
     const cell = selectElement.parentElement;
+
+    if (!cell) return;
+
     cell.innerHTML = selectedValue;
     cell.addEventListener('click', function() {
         if (cell.querySelector('select')) {
@@ -224,6 +291,7 @@ function updateCellText(selectElement) {
         });
     });
 }
+
 
 function delay(callback, milliseconds) {
     setTimeout(callback, milliseconds);
@@ -486,8 +554,6 @@ function collectGradesAndCredits(AtnlcScreSungjukInfo) {
     const gradesCreditsArray = [];
     const gradesList = ['전필', '전선', '부필', '부선', '복필', '복선', '교필', '교선', '기필', '기선'];
 
-    const sungjukMap = createSungjukMap(AtnlcScreSungjukInfo);
-
     const tables = document.querySelectorAll('.tablegw');
 
     // 기존 테이블 데이터 추출
@@ -506,6 +572,11 @@ function collectGradesAndCredits(AtnlcScreSungjukInfo) {
             const classification = cells[3].textContent.trim();
             const credit = cells[4].textContent.trim();
             let grade = cells[5].textContent.trim();
+
+            // 드롭박스 형태의 성적은 제외
+            if (cells[5].querySelector('select')) {
+                continue;
+            }
 
             if (grade.includes('P') || grade === '' || grade.includes('삭제')) {
                 continue;
@@ -569,8 +640,6 @@ function collectGradesAndCredits(AtnlcScreSungjukInfo) {
     document.getElementById('totalGPAHakjukValue').textContent = result.totalGPAHakjuk;
     document.getElementById('majorGPASungjuk').textContent = result.majorGPASungjuk;
     document.getElementById('totalGPASungjuk').textContent = result.totalGPASungjuk;
-
-    console.log("페이지에 있는 테이블을 바탕으로 성적 계산 결과 : ", result);
 
     // 성적 계산 함수
     function calculateGrades(gradesCreditsArray) {
@@ -666,7 +735,7 @@ function createDropdown2(cell) {
             if (cell.textContent.trim() === grade) option.selected = true;
             dropdown.appendChild(option);
         });
-        dropdown.value = cell.textContent.trim(); // 기존 값 선택
+        dropdown.value = cell.textContent.trim();
         dropdown.border = 'ced4da';
         dropdown.fontWeight = '400';
         dropdown.backgroundSize = '16px 12px';

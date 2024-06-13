@@ -125,7 +125,9 @@ document.addEventListener("DOMContentLoaded", function () {
 
         // 새로 추가된 행의 드롭다운에도 이벤트 리스너 추가
         newRow.querySelectorAll('select').forEach(select => {
+            select.value = "";
             select.addEventListener('change', function() {
+
                 updateCellText(this);
             });
         });
@@ -142,6 +144,7 @@ document.addEventListener("DOMContentLoaded", function () {
                     select.classList.add('form-select');
                     let options = [];
 
+
                     if (this.cellIndex === 3) {
                         options = ['전필', '전선', '부필', '부선', '복필', '복선', '교필', '교선', '기필', '기선'];
                     } else if (this.cellIndex === 4) {
@@ -150,15 +153,18 @@ document.addEventListener("DOMContentLoaded", function () {
                         options = ['A+', 'A0', 'B+', 'B0', 'C+', 'C0', 'D+', 'D0', 'F', 'P', 'NP'];
                     }
 
+                    const emptyOption = document.createElement('option');
+                    emptyOption.value = '';
+                    emptyOption.textContent = '선택';
+                    select.appendChild(emptyOption);
+
                     options.forEach(optionText => {
                         const option = document.createElement('option');
                         option.value = optionText;
                         option.text = optionText;
-                        if (optionText === textContent) {
-                            option.selected = true;
-                        }
                         select.appendChild(option);
                     });
+
 
                     this.innerHTML = '';
                     this.appendChild(select);
@@ -197,6 +203,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 } else if (this.cellIndex === 5) {
                     options = ['A+', 'A0', 'B+', 'B0', 'C+', 'C0', 'D+', 'D0', 'F', 'P', 'NP'];
                 }
+
 
                 options.forEach(optionText => {
                     const option = document.createElement('option');

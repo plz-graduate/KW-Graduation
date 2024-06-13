@@ -578,7 +578,7 @@ function collectGradesAndCredits(AtnlcScreSungjukInfo) {
                 continue;
             }
 
-            if (grade.includes('P') || grade === '' || grade.includes('삭제')) {
+            if (grade.includes('P') || grade === '' ) {
                 continue;
             }
             if (!gradesList.includes(classification)) {
@@ -618,7 +618,7 @@ function collectGradesAndCredits(AtnlcScreSungjukInfo) {
         const credit = creditCell.textContent.trim();
         let grade = gradeCell.textContent.trim();
 
-        if (grade.includes('P') || grade === '' || grade.includes('삭제')) {
+        if (grade.includes('P') || grade === '') {
             return;
         }
         if (!gradesList.includes(classification)) {
@@ -644,7 +644,8 @@ function collectGradesAndCredits(AtnlcScreSungjukInfo) {
     // 성적 계산 함수
     function calculateGrades(gradesCreditsArray) {
         const gradeToPoint = {
-            'A+': 4.5, 'A0': 4.0, 'B+': 3.5, 'B0': 3.0, 'C+': 2.5, 'C0': 2.0, 'D+': 1.5, 'D0': 1.0, 'F': 0.0
+            'A+': 4.5, 'A0': 4.0, 'B+': 3.5, 'B0': 3.0, 'C+': 2.5, 'C0': 2.0, 'D+': 1.5, 'D0': 1.0, 'F': 0.0,
+            'C+(삭제)' : 2.5, 'C0(삭제)' : 2.0, 'D+(삭제)' : 1.5, 'D0(삭제)' : 1.0
         };
 
         let totalPointsHakjuk = 0, totalCreditsHakjuk = 0;
@@ -667,7 +668,7 @@ function collectGradesAndCredits(AtnlcScreSungjukInfo) {
             }
 
             // 성적표 기준: F 제외 계산
-            if (grade.trim() !== 'F') {
+            if (grade.trim() !== 'F' && !grade.includes('삭제')) {
                 totalPointsSungjuk += points * credits;
                 totalCreditsSungjuk += credits;
 
@@ -678,11 +679,15 @@ function collectGradesAndCredits(AtnlcScreSungjukInfo) {
             }
         });
 
-        // 각 평균 계산
-        const totalGPAHakjuk = totalCreditsHakjuk ? (totalPointsHakjuk / totalCreditsHakjuk).toFixed(2) : 0;
-        const majorGPAHakjuk = majorCreditsHakjuk ? (majorPointsHakjuk / majorCreditsHakjuk).toFixed(2) : 0;
-        const totalGPASungjuk = totalCreditsSungjuk ? (totalPointsSungjuk / totalCreditsSungjuk).toFixed(2) : 0;
-        const majorGPASungjuk = majorCreditsSungjuk ? (majorPointsSungjuk / majorCreditsSungjuk).toFixed(2) : 0;
+        function truncateToDecimals(num, dec) {
+            const factor = Math.pow(10, dec);
+            return Math.floor(num * factor) / factor;
+        }
+
+        const totalGPAHakjuk = totalCreditsHakjuk ? truncateToDecimals(totalPointsHakjuk / totalCreditsHakjuk, 2) : 0;
+        const majorGPAHakjuk = majorCreditsHakjuk ? truncateToDecimals(majorPointsHakjuk / majorCreditsHakjuk, 2) : 0;
+        const totalGPASungjuk = totalCreditsSungjuk ? truncateToDecimals(totalPointsSungjuk / totalCreditsSungjuk, 2) : 0;
+        const majorGPASungjuk = majorCreditsSungjuk ? truncateToDecimals(majorPointsSungjuk / majorCreditsSungjuk, 2) : 0;
 
         return {
             totalGPAHakjuk,

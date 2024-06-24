@@ -652,7 +652,9 @@ function collectGradesAndCredits(AtnlcScreSungjukInfo) {
     function calculateGrades(gradesCreditsArray) {
         const gradeToPoint = {
             'A+': 4.5, 'A0': 4.0, 'B+': 3.5, 'B0': 3.0, 'C+': 2.5, 'C0': 2.0, 'D+': 1.5, 'D0': 1.0, 'F': 0.0,
-            'C+(삭제)' : 2.5, 'C0(삭제)' : 2.0, 'D+(삭제)' : 1.5, 'D0(삭제)' : 1.0
+            'C+(삭제)': 2.5, 'C0(삭제)': 2.0, 'D+(삭제)': 1.5, 'D0(삭제)': 1.0,
+            'A+ (처리중)': 4.5, 'A0 (처리중)': 4.0, 'B+ (처리중)': 3.5, 'B0 (처리 중)': 3.0, 'C+ (처리 중)': 2.5,
+            'C0 (처리 중)' : 2.0, 'D+ (처리 중)' : 1.5,  'D0 (처리 중)' : 1.0, 'F (처리 중)' : 0.0
         };
 
         let totalPointsHakjuk = 0, totalCreditsHakjuk = 0;

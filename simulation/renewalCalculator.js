@@ -125,7 +125,9 @@ document.addEventListener("DOMContentLoaded", function () {
 
         // 새로 추가된 행의 드롭다운에도 이벤트 리스너 추가
         newRow.querySelectorAll('select').forEach(select => {
+            select.value = "";
             select.addEventListener('change', function() {
+
                 updateCellText(this);
             });
         });
@@ -142,6 +144,7 @@ document.addEventListener("DOMContentLoaded", function () {
                     select.classList.add('form-select');
                     let options = [];
 
+
                     if (this.cellIndex === 3) {
                         options = ['전필', '전선', '부필', '부선', '복필', '복선', '교필', '교선', '기필', '기선'];
                     } else if (this.cellIndex === 4) {
@@ -150,15 +153,18 @@ document.addEventListener("DOMContentLoaded", function () {
                         options = ['A+', 'A0', 'B+', 'B0', 'C+', 'C0', 'D+', 'D0', 'F', 'P', 'NP'];
                     }
 
+                    const emptyOption = document.createElement('option');
+                    emptyOption.value = '';
+                    emptyOption.textContent = '선택';
+                    select.appendChild(emptyOption);
+
                     options.forEach(optionText => {
                         const option = document.createElement('option');
                         option.value = optionText;
                         option.text = optionText;
-                        if (optionText === textContent) {
-                            option.selected = true;
-                        }
                         select.appendChild(option);
                     });
+
 
                     this.innerHTML = '';
                     this.appendChild(select);
@@ -197,6 +203,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 } else if (this.cellIndex === 5) {
                     options = ['A+', 'A0', 'B+', 'B0', 'C+', 'C0', 'D+', 'D0', 'F', 'P', 'NP'];
                 }
+
 
                 options.forEach(optionText => {
                     const option = document.createElement('option');
@@ -578,7 +585,7 @@ function collectGradesAndCredits(AtnlcScreSungjukInfo) {
                 continue;
             }
 
-            if (grade.includes('P') || grade === '' || grade.includes('삭제')) {
+            if (grade.includes('P') || grade === '' ) {
                 continue;
             }
             if (!gradesList.includes(classification)) {
@@ -618,7 +625,7 @@ function collectGradesAndCredits(AtnlcScreSungjukInfo) {
         const credit = creditCell.textContent.trim();
         let grade = gradeCell.textContent.trim();
 
-        if (grade.includes('P') || grade === '' || grade.includes('삭제')) {
+        if (grade.includes('P') || grade === '') {
             return;
         }
         if (!gradesList.includes(classification)) {
@@ -644,7 +651,10 @@ function collectGradesAndCredits(AtnlcScreSungjukInfo) {
     // 성적 계산 함수
     function calculateGrades(gradesCreditsArray) {
         const gradeToPoint = {
-            'A+': 4.5, 'A0': 4.0, 'B+': 3.5, 'B0': 3.0, 'C+': 2.5, 'C0': 2.0, 'D+': 1.5, 'D0': 1.0, 'F': 0.0
+            'A+': 4.5, 'A0': 4.0, 'B+': 3.5, 'B0': 3.0, 'C+': 2.5, 'C0': 2.0, 'D+': 1.5, 'D0': 1.0, 'F': 0.0,
+            'C+(삭제)': 2.5, 'C0(삭제)': 2.0, 'D+(삭제)': 1.5, 'D0(삭제)': 1.0,
+            'A+ (처리중)': 4.5, 'A0 (처리중)': 4.0, 'B+ (처리중)': 3.5, 'B0 (처리 중)': 3.0, 'C+ (처리 중)': 2.5,
+            'C0 (처리 중)' : 2.0, 'D+ (처리 중)' : 1.5,  'D0 (처리 중)' : 1.0, 'F (처리 중)' : 0.0
         };
 
         let totalPointsHakjuk = 0, totalCreditsHakjuk = 0;
@@ -667,7 +677,7 @@ function collectGradesAndCredits(AtnlcScreSungjukInfo) {
             }
 
             // 성적표 기준: F 제외 계산
-            if (grade.trim() !== 'F') {
+            if (grade.trim() !== 'F' && !grade.includes('삭제')) {
                 totalPointsSungjuk += points * credits;
                 totalCreditsSungjuk += credits;
 
@@ -678,11 +688,15 @@ function collectGradesAndCredits(AtnlcScreSungjukInfo) {
             }
         });
 
-        // 각 평균 계산
-        const totalGPAHakjuk = totalCreditsHakjuk ? (totalPointsHakjuk / totalCreditsHakjuk).toFixed(2) : 0;
-        const majorGPAHakjuk = majorCreditsHakjuk ? (majorPointsHakjuk / majorCreditsHakjuk).toFixed(2) : 0;
-        const totalGPASungjuk = totalCreditsSungjuk ? (totalPointsSungjuk / totalCreditsSungjuk).toFixed(2) : 0;
-        const majorGPASungjuk = majorCreditsSungjuk ? (majorPointsSungjuk / majorCreditsSungjuk).toFixed(2) : 0;
+        function truncateToDecimals(num, dec) {
+            const factor = Math.pow(10, dec);
+            return Math.floor(num * factor) / factor;
+        }
+
+        const totalGPAHakjuk = totalCreditsHakjuk ? truncateToDecimals(totalPointsHakjuk / totalCreditsHakjuk, 2) : 0;
+        const majorGPAHakjuk = majorCreditsHakjuk ? truncateToDecimals(majorPointsHakjuk / majorCreditsHakjuk, 2) : 0;
+        const totalGPASungjuk = totalCreditsSungjuk ? truncateToDecimals(totalPointsSungjuk / totalCreditsSungjuk, 2) : 0;
+        const majorGPASungjuk = majorCreditsSungjuk ? truncateToDecimals(majorPointsSungjuk / majorCreditsSungjuk, 2) : 0;
 
         return {
             totalGPAHakjuk,

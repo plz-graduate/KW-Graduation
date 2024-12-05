@@ -3,7 +3,7 @@
     "name": "KW-graduation",
     "description": "광운대학교 졸업·성적 시뮬레이션 프로그램",
 
-    "version": "3.0",
+    "version": "5.1.0",
 
     "background": {
       "service_worker": "background.js"
